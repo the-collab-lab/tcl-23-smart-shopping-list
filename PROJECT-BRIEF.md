@@ -18,42 +18,42 @@ Each week, the team of 4 developers will split into 2 pairs of 2 developers each
 
 Pairings will go as follows:
 
-#### Week 1, {DATES_WEEK_1}
+#### Week 1, April 4 - 10
 
-1. {DEV_1} & {DEV_2}
-2. {DEV_3} & {DEV_4}
+1. Ana & James
+2. Zenzi & Jessica
 
-#### Week 2, {DATES_WEEK_2}
+#### Week 2, April 11 - 17
 
-1. {DEV_2} & {DEV_3}
-2. {DEV_1} & {DEV_4}
+1. Jessica & Ana
+2. James & Zenzi
 
-#### Week 3, {DATES_WEEK_3}
+#### Week 3, April 18 - 24
 
-1. {DEV_3} & {DEV_1}
-2. {DEV_4} & {DEV_2}
+1. Zenzi & Ana
+2. James & Jessica
 
-#### Week 4, {DATES_WEEK_4}
+#### Week 4, April 25 - May 1
 
-1. {DEV_1} & {DEV_2}
-2. {DEV_3} & {DEV_4}
+1. Ana & James
+2. Zenzi & Jessica
 
-#### Week 5, {DATES_WEEK_5}
+#### Week 5, May 2 - 8
 
-1. {DEV_2} & {DEV_3}
-2. {DEV_1} & {DEV_4}
+1. Jessica & Ana
+2. James & Zenzi
 
-#### Week 6, {DATES_WEEK_6}
+#### Week 6, May 9 - 15
 
-1. {DEV_3} & {DEV_1}
-2. {DEV_4} & {DEV_2}
+1. Zenzi & Ana
+2. James & Jessica
 
-#### Week 7, {DATES_WEEK_7}
+#### Week 7, May 16 - 22
 
-1. {DEV_1} & {DEV_2}
-2. {DEV_3} & {DEV_4}
+1. Ana & James
+2. Zenzi & Jessica
 
-#### Week 8, {DATES_WEEK_8}
+#### Week 8, May 23 - 29
 
-1. {DEV_2} & {DEV_3}
-2. {DEV_1} & {DEV_4}
+1. Jessica & Ana
+2. James & Zenzi
