@@ -4,11 +4,11 @@
 
 ### Locations for things
 
-- Site: {PRODUCTION_URL}
-- Repo: {REPO_URL}
-- Clone URL: {REPO_CLONE_URL}
-- Issue list: {PROJECT_BOARD_URL}
-- Database: {CONSOLE_URL}
+- Site: [Production Site](https://tcl-23-shopping-list.web.app)
+- Repo: [https://github.com/the-collab-lab/tcl-23-smart-shopping-list](https://github.com/the-collab-lab/tcl-23-smart-shopping-list)
+- Clone URL: `https://github.com/the-collab-lab/tcl-23-smart-shopping-list.git`
+- Issue list: [https://github.com/the-collab-lab/tcl-23-smart-shopping-list/projects/1](https://github.com/the-collab-lab/tcl-23-smart-shopping-list/projects/1)
+- Database: [https://console.firebase.google.com/u/0/project/tcl-23-shopping-list/firestore](https://console.firebase.google.com/u/0/project/tcl-23-shopping-list/firestore)
 
 ### Project cadence & duration
 
