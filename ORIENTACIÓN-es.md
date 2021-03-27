@@ -29,7 +29,7 @@ No hay una sola manera de programar en pares, pero en general te encuentras con 
 
 ## ¿Como funciona todo?
 
-El proyecto está organizado en GitHub como un set de [historias de usuario](https://www.mountaingoatsoftware.com/agile/user-stories), cada una con una descripción de la funcionalidad deseada, y tambien con [los criterios de aceptación](https://www.leadingagile.com/2014/09/acceptance-criteria/) que describen como saber si la tarea o la historia estan listos. Puedes encontrar las historias de usuario en [el board del proyecto]({PROJECT_BOARD_URL}) en GitHub. Esta colección de historias de usuario se llama el “backlog” y representa el trabajo necesario para terminar el proyecto.
+El proyecto está organizado en GitHub como un set de [historias de usuario](https://www.mountaingoatsoftware.com/agile/user-stories), cada una con una descripción de la funcionalidad deseada, y tambien con [los criterios de aceptación](https://www.leadingagile.com/2014/09/acceptance-criteria/) que describen como saber si la tarea o la historia estan listos. Puedes encontrar las historias de usuario en [el board del proyecto](https://github.com/the-collab-lab/tcl-23-smart-shopping-list/projects/1) en GitHub. Esta colección de historias de usuario se llama el “backlog” y representa el trabajo necesario para terminar el proyecto.
 
 Una tarea o historia está “lista”/”done” cuando lo siguente está implementado:
 
@@ -91,8 +91,8 @@ Cuando tu y tu pareja de trabajo tengan codigo funcional y creen que esta listo 
 2. Avisale al otro equipo de pares en Slack que tienen un nuevo PR para revisar
 3. Incorpora el feedback del otro equipo en tu trabajo hasta que todes estan satisfechos que el codigo está listo para mergear
 4. Pedele un code review a una de las mentoras
-5. Ya aprobado, mergea el PR a `main`. (Tu codigo hace el build y se deploya a produccion automáticamente usando [Netlify](https://www.netlify.com/)
-6. Revisa tu trabajo en [producción]({PRODUCTION_URL})
+5. Ya aprobado, mergea el PR a `main`. (Tu codigo hace el build y se deploya a produccion automáticamente usando [Firebase Hosting](https://firebase.google.com/docs/hosting)
+6. Revisa tu trabajo en [producción](https://tcl-23-shopping-list.web.app/)
 7. Celebra!
 
 ## ¿Cuándo sucede todo?
@@ -142,7 +142,7 @@ Eso fue demasiado, ¿Cierto? Es muy probable (💯%) que hayamos olvidado u omit
 
 ## ¿Qué sigue?
 
-Tu equipo arrancará el proyecto con el primer weekly sync en {COHORT_START_DATE}. En la reunión se presentará un Learning Module sobre mejores prácticas de GIT y también nos aseguraremos que todos puedan colaborar en la aplicación. Después, agendaremos sesiones de pair programming con sus parejas para que resuelvan el issue de la semana.
+Tu equipo arrancará el proyecto con el primer weekly sync en 4 Abril 2021. En la reunión se presentará un Learning Module sobre mejores prácticas de GIT y también nos aseguraremos que todos puedan colaborar en la aplicación. Después, agendaremos sesiones de pair programming con sus parejas para que resuelvan el issue de la semana.
 
 ## Let’s do this!
 
