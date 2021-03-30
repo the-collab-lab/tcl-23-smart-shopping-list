@@ -7,6 +7,7 @@ Add yourself as a contributor to this project as a Markdown link that links your
 ## Cohort Participants
 
 - [James Cox](https://github.com/jamesncox) 🦔
+- [Ana Rocha](https://github.com/apdsrocha) 🐶
 
 ## Mentors
 
