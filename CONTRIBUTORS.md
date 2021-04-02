@@ -8,6 +8,7 @@ Add yourself as a contributor to this project as a Markdown link that links your
 
 - [James Cox](https://github.com/jamesncox) 🦔
 - [Ana Rocha](https://github.com/apdsrocha) 🐶
+- [Jessica Woudsma](https://github.com/jssckbl) 🐧
 
 ## Mentors
 
