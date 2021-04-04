@@ -15,5 +15,6 @@ Add yourself as a contributor to this project as a Markdown link that links your
 
 - [Yenly Ma](https://github.com/yenly) 🍄
 - [Skyler Shaw](https://github.com/skylerwshaw) 🪂
+- [Lauren Yu](https://github.com/laurenyz) 🐘
 
 ## Code of Conduct Contacts
