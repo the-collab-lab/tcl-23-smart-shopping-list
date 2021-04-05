@@ -1,3 +1,3 @@
 export default function List(props) {
-  return <div>THIS IS THE LIST</div>;
+  return <h1>THIS IS THE LIST</h1>;
 }
