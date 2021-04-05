@@ -9,8 +9,15 @@ function App() {
   return (
     <Router>
       <div className="App">
-        <List />
-        <AddItem />
+        <Switch>
+          <Route exact path="/">
+            <List />
+          </Route>
+
+          <Route exact path="/add-item">
+            <AddItem />
+          </Route>
+        </Switch>
       </div>
     </Router>
   );
