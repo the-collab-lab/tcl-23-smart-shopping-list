@@ -1,9 +1,9 @@
 import React from 'react';
-import logo from './logo.svg';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import './App.css';
 import List from './pages/List';
 import AddItem from './pages/AddItem';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import NavBar from './components/NavBar';
 
 function App() {
   return (
@@ -18,6 +18,7 @@ function App() {
             <AddItem />
           </Route>
         </Switch>
+        <NavBar />
       </div>
     </Router>
   );
