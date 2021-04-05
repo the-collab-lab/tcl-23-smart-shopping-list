@@ -1,6 +1,7 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import firebase from './firebase';
 
 function App() {
   return (
@@ -24,3 +25,15 @@ function App() {
 }
 
 export default App;
+
+/*
+const [list, setList] = React.useState([]); 
+  React.useEffect(() => {
+    const fetchData = async () => {
+      const db = firebase.firestore()
+      const data = await db.collection("list").get()
+      setData(data.map(doc => doc.data()))
+    }//TODO: REPLACE WORD LIST WITH DATA ACCESS POINT
+    
+  }, [])
+  */
