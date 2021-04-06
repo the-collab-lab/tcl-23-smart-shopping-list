@@ -1,14 +1,24 @@
-import { Link as RouterLink } from 'react-router-dom';
+import { NavLink as RouterLink } from 'react-router-dom';
 
 export default function NavBar(props) {
   return (
     <nav>
-      <RouterLink to="/">
-        <button>List</button>
+      <RouterLink
+        className="nav-link"
+        exact
+        activeClassName="nav-link-bold"
+        to="/"
+      >
+        List
       </RouterLink>
 
-      <RouterLink to="/add-item">
-        <button>Add item</button>
+      <RouterLink
+        className="nav-link"
+        exact
+        activeClassName="nav-link-bold"
+        to="/add-item"
+      >
+        Add item
       </RouterLink>
     </nav>
   );
