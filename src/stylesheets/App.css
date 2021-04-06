@@ -21,6 +21,10 @@
   color: #09d3ac;
 }
 
+.nav-link {
+  margin: 1rem;
+}
+
 .nav-link-bold {
   font-weight: bold;
 }
