@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import './App.css';
+import './stylesheets/App.css';
 import List from './pages/List';
 import AddItem from './pages/AddItem';
 import NavBar from './components/NavBar';
