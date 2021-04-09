@@ -1,10 +1,16 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
-import firebase from './firebase/index';
+import { firebase, db } from './lib/firebase';
+import { useCollection } from 'react-firebase-hooks/firestore';
 
 const App = () => {
-  console.log(firebase.db);
+  // const [items, setItems] = useState([]);
+  // let db = fb.firestore();
+  const [value, loading, error] = useCollection(db.collection('list'), {
+    snapshotListenOptions: { includeMetadataChanges: true },
+  });
+
+  // console.log(fb.db);
 
   const sendItem = () => {
     firebase.db
@@ -22,6 +28,20 @@ const App = () => {
     <div>
       <h1>Grocery List</h1>
       <button onClick={sendItem}>click here to add grocery item</button>
+      <p>
+        {error && <strong>Error: {JSON.stringify(error)}</strong>}
+        {loading && <span>Collection: Loading...</span>}
+        {value && (
+          <span>
+            Collection:{' '}
+            {value.docs.map((doc) => (
+              <React.Fragment key={doc.id}>
+                {JSON.stringify(doc.data())},{' '}
+              </React.Fragment>
+            ))}
+          </span>
+        )}
+      </p>
     </div>
   );
 };
