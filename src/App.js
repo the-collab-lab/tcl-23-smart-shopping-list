@@ -11,8 +11,8 @@ const App = () => {
     },
   );
 
-  console.log(firebase);
-  console.log(db);
+  console.log({ firebase });
+  console.log({ db });
 
   const sendItem = () => {
     firebase.db
