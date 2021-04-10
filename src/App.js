@@ -4,13 +4,15 @@ import { firebase, db } from './lib/firebase';
 import { useCollection } from 'react-firebase-hooks/firestore';
 
 const App = () => {
-  // const [items, setItems] = useState([]);
-  // let db = fb.firestore();
-  const [value, loading, error] = useCollection(db.collection('list'), {
-    snapshotListenOptions: { includeMetadataChanges: true },
-  });
+  const [value, loading, error] = useCollection(
+    firebase.firestore().collection('list'),
+    {
+      snapshotListenOptions: { includeMetadataChanges: true },
+    },
+  );
 
-  // console.log(fb.db);
+  console.log(firebase);
+  console.log(db);
 
   const sendItem = () => {
     firebase.db
