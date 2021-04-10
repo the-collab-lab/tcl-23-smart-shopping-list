@@ -11,11 +11,9 @@ const App = () => {
     },
   );
 
-  console.log({ firebase });
-  console.log({ db });
-
   const sendItem = () => {
-    firebase.db
+    firebase
+      .firestore()
       .collection('list')
       .add({ title: 'first item', description: 'new item' })
       .then((documentReference) => {
