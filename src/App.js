@@ -1,20 +1,15 @@
 import React from 'react';
 import './App.css';
-import { firebase, db } from './lib/firebase';
+import { db } from './lib/firebase';
 import { useCollection } from 'react-firebase-hooks/firestore';
 
 const App = () => {
-  const [value, loading, error] = useCollection(
-    firebase.firestore().collection('list'),
-    {
-      snapshotListenOptions: { includeMetadataChanges: true },
-    },
-  );
+  const [value, loading, error] = useCollection(db.collection('list'), {
+    snapshotListenOptions: { includeMetadataChanges: true },
+  });
 
   const sendItem = () => {
-    firebase
-      .firestore()
-      .collection('list')
+    db.collection('list')
       .add({ title: 'first item', description: 'new item' })
       .then((documentReference) => {
         console.log('document reference ID', documentReference.id);
