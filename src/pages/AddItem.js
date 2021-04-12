@@ -1,12 +1,22 @@
+import { useState } from 'react';
 import { db } from '../lib/firebase';
 import { useCollection } from 'react-firebase-hooks/firestore';
 
 export default function AddItem(props) {
+  const [itemName, setItemName] = useState('');
+  const [purchaseFrequency, setPurchaseFrequency] = useState(null);
+  const [lastPurchased, setLastPurchased] = useState(null);
+
+  const handleName = (e) => {
+    console.log(e.target.value);
+    setItemName(e.target.value);
+  };
+
   const createListItem = () => {
     db.collection('list')
       .doc('this_weeks_list')
       .collection('shopping_items')
-      .add({ item_name: 'banana', purchase_frequency: 7, last_purchased: null })
+      .add({ item_name: itemName, purchase_frequency: 7, last_purchased: null })
       .then((documentReference) => {
         console.log('document reference ID', documentReference.id);
       })
@@ -18,10 +28,15 @@ export default function AddItem(props) {
   return (
     <>
       <h1>Add Item</h1>
-      <form>
+      <form onSubmit={createListItem()}>
         <label>
           Item Name
-          <input type="text" name="name" placeholder="Item Name" />
+          <input
+            type="text"
+            name="name"
+            placeholder="Item Name"
+            onChange={(e) => handleName(e)}
+          />
         </label>
         <br />
         <label>
