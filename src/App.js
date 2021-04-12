@@ -6,7 +6,6 @@ import './stylesheets/App.css';
 import Home from './pages/Home';
 import List from './pages/List';
 import AddItem from './pages/AddItem';
-import NavBar from './components/NavBar';
 
 const App = () => {
   const [value, loading, error] = useCollection(db.collection('list'), {
@@ -39,7 +38,6 @@ const App = () => {
             <AddItem />
           </Route>
         </Switch>
-        <NavBar />
 
         <div>
           <h1>Grocery List</h1>
