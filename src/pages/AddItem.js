@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { db } from '../lib/firebase';
-import { useCollection } from 'react-firebase-hooks/firestore';
+// import { useCollection } from 'react-firebase-hooks/firestore';
 
 export default function AddItem(props) {
   const [itemName, setItemName] = useState('');
@@ -8,15 +8,22 @@ export default function AddItem(props) {
   const [lastPurchased, setLastPurchased] = useState(null);
 
   const handleName = (e) => {
-    console.log(e.target.value);
     setItemName(e.target.value);
+  };
+
+  const handleFrequency = (e) => {
+    setPurchaseFrequency(e.target.value);
   };
 
   const createListItem = () => {
     db.collection('list')
-      .doc('this_weeks_list')
+      .doc('user_1')
       .collection('shopping_items')
-      .add({ item_name: itemName, purchase_frequency: 7, last_purchased: null })
+      .add({
+        item_name: itemName,
+        purchase_frequency: purchaseFrequency,
+        last_purchased: lastPurchased,
+      })
       .then((documentReference) => {
         console.log('document reference ID', documentReference.id);
       })
@@ -28,7 +35,7 @@ export default function AddItem(props) {
   return (
     <>
       <h1>Add Item</h1>
-      <form onSubmit={createListItem()}>
+      <form onSubmit={() => createListItem()}>
         <label>
           Item Name
           <input
@@ -41,7 +48,7 @@ export default function AddItem(props) {
         <br />
         <label>
           Purchase Frequency
-          <select>
+          <select value={purchaseFrequency} onBlur={handleFrequency}>
             <option value={7}>7 Days</option>
             <option value={14}>14 Days</option>
             <option value={30}>30 Days</option>
