@@ -3,6 +3,7 @@ import { db } from './lib/firebase';
 import { useCollection } from 'react-firebase-hooks/firestore';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import './stylesheets/App.css';
+import Home from './pages/Home';
 import List from './pages/List';
 import AddItem from './pages/AddItem';
 import NavBar from './components/NavBar';
@@ -28,6 +29,9 @@ const App = () => {
       <div className="App">
         <Switch>
           <Route exact path="/">
+            <Home />
+          </Route>
+          <Route exact path="/list">
             <List />
           </Route>
 
