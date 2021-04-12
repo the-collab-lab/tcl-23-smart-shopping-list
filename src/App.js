@@ -37,7 +37,7 @@ const App = () => {
         </Switch>
         <NavBar />
 
-        <div>
+        {/* <div>
           <h1>Grocery List</h1>
           <button onClick={sendItem}>click here to add grocery item</button>
           <p>
@@ -54,7 +54,7 @@ const App = () => {
               </span>
             )}
           </p>
-        </div>
+        </div> */}
       </div>
     </Router>
   );
