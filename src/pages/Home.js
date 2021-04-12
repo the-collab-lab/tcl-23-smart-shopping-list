@@ -1,7 +1,4 @@
-import { checkLocalStorage } from '../lib/localStorage';
-
-checkLocalStorage('token', 'abc');
-console.log(checkLocalStorage('token', 'abc'));
+import { checkLocalStorage, addLocalStorage } from '../lib/localStorage';
 
 export default function Home() {
   return (
