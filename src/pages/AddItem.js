@@ -17,7 +17,7 @@ export default function AddItem(props) {
 
   const createListItem = () => {
     db.collection('list')
-      .doc('user_1')
+      .doc('user_2')
       .collection('shopping_items')
       .add({
         item_name: itemName,
@@ -49,9 +49,9 @@ export default function AddItem(props) {
         <label>
           Purchase Frequency
           <select value={purchaseFrequency} onBlur={handleFrequency}>
-            <option value={7}>7 Days</option>
-            <option value={14}>14 Days</option>
-            <option value={30}>30 Days</option>
+            <option value={7}>Soon</option>
+            <option value={14}>Kind of Soon</option>
+            <option value={30}>Not Soon</option>
           </select>
         </label>
         <input type="submit" value="Submit" />
