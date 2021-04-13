@@ -1,20 +1,20 @@
-import { checkLocalStorage, addLocalStorage } from '../lib/localStorage';
+import { checkForToken, addTokenToLocalStorage } from '../lib/localStorage';
 import { useHistory } from 'react-router-dom';
 
 export default function Home() {
-  const isThereToken = checkLocalStorage('token', '');
+  const isThereToken = checkForToken('token', '');
   const history = useHistory();
 
   function handleClick() {
-    addLocalStorage('token');
+    addTokenToLocalStorage('token');
     history.push('/list');
   }
 
   return (
-    <div>
+    <main>
       {isThereToken ? history.push('/list') : ''}
       <h1>Welcome screen</h1>
       <button onClick={handleClick}>Add List</button>
-    </div>
+    </main>
   );
 }
