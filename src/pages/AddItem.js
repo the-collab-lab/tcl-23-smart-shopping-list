@@ -15,13 +15,12 @@ export default function AddItem(props) {
     setPurchaseFrequency(e.target.value);
   };
 
-  const createListItem = () => {
-    db.collection('list')
-      .doc('user_2')
-      .collection('shopping_items')
+  const createListItem = (e) => {
+    e.preventDefault();
+    db.collection('generated_token')
       .add({
         item_name: itemName,
-        purchase_frequency: purchaseFrequency,
+        purchase_frequency: parseInt(purchaseFrequency),
         last_purchased: lastPurchased,
       })
       .then((documentReference) => {
@@ -42,13 +41,14 @@ export default function AddItem(props) {
             type="text"
             name="name"
             placeholder="Item Name"
+            value={itemName}
             onChange={(e) => handleName(e)}
           />
         </label>
         <br />
         <label>
           Purchase Frequency
-          <select value={purchaseFrequency} onBlur={handleFrequency}>
+          <select onBlur={handleFrequency}>
             <option value={7}>Soon</option>
             <option value={14}>Kind of Soon</option>
             <option value={30}>Not Soon</option>

@@ -1,6 +1,6 @@
 import React from 'react';
-import { db } from './lib/firebase';
-import { useCollection } from 'react-firebase-hooks/firestore';
+// import { db } from './lib/firebase';
+// import { useCollection } from 'react-firebase-hooks/firestore';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import './stylesheets/App.css';
 import List from './pages/List';
@@ -8,20 +8,20 @@ import AddItem from './pages/AddItem';
 import NavBar from './components/NavBar';
 
 const App = () => {
-  const [value, loading, error] = useCollection(db.collection('list'), {
-    snapshotListenOptions: { includeMetadataChanges: true },
-  });
+  // const [value, loading, error] = useCollection(db.collection('list'), {
+  //   snapshotListenOptions: { includeMetadataChanges: true },
+  // });
 
-  const sendItem = () => {
-    db.collection('list')
-      .add({ title: 'first item', description: 'new item' })
-      .then((documentReference) => {
-        console.log('document reference ID', documentReference.id);
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
-  };
+  // const sendItem = () => {
+  //   db.collection('list')
+  //     .add({ title: 'first item', description: 'new item' })
+  //     .then((documentReference) => {
+  //       console.log('document reference ID', documentReference.id);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error.message);
+  //     });
+  // };
 
   return (
     <Router>
