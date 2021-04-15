@@ -34,7 +34,7 @@ export default function AddItem(props) {
   return (
     <>
       <h1>Add Item</h1>
-      <form onSubmit={() => createListItem()}>
+      <form onSubmit={(e) => createListItem(e)}>
         <label>
           Item Name
           <input
