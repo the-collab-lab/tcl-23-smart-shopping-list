@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { db } from './lib/firebase';
 import { useCollection } from 'react-firebase-hooks/firestore';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
@@ -6,11 +6,19 @@ import './stylesheets/App.css';
 import Home from './pages/Home';
 import List from './pages/List';
 import AddItem from './pages/AddItem';
+import NavBar from './components/NavBar';
+import { checkLocalStorageForKey } from './lib/localStorage';
 
 const App = () => {
   const [value, loading, error] = useCollection(db.collection('list'), {
     snapshotListenOptions: { includeMetadataChanges: true },
   });
+  const [token, setToken] = useState('');
+
+  useEffect(() => {
+    const isThereToken = checkLocalStorageForKey('token', '');
+    setToken(isThereToken);
+  }, []);
 
   const sendItem = () => {
     db.collection('list')
@@ -28,17 +36,16 @@ const App = () => {
       <div className="App">
         <Switch>
           <Route exact path="/">
-            <Home />
+            <Home setToken={setToken} />
           </Route>
           <Route exact path="/list">
             <List />
           </Route>
-
           <Route exact path="/add-item">
             <AddItem />
           </Route>
         </Switch>
-
+        {token ? <NavBar /> : null}
         <div>
           <h1>Grocery List</h1>
           <button onClick={sendItem}>click here to add grocery item</button>

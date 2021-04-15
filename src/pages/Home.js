@@ -1,15 +1,18 @@
+import getToken from '../lib/tokens';
 import {
   checkLocalStorageForKey,
   addKeyValuePairToLocalStorage,
 } from '../lib/localStorage';
 import { useHistory } from 'react-router-dom';
 
-export default function Home() {
+export default function Home({ setToken }) {
   const isThereToken = checkLocalStorageForKey('token', '');
   const history = useHistory();
 
   function handleClick() {
-    addKeyValuePairToLocalStorage('token');
+    const token = getToken();
+    addKeyValuePairToLocalStorage('token', token);
+    setToken(token);
     history.push('/list');
   }
 

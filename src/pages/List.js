@@ -1,4 +1,3 @@
-import NavBar from '../components/NavBar';
 import { checkLocalStorageForKey } from '../lib/localStorage';
 import { useHistory } from 'react-router-dom';
 
@@ -9,7 +8,6 @@ export default function List(props) {
     <>
       {isThereToken ? '' : history.push('/')}
       <h1>THIS IS THE LIST</h1>
-      <NavBar />
     </>
   );
 }
