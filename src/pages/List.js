@@ -3,7 +3,7 @@ import { useCollection } from 'react-firebase-hooks/firestore';
 
 export default function List(props) {
   const [value, loading, error] = useCollection(
-    db.collection('list').doc('user_2').collection('shopping_items'),
+    db.collection('generated_token'),
     {
       snapshotListenOptions: { includeMetadataChanges: true },
     },
