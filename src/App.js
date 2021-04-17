@@ -2,7 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { db } from './lib/firebase';
 import { checkLocalStorageForKey } from './lib/localStorage';
 import { useCollection } from 'react-firebase-hooks/firestore';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from 'react-router-dom';
 import './stylesheets/App.css';
 import NavBar from './components/NavBar';
 import Home from './pages/Home';
@@ -40,9 +45,8 @@ const App = () => {
             <Home setToken={setToken} />
           </Route>
           <Route exact path="/list">
-            <List token={token} />
+            {token ? <List token={token} /> : <Redirect to="/" />}
           </Route>
-
           <Route exact path="/add-item">
             <AddItem />
           </Route>
