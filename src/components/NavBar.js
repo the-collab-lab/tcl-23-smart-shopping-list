@@ -7,7 +7,7 @@ export default function NavBar(props) {
         className="nav-link"
         exact
         activeClassName="nav-link-bold"
-        to="/"
+        to="/list"
       >
         List
       </RouterLink>
