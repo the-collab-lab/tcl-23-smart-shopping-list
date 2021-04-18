@@ -2,7 +2,7 @@ import { db } from '../lib/firebase';
 import { useCollection } from 'react-firebase-hooks/firestore';
 
 export default function List(props) {
-  const [value, loading, error] = useCollection(
+  const [listItem, loading, error] = useCollection(
     db.collection('generated_token'),
     {
       snapshotListenOptions: { includeMetadataChanges: true },
@@ -13,11 +13,11 @@ export default function List(props) {
       <h1>THIS IS THE LIST</h1>
       {error && <strong>Error: {JSON.stringify(error)}</strong>}
       {loading && <span>Collection: Loading...</span>}
-      {value && (
+      {listItem && (
         <>
           <span>Collection:</span>
           <ul>
-            {value.docs.map((doc) => (
+            {listItem.docs.map((doc) => (
               <li key={doc.id}>{JSON.stringify(doc.data())}</li>
             ))}
           </ul>
