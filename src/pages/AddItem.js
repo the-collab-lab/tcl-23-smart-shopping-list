@@ -29,7 +29,7 @@ export default function AddItem(props) {
         console.log(error.message);
       });
     setItemName('');
-    setPurchaseFrequency(null);
+    // setPurchaseFrequency(null);
     setLastPurchased(null);
   };
 
