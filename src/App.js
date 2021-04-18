@@ -51,7 +51,7 @@ const App = () => {
             <AddItem />
           </Route>
         </Switch>
-        {token ? <NavBar /> : null}
+        {token && <NavBar />}
 
         <div>
           <h1>Grocery List</h1>
