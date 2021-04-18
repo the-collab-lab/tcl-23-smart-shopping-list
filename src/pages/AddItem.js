@@ -6,11 +6,11 @@ export default function AddItem(props) {
   const [purchaseFrequency, setPurchaseFrequency] = useState(0);
   const [lastPurchased] = useState(null);
 
-  const handleName = (e) => {
+  const handleNameChange = (e) => {
     setItemName(e.target.value);
   };
 
-  const handleFrequency = (e) => {
+  const handleFrequencyChange = (e) => {
     setPurchaseFrequency(e.target.value);
   };
 
@@ -41,13 +41,13 @@ export default function AddItem(props) {
             name="name"
             placeholder="Item Name"
             value={itemName}
-            onChange={(e) => handleName(e)}
+            onChange={(e) => handleNameChange(e)}
           />
         </label>
         <br />
         <label>
           Purchase Frequency
-          <select onBlur={handleFrequency}>
+          <select onBlur={handleFrequencyChange}>
             <option value={7}>Soon</option>
             <option value={14}>Kind of Soon</option>
             <option value={30}>Not Soon</option>
