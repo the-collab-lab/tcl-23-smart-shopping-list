@@ -3,8 +3,8 @@ import { db } from '../lib/firebase';
 
 export default function AddItem(props) {
   const [itemName, setItemName] = useState('');
-  const [purchaseFrequency, setPurchaseFrequency] = useState(0);
-  const [lastPurchased] = useState(null);
+  const [purchaseFrequency, setPurchaseFrequency] = useState(null);
+  const [lastPurchased, setLastPurchased] = useState(null);
 
   const handleNameChange = (e) => {
     setItemName(e.target.value);
@@ -28,6 +28,9 @@ export default function AddItem(props) {
       .catch((error) => {
         console.log(error.message);
       });
+    setItemName('');
+    setPurchaseFrequency(null);
+    setLastPurchased(null);
   };
 
   return (
