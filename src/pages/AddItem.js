@@ -33,15 +33,15 @@ export default function AddItem(props) {
   return (
     <>
       <h1>Add Item</h1>
-      <form onSubmit={(e) => createListItem(e)}>
-        <label>
+      <form onSubmit={createListItem}>
+        <label htmlFor="itemName">
           Item Name
           <input
             type="text"
             name="name"
             placeholder="Item Name"
             value={itemName}
-            onChange={(e) => handleNameChange(e)}
+            onChange={handleNameChange}
           />
         </label>
         <br />
