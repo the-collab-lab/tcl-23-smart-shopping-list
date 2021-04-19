@@ -30,9 +30,9 @@ export default function AddItem(props) {
     setPurchaseFrequency(e.target.value);
   };
 
-  const checkForDuplicates = (userInput = 'banana') => {
+  const checkForDuplicates = () => {
     const matchingItemName = listItems.filter(
-      (item) => item.item_name === userInput,
+      (item) => item.item_name === itemName,
     );
 
     if (matchingItemName.length > 0) {
