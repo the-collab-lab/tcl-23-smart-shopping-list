@@ -1,12 +1,15 @@
 import { useState, useEffect } from 'react';
 import { db } from '../lib/firebase';
 import swal from 'sweetalert';
+import { useHistory } from 'react-router-dom';
 
 export default function AddItem(props) {
   const [itemName, setItemName] = useState('');
   const [purchaseFrequency, setPurchaseFrequency] = useState(null);
   const [lastPurchased, setLastPurchased] = useState(null);
   const [listItems, setListItems] = useState([]);
+
+  const history = useHistory();
 
   useEffect(() => {
     // do we need a check for loading if grabbing firestore data takes too long
@@ -62,7 +65,7 @@ export default function AddItem(props) {
           });
         setItemName('');
         setLastPurchased(null);
-        // push to list view
+        history.push('/list');
       } else {
         swal(
           'OH GOSH!',
