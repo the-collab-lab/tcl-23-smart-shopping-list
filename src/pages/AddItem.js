@@ -13,16 +13,14 @@ export default function AddItem(props) {
     db.collection('generated_token')
       .get()
       .then((querySnapshot) => {
-        const itemData = [];
+        const listItemData = [];
 
         querySnapshot.forEach((doc) => {
-          itemData.push(doc.data());
+          listItemData.push(doc.data());
         });
-        setListItems(itemData);
+        setListItems(listItemData);
       });
   }, []);
-
-  console.log(listItems);
 
   const handleNameChange = (e) => {
     setItemName(e.target.value);
@@ -32,8 +30,16 @@ export default function AddItem(props) {
     setPurchaseFrequency(e.target.value);
   };
 
-  const checkForDuplicates = () => {
-    return false;
+  const checkForDuplicates = (userInput = 'banana') => {
+    const matchingItemName = listItems.filter(
+      (item) => item.item_name === userInput,
+    );
+
+    if (matchingItemName.length > 0) {
+      return false;
+    } else {
+      return true;
+    }
   };
 
   async function createListItem(e) {
@@ -51,14 +57,16 @@ export default function AddItem(props) {
             console.log('document reference ID', documentReference.id);
           })
           .catch((error) => {
-            console.log(error.message);
+            // alert('Item already exists!');
           });
         setItemName('');
         setLastPurchased(null);
-        // setListItems(...listItems, newestItem);
+        // push to list view
+      } else {
+        alert('Item already exists!');
       }
     } catch (err) {
-      alert('using SweetAlert for this');
+      // alert('using SweetAlert for this');
     }
   }
 
