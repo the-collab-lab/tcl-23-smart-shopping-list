@@ -20,7 +20,16 @@ export default function Home(props) {
     <main>
       {retrievedToken ? history.push('/list') : ''}
       <h1>Welcome screen</h1>
+      <h2>Add a new list:</h2>
       <button onClick={handleClick}>Add List</button>
+      <h2>Join an existing list</h2>
+      <form>
+        <label>
+          Please Insert Token:
+          <input type="text" name="token" placeholder="Three word token" />
+        </label>
+        <input type="submit" value="Submit" />
+      </form>
     </main>
   );
 }
