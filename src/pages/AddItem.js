@@ -10,18 +10,19 @@ export default function AddItem(props) {
   useEffect(() => {
     // do we need a check for loading if grabbing firestore data takes too long
     // possibly use the 'loading' property from useCollection
-    const itemData = db
-      .collection('generated_token')
+    db.collection('generated_token')
       .get()
       .then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-          console.log(doc.id, ' => ', doc.data());
-        });
-      });
+        const itemData = [];
 
-    setListItems(itemData);
-    console.log(itemData);
+        querySnapshot.forEach((doc) => {
+          itemData.push(doc.data());
+        });
+        setListItems(itemData);
+      });
   }, []);
+
+  console.log(listItems);
 
   const handleNameChange = (e) => {
     setItemName(e.target.value);
