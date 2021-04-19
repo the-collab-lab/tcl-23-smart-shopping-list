@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { db } from '../lib/firebase';
+import swal from 'sweetalert';
 
 export default function AddItem(props) {
   const [itemName, setItemName] = useState('');
@@ -63,7 +64,12 @@ export default function AddItem(props) {
         setLastPurchased(null);
         // push to list view
       } else {
-        alert('Item already exists!');
+        swal(
+          'OH GOSH!',
+          `${itemName.toUpperCase()} is already in your list`,
+          'error',
+        );
+        // alert('Item already exists!');
       }
     } catch (err) {
       // alert('using SweetAlert for this');
