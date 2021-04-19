@@ -7,9 +7,21 @@ export default function AddItem(props) {
   const [lastPurchased, setLastPurchased] = useState(null);
   const [listItems, setListItems] = useState([]);
 
-  // useEffect(() => {
-  //   // query to firestore
-  // }, [listItems]);
+  useEffect(() => {
+    // do we need a check for loading if grabbing firestore data takes too long
+    // possibly use the 'loading' property from useCollection
+    const itemData = db
+      .collection('generated_token')
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          console.log(doc.id, ' => ', doc.data());
+        });
+      });
+
+    setListItems(itemData);
+    console.log(itemData);
+  }, []);
 
   const handleNameChange = (e) => {
     setItemName(e.target.value);
