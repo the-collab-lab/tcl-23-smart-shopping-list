@@ -5,6 +5,7 @@ import {
 import getToken from '../lib/tokens';
 import { useRef } from 'react';
 import { useHistory } from 'react-router-dom';
+import { db } from '../lib/firebase';
 
 export default function Home(props) {
   const retrievedToken = checkLocalStorageForKey('token', '');
@@ -21,6 +22,17 @@ export default function Home(props) {
   function checkExistingToken(e) {
     e.preventDefault();
     let inputValue = inputRef.current.value;
+    db.collection(inputValue)
+      .get()
+      .then((snap) => {
+        if (snap.empty) {
+          console.log('token was not found');
+        } else {
+          addKeyValuePairToLocalStorage('token', inputValue);
+          props.setToken(inputValue);
+          history.push('/list');
+        }
+      });
   }
 
   return (
