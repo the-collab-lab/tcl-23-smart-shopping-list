@@ -35,9 +35,18 @@ export default function AddItem(props) {
   };
 
   const checkForDuplicates = () => {
-    const matchingItemName = listItems.filter(
-      (item) => item.item_name === itemName,
-    );
+    // we would like to potentially normalize white space but unsuccessfull so far
+    const normalizedUserInput = itemName
+      .toLowerCase()
+      .replace(/[^\w\s]|_/g, '');
+
+    const matchingItemName = listItems.filter((item) => {
+      const normalizedDataBaseItem = item.item_name
+        .toLowerCase()
+        .replace(/[^\w\s]|_/g, '');
+      console.log(normalizedDataBaseItem);
+      return normalizedDataBaseItem === normalizedUserInput;
+    });
 
     if (matchingItemName.length > 0) {
       return false;
@@ -69,7 +78,9 @@ export default function AddItem(props) {
       } else {
         swal(
           'OH GOSH!',
-          `${itemName.toUpperCase()} is already in your list`,
+          `${itemName
+            .toUpperCase()
+            .replace(/[^\w\s]|_/g, '')} is already in your list`,
           'error',
         );
         // alert('Item already exists!');
