@@ -37,7 +37,6 @@ export default function Home(props) {
 
   return (
     <main>
-      {retrievedToken ? history.push('/list') : ''}
       <h1>Welcome screen</h1>
       <h2>Add a new list:</h2>
       <button onClick={handleClick}>Add List</button>
