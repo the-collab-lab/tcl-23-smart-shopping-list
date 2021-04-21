@@ -6,7 +6,7 @@ import { useHistory } from 'react-router-dom';
 export default function AddItem(props) {
   const [itemName, setItemName] = useState('');
   const [purchaseFrequency, setPurchaseFrequency] = useState(7);
-  const [lastPurchased, setLastPurchased] = useState(null);
+  const [lastPurchased] = useState(null);
   const [listItems, setListItems] = useState([]);
 
   const history = useHistory();
@@ -55,39 +55,24 @@ export default function AddItem(props) {
     }
   };
 
-  async function createListItem(e) {
+  function createListItem(e) {
     e.preventDefault();
-    try {
-      const result = await checkForDuplicates(itemName);
-      console.log(result);
-      if (result) {
-        db.collection('generated_token')
-          .add({
-            item_name: itemName,
-            purchase_frequency: parseInt(purchaseFrequency),
-            last_purchased: lastPurchased,
-          })
-          .then((documentReference) => {
-            console.log('document reference ID', documentReference.id);
-          })
-          .catch((error) => {
-            // alert('Item already exists!');
-          });
-        setItemName('');
-        setLastPurchased(null);
-        history.push('/list');
-      } else {
-        swal(
-          'OH GOSH!',
-          `${itemName
-            .toUpperCase()
-            .replace(/[^\w\s]|_/g, '')} is already in your list`,
-          'error',
-        );
-        // alert('Item already exists!');
-      }
-    } catch (err) {
-      // alert('using SweetAlert for this');
+    const result = checkForDuplicates(itemName);
+    if (result) {
+      db.collection('generated_token').add({
+        item_name: itemName,
+        purchase_frequency: parseInt(purchaseFrequency),
+        last_purchased: lastPurchased,
+      });
+      history.push('/list');
+    } else {
+      swal(
+        'OH GOSH!',
+        `${itemName
+          .toUpperCase()
+          .replace(/[^\w\s]|_/g, '')} is already in your list`,
+        'error',
+      );
     }
   }
 
