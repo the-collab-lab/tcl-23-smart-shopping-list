@@ -1,7 +1,4 @@
-import {
-  checkLocalStorageForKey,
-  addKeyValuePairToLocalStorage,
-} from '../lib/localStorage';
+import { addKeyValuePairToLocalStorage } from '../lib/localStorage';
 import getToken from '../lib/tokens';
 import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
@@ -9,7 +6,6 @@ import { db } from '../lib/firebase';
 import swal from 'sweetalert';
 
 export default function Home(props) {
-  const retrievedToken = checkLocalStorageForKey('token', '');
   const history = useHistory();
   const [inputValue, setInputValue] = useState('');
 
@@ -54,7 +50,7 @@ export default function Home(props) {
       <button onClick={handleClick}>Add List</button>
       <h2>Join an existing list</h2>
       <form onSubmit={checkExistingToken}>
-        <label>
+        <label htmlFor="token">
           Please Insert Token:
           <input
             type="text"
