@@ -41,11 +41,11 @@ export default function AddItem(props) {
       .replace(/[^\w\s]|_/g, '');
 
     const matchingItemName = listItems.filter((item) => {
-      const normalizedDataBaseItem = item.item_name
+      const normalizedDatabaseItem = item.item_name
         .toLowerCase()
         .replace(/[^\w\s]|_/g, '');
-      console.log(normalizedDataBaseItem);
-      return normalizedDataBaseItem === normalizedUserInput;
+      console.log(normalizedDatabaseItem);
+      return normalizedDatabaseItem === normalizedUserInput;
     });
 
     if (matchingItemName.length > 0) {
@@ -59,6 +59,7 @@ export default function AddItem(props) {
     e.preventDefault();
     try {
       const result = await checkForDuplicates(itemName);
+      console.log(result);
       if (result) {
         db.collection('generated_token')
           .add({
