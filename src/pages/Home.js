@@ -3,7 +3,7 @@ import {
   addKeyValuePairToLocalStorage,
 } from '../lib/localStorage';
 import getToken from '../lib/tokens';
-import { useRef } from 'react';
+import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { db } from '../lib/firebase';
 import swal from 'sweetalert';
@@ -11,7 +11,7 @@ import swal from 'sweetalert';
 export default function Home(props) {
   const retrievedToken = checkLocalStorageForKey('token', '');
   const history = useHistory();
-  const inputRef = useRef();
+  const [inputValue, setInputValue] = useState('');
 
   function handleClick() {
     const token = getToken();
@@ -20,9 +20,15 @@ export default function Home(props) {
     history.push('/list');
   }
 
+  function handleInputValue(e) {
+    setInputValue(e.target.value);
+  }
+
   function checkExistingToken(e) {
     e.preventDefault();
-    let inputValue = inputRef.current.value;
+    if (!inputValue) {
+      return swal('Please enter your token!', 'Input is empty', 'error');
+    }
     db.collection(inputValue)
       .get()
       .then((snap) => {
@@ -32,6 +38,7 @@ export default function Home(props) {
             'Please try again or start a new list!',
             'error',
           );
+          setInputValue('');
         } else {
           addKeyValuePairToLocalStorage('token', inputValue);
           props.setToken(inputValue);
@@ -53,7 +60,8 @@ export default function Home(props) {
             type="text"
             name="token"
             placeholder="Three word token"
-            ref={inputRef}
+            value={inputValue}
+            onChange={handleInputValue}
           />
         </label>
         <input type="submit" value="Submit" />
