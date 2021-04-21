@@ -5,7 +5,7 @@ import { useHistory } from 'react-router-dom';
 
 export default function AddItem(props) {
   const [itemName, setItemName] = useState('');
-  const [purchaseFrequency, setPurchaseFrequency] = useState(null);
+  const [purchaseFrequency, setPurchaseFrequency] = useState(7);
   const [lastPurchased, setLastPurchased] = useState(null);
   const [listItems, setListItems] = useState([]);
 
