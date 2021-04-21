@@ -6,6 +6,7 @@ import getToken from '../lib/tokens';
 import { useRef } from 'react';
 import { useHistory } from 'react-router-dom';
 import { db } from '../lib/firebase';
+import swal from 'sweetalert';
 
 export default function Home(props) {
   const retrievedToken = checkLocalStorageForKey('token', '');
@@ -26,7 +27,11 @@ export default function Home(props) {
       .get()
       .then((snap) => {
         if (snap.empty) {
-          console.log('token was not found');
+          swal(
+            'Token not found!',
+            'Please try again or start a new list!',
+            'error',
+          );
         } else {
           addKeyValuePairToLocalStorage('token', inputValue);
           props.setToken(inputValue);
