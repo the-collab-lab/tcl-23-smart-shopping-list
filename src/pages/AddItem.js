@@ -38,13 +38,12 @@ export default function AddItem(props) {
     // we would like to potentially normalize white space but unsuccessfull so far
     const normalizedUserInput = itemName
       .toLowerCase()
-      .replace(/[^\w\s]|_/g, '');
+      .replace(/[^\w]|_|\s/g, '');
 
     const matchingItemName = listItems.filter((item) => {
       const normalizedDatabaseItem = item.item_name
         .toLowerCase()
-        .replace(/[^\w\s]|_/g, '');
-      console.log(normalizedDatabaseItem);
+        .replace(/[^\w]|_|\s/g, '');
       return normalizedDatabaseItem === normalizedUserInput;
     });
 
@@ -53,8 +52,8 @@ export default function AddItem(props) {
 
   function createListItem(e) {
     e.preventDefault();
-    const result = doesItemExistInDatabase(itemName);
-    if (result) {
+    const itemExists = doesItemExistInDatabase(itemName);
+    if (itemExists) {
       db.collection('generated_token').add({
         item_name: itemName,
         purchase_frequency: parseInt(purchaseFrequency),
