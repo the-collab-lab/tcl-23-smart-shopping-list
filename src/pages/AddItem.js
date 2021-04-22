@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { db } from '../lib/firebase';
 import swal from 'sweetalert';
 import { useHistory } from 'react-router-dom';
@@ -7,24 +7,8 @@ export default function AddItem(props) {
   const [itemName, setItemName] = useState('');
   const [purchaseFrequency, setPurchaseFrequency] = useState(7);
   const [lastPurchased] = useState(null);
-  const [listItems, setListItems] = useState([]);
 
   const history = useHistory();
-
-  useEffect(() => {
-    // do we need a check for loading if grabbing firestore data takes too long
-    // possibly use the 'loading' property from useCollection
-    db.collection('generated_token')
-      .get()
-      .then((querySnapshot) => {
-        const listItemData = [];
-
-        querySnapshot.forEach((doc) => {
-          listItemData.push(doc.data());
-        });
-        setListItems(listItemData);
-      });
-  }, []);
 
   const handleNameChange = (e) => {
     setItemName(e.target.value);
@@ -35,12 +19,11 @@ export default function AddItem(props) {
   };
 
   const doesItemExistInDatabase = () => {
-    // we would like to potentially normalize white space but unsuccessfull so far
     const normalizedUserInput = itemName
       .toLowerCase()
       .replace(/[^\w]|_|\s/g, '');
 
-    const matchingItemName = listItems.filter((item) => {
+    const matchingItemName = props.listItems.filter((item) => {
       const normalizedDatabaseItem = item.item_name
         .toLowerCase()
         .replace(/[^\w]|_|\s/g, '');
@@ -52,13 +35,17 @@ export default function AddItem(props) {
 
   function createListItem(e) {
     e.preventDefault();
+
+    const newItemObject = {
+      item_name: itemName,
+      purchase_frequency: parseInt(purchaseFrequency),
+      last_purchased: lastPurchased,
+    };
+
     const itemExists = doesItemExistInDatabase(itemName);
     if (itemExists) {
-      db.collection('generated_token').add({
-        item_name: itemName,
-        purchase_frequency: parseInt(purchaseFrequency),
-        last_purchased: lastPurchased,
-      });
+      db.collection(props.token).add(newItemObject);
+      props.setListItems((prev) => [...prev, newItemObject]);
       history.push('/list');
     } else {
       swal(
