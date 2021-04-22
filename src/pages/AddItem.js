@@ -34,7 +34,7 @@ export default function AddItem(props) {
     setPurchaseFrequency(e.target.value);
   };
 
-  const checkForDuplicates = () => {
+  const doesItemExistInDatabase = () => {
     // we would like to potentially normalize white space but unsuccessfull so far
     const normalizedUserInput = itemName
       .toLowerCase()
@@ -57,7 +57,7 @@ export default function AddItem(props) {
 
   function createListItem(e) {
     e.preventDefault();
-    const result = checkForDuplicates(itemName);
+    const result = doesItemExistInDatabase(itemName);
     if (result) {
       db.collection('generated_token').add({
         item_name: itemName,
