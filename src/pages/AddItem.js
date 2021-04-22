@@ -48,11 +48,7 @@ export default function AddItem(props) {
       return normalizedDatabaseItem === normalizedUserInput;
     });
 
-    if (matchingItemName.length > 0) {
-      return false;
-    } else {
-      return true;
-    }
+    return matchingItemName.length === 0;
   };
 
   function createListItem(e) {
