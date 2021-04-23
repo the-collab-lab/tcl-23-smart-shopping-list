@@ -30,7 +30,7 @@ export default function AddItem(props) {
       return normalizedDatabaseItem === normalizedUserInput;
     });
 
-    return matchingItemName.length === 0;
+    return matchingItemName.length !== 0;
   };
 
   function createListItem(e) {
@@ -43,11 +43,8 @@ export default function AddItem(props) {
     };
 
     const itemExists = doesItemExistInDatabase(itemName);
+
     if (itemExists) {
-      db.collection(props.token).add(newItemObject);
-      props.setListItems((prev) => [...prev, newItemObject]);
-      history.push('/list');
-    } else {
       swal(
         'OH GOSH!',
         `${itemName
@@ -55,6 +52,12 @@ export default function AddItem(props) {
           .replace(/[^\w\s]|_/g, '')} is already in your list`,
         'error',
       );
+    } else if (!itemName) {
+      swal('UH OH!', "Item name can't be blank", 'warning');
+    } else {
+      db.collection(props.token).add(newItemObject);
+      props.setListItems((prev) => [...prev, newItemObject]);
+      history.push('/list');
     }
   }
 
