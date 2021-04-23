@@ -17,7 +17,7 @@ export default function Home(props) {
   }
 
   function handleInputValue(e) {
-    setInputValue(e.target.value);
+    setInputValue(e.target.value.trim());
   }
 
   function checkExistingToken(e) {
@@ -34,7 +34,6 @@ export default function Home(props) {
             'Please try again or start a new list!',
             'error',
           );
-          setInputValue('');
         } else {
           addKeyValuePairToLocalStorage('token', inputValue);
           props.setToken(inputValue);
