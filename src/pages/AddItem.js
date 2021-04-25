@@ -62,7 +62,6 @@ export default function AddItem(props) {
 
   return (
     <>
-      {!props.token ? history.push('/') : null}
       <h1>Add Item</h1>
       <form onSubmit={createListItem}>
         <label htmlFor="itemName">

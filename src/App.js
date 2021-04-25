@@ -48,11 +48,15 @@ const App = () => {
             {token ? <List token={token} /> : <Redirect to="/" />}
           </Route>
           <Route exact path="/add-item">
-            <AddItem
-              listItems={listItems}
-              setListItems={setListItems}
-              token={token}
-            />
+            {token ? (
+              <AddItem
+                listItems={listItems}
+                setListItems={setListItems}
+                token={token}
+              />
+            ) : (
+              <Redirect to="/" />
+            )}
           </Route>
         </Switch>
         {token && <NavBar />}
