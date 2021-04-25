@@ -50,7 +50,7 @@ export default function AddItem(props) {
         'OH GOSH!',
         `${itemName
           .toUpperCase()
-          .replace(/[^\w\s]|_/g, '')} is already in your list`,
+          .replace(normalizeString)} is already in your list`,
         'error',
       );
     } else if (!itemName) {
