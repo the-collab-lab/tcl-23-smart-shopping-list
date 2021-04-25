@@ -1,12 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { db } from './lib/firebase';
 import { checkLocalStorageForKey } from './lib/localStorage';
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Redirect,
-} from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import './stylesheets/App.css';
 import NavBar from './components/NavBar';
 import Home from './pages/Home';
