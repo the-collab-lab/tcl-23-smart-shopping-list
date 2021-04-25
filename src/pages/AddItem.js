@@ -48,9 +48,7 @@ export default function AddItem(props) {
     if (itemExists) {
       swal(
         'OH GOSH!',
-        `${itemName
-          .toUpperCase()
-          .replace(normalizeString)} is already in your list`,
+        `${normalizeString(itemName).toUpperCase()} is already in your list`,
         'error',
       );
     } else if (!itemName) {
