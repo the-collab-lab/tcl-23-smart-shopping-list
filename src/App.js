@@ -34,28 +34,30 @@ const App = () => {
 
   return (
     <Router>
-      {token ? (
-        <>
-          <NavBar />
-          <Switch>
-            <Route exact path="/">
-              <List token={token} />
-            </Route>
-            <Route exact path="/list">
-              <List token={token} />
-            </Route>
-            <Route exact path="/add-item">
-              <AddItem
-                listItems={listItems}
-                setListItems={setListItems}
-                token={token}
-              />
-            </Route>
-          </Switch>
-        </>
-      ) : (
-        <Home setToken={setToken} />
-      )}
+      <main className="App">
+        {token ? (
+          <>
+            <NavBar />
+            <Switch>
+              <Route exact path="/">
+                <List token={token} />
+              </Route>
+              <Route exact path="/list">
+                <List token={token} />
+              </Route>
+              <Route exact path="/add-item">
+                <AddItem
+                  listItems={listItems}
+                  setListItems={setListItems}
+                  token={token}
+                />
+              </Route>
+            </Switch>
+          </>
+        ) : (
+          <Home setToken={setToken} />
+        )}
+      </main>
     </Router>
   );
 };
