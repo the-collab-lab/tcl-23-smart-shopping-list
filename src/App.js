@@ -42,7 +42,7 @@ const App = () => {
       <div className="App">
         <Switch>
           <Route exact path="/">
-            <Home setToken={setToken} />
+            {token ? <Redirect to="/list" /> : <Home setToken={setToken} />}
           </Route>
           <Route exact path="/list">
             {token ? <List token={token} /> : <Redirect to="/" />}
