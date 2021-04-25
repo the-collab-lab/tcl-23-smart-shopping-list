@@ -45,7 +45,7 @@ const App = () => {
             <Home setToken={setToken} />
           </Route>
           <Route exact path="/list">
-            {token && listItems ? <List token={token} /> : <Redirect to="/" />}
+            {token ? <List token={token} /> : <Redirect to="/" />}
           </Route>
           <Route exact path="/add-item">
             <AddItem
