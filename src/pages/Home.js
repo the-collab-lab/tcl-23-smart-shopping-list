@@ -17,7 +17,7 @@ export default function Home(props) {
   }
 
   function handleInputValue(e) {
-    setInputValue(e.target.value.trim());
+    setInputValue(e.target.value);
   }
 
   function checkExistingToken(e) {
@@ -25,7 +25,7 @@ export default function Home(props) {
     if (!inputValue) {
       return swal('Please enter your token!', 'Input is empty', 'error');
     }
-    db.collection(inputValue)
+    db.collection(inputValue.trim())
       .get()
       .then((snap) => {
         if (snap.empty) {
