@@ -39,28 +39,28 @@ const App = () => {
 
   return (
     <Router>
-      <div className="App">
-        <Switch>
-          <Route exact path="/">
-            {token ? <Redirect to="/list" /> : <Home setToken={setToken} />}
-          </Route>
-          <Route exact path="/list">
-            {token ? <List token={token} /> : <Redirect to="/" />}
-          </Route>
-          <Route exact path="/add-item">
-            {token ? (
+      {token ? (
+        <>
+          <NavBar />
+          <Switch>
+            <Route exact path="/">
+              <List token={token} />
+            </Route>
+            <Route exact path="/list">
+              <List token={token} />
+            </Route>
+            <Route exact path="/add-item">
               <AddItem
                 listItems={listItems}
                 setListItems={setListItems}
                 token={token}
               />
-            ) : (
-              <Redirect to="/" />
-            )}
-          </Route>
-        </Switch>
-        {token && <NavBar />}
-      </div>
+            </Route>
+          </Switch>
+        </>
+      ) : (
+        <Home setToken={setToken} />
+      )}
     </Router>
   );
 };
