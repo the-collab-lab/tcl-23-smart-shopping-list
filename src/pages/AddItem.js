@@ -18,15 +18,16 @@ export default function AddItem(props) {
     setPurchaseFrequency(e.target.value);
   };
 
+  const normalizeString = (str) => {
+    return str.toLowerCase().replace(/[^\w]|_|\s/g, '');
+  };
+
   const doesItemExistInDatabase = () => {
-    const normalizedUserInput = itemName
-      .toLowerCase()
-      .replace(/[^\w]|_|\s/g, '');
+    const normalizedUserInput = normalizeString(itemName);
 
     const matchingItemName = props.listItems.filter((item) => {
-      const normalizedDatabaseItem = item.item_name
-        .toLowerCase()
-        .replace(/[^\w]|_|\s/g, '');
+      const normalizedDatabaseItem = normalizeString(item.item_name);
+
       return normalizedDatabaseItem === normalizedUserInput;
     });
 
