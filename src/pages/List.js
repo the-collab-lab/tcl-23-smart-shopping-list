@@ -13,10 +13,13 @@ export default function List(props) {
       {loading && <span>Collection: Loading...</span>}
       {listItem && (
         <>
-          <span>Collection:</span>
+          <span>Your Shopping List:</span>
           <ul>
             {listItem.docs.map((doc) => (
-              <li key={doc.id}>{doc.data().item_name}</li>
+              <div className="checkbox-wrapper">
+                <input type="checkbox"></input>
+                <li key={doc.id}>{doc.data().item_name}</li>
+              </div>
             ))}
           </ul>
         </>
