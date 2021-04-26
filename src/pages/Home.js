@@ -59,13 +59,13 @@ export default function Home(props) {
 
   return (
     <main>
-      <h1>Welcome screen</h1>
-      <h2>Add a new list:</h2>
-      <button onClick={handleClick}>Add List</button>
-      <h2>Join an existing list</h2>
+      <h1>Welcome To Your Grocery List!</h1>
+      <h2>Would you like to create a new list?</h2>
+      <button onClick={handleClick}>Create New List</button>
+      <h2>Do you already have a 3 word token?</h2>
       <form onSubmit={checkExistingToken}>
         <label htmlFor="token">
-          Please Insert Token:
+          Please Enter Token:
           <input
             type="text"
             name="token"
