@@ -5,6 +5,15 @@ export default function List(props) {
   const [listItem, loading, error] = useCollection(db.collection(props.token), {
     snapshotListenOptions: { includeMetadataChanges: true },
   });
+
+  const markItemPurchased = (id) => {
+    db.collection(props.token).doc(id).update({
+      last_purchased: Date.now(),
+    });
+  };
+
+  console.log(listItem);
+
   return (
     <>
       <h1>THIS IS THE LIST</h1>
@@ -15,12 +24,20 @@ export default function List(props) {
         <>
           <span>Your Shopping List:</span>
           <ul>
-            {listItem.docs.map((doc) => (
-              <div className="checkbox-wrapper">
-                <input type="checkbox"></input>
-                <li key={doc.id}>{doc.data().item_name}</li>
-              </div>
-            ))}
+            {listItem.docs.map(
+              (doc) => (
+                console.log(doc.id),
+                (
+                  <div className="checkbox-wrapper">
+                    <input
+                      type="checkbox"
+                      onClick={markItemPurchased(doc.id)}
+                    />
+                    <li key={doc.id}>{doc.data().item_name}</li>
+                  </div>
+                )
+              ),
+            )}
           </ul>
         </>
       )}
