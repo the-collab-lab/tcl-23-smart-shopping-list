@@ -16,7 +16,7 @@ export default function List(props) {
           <span>Collection:</span>
           <ul>
             {listItem.docs.map((doc) => (
-              <li key={doc.id}>{JSON.stringify(doc.data())}</li>
+              <li key={doc.id}>{doc.data().item_name}</li>
             ))}
           </ul>
         </>
