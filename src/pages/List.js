@@ -6,13 +6,16 @@ export default function List(props) {
     snapshotListenOptions: { includeMetadataChanges: true },
   });
 
-  const markItemPurchased = (id) => {
-    db.collection(props.token).doc(id).update({
-      last_purchased: Date.now(),
-    });
-  };
+  const markItemPurchased = (e, id) => {
+    const timeElapsed = Date.now();
+    const today = new Date(timeElapsed);
 
-  console.log(listItem);
+    if (e.target.checked === true) {
+      db.collection(props.token).doc(id).update({
+        last_purchased: today.toUTCString(),
+      });
+    }
+  };
 
   return (
     <>
@@ -24,20 +27,15 @@ export default function List(props) {
         <>
           <span>Your Shopping List:</span>
           <ul>
-            {listItem.docs.map(
-              (doc) => (
-                console.log(doc.id),
-                (
-                  <div className="checkbox-wrapper">
-                    <input
-                      type="checkbox"
-                      onClick={markItemPurchased(doc.id)}
-                    />
-                    <li key={doc.id}>{doc.data().item_name}</li>
-                  </div>
-                )
-              ),
-            )}
+            {listItem.docs.map((doc) => (
+              <div className="checkbox-wrapper">
+                <input
+                  type="checkbox"
+                  onClick={(e) => markItemPurchased(e, doc.id)}
+                />
+                <li key={doc.id}>{doc.data().item_name}</li>
+              </div>
+            ))}
           </ul>
         </>
       )}
