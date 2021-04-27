@@ -7,20 +7,28 @@ export default function List(props) {
   });
 
   const markItemPurchased = (e, id) => {
-    const timeElapsed = Date.now();
-    const today = new Date(timeElapsed);
+    const elapsedMilliseconds = Date.now();
 
     if (e.target.checked === true) {
       db.collection(props.token).doc(id).update({
-        last_purchased: today.toUTCString(),
+        last_purchased: elapsedMilliseconds,
+      });
+    } else {
+      db.collection(props.token).doc(id).update({
+        last_purchased: null,
       });
     }
   };
 
+  function compareTimeStamps(lastPurchased) {
+    const currentElapsedMilliseconds = Date.now();
+    const millisecondsInOneDay = 86400000;
+    return currentElapsedMilliseconds - lastPurchased < millisecondsInOneDay;
+  }
+
   return (
     <>
-      <h1>THIS IS THE LIST</h1>
-      <h2>Your token: {props.token}</h2>
+      <h1>Your token: {props.token}</h1>
       {error && <strong>Error: {JSON.stringify(error)}</strong>}
       {loading && <span>Collection: Loading...</span>}
       {listItem && (
@@ -31,6 +39,9 @@ export default function List(props) {
               <div className="checkbox-wrapper">
                 <input
                   type="checkbox"
+                  defaultChecked={
+                    compareTimeStamps(doc.data().last_purchased) ? true : false
+                  }
                   onClick={(e) => markItemPurchased(e, doc.id)}
                 />
                 <li key={doc.id}>{doc.data().item_name}</li>
