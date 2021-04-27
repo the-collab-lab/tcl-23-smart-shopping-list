@@ -19,6 +19,7 @@ export default function AddItem(props) {
   };
 
   const normalizeString = (str) => {
+    console.log('string value:', str);
     return str.toLowerCase().replace(/[^\w]|_|\s/g, '');
   };
 

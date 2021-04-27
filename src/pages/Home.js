@@ -1,5 +1,4 @@
 import { addKeyValuePairToLocalStorage } from '../lib/localStorage';
-import { useCollection } from 'react-firebase-hooks/firestore';
 import getToken from '../lib/tokens';
 import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
@@ -13,22 +12,30 @@ export default function Home(props) {
   function handleClick() {
     const token = getToken();
     addKeyValuePairToLocalStorage('token', token);
-    db.collection(token).add({ new_list: 'start Here' });
+    db.collection(token).add({
+      item_name: 'Your Item',
+      last_purchased: 'Soon, Later, Whenever',
+      purchase_frequency: null,
+    });
     // .then((docRef) => {
     //   console.log("New collection added with doc id: ", docRef.id);
     // })
     //
     props.setToken(token);
-    history.push('/list');
-    db.collection(token)
-      .doc()
-      .delete()
-      .then(() => {
-        console.log('It works! Yay!');
-      })
-      .catch((error) => {
-        console.error('error ');
-      });
+    swal(
+      'List successfully created',
+      `Your new token is ${token}. Add your first item!`,
+    );
+    history.push('/add-item');
+    // db.collection(token)
+    //   .doc()
+    //   .delete()
+    //   .then(() => {
+    //     console.log('It works! Yay!');
+    //   })
+    //   .catch((error) => {
+    //     console.error('error ');
+    //   });
   }
 
   function handleInputValue(e) {
