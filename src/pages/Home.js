@@ -66,10 +66,17 @@ export default function Home(props) {
 
   return (
     <main>
-      <h1>Welcome To Your Grocery List!</h1>
-      <h2>Would you like to create a new list?</h2>
+      <h1>Welcome To CLEVER NAME TO BE DETERMINED List!</h1>
+      <p>
+        CNTBD is here to add a little more organization to your grocery list. Or
+        lists!
+      </p>
+      <p>To start, either:</p>
+      <h2>Create a brand new list</h2>
       <button onClick={handleClick}>Create New List</button>
-      <h2>Do you already have a 3 word token?</h2>
+      <p>Or</p>
+
+      <h2>Enter a 3 word token to access an already existing list.</h2>
       <form onSubmit={checkExistingToken}>
         <label htmlFor="token">
           Please Enter Token:
