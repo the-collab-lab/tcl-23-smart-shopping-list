@@ -13,10 +13,6 @@ export default function List(props) {
       db.collection(props.token).doc(id).update({
         last_purchased: elapsedMilliseconds,
       });
-    } else {
-      db.collection(props.token).doc(id).update({
-        last_purchased: null,
-      });
     }
   };
 
