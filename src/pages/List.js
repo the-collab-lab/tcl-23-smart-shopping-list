@@ -1,16 +1,11 @@
 import { db } from '../lib/firebase';
-import { useCollection } from 'react-firebase-hooks/firestore';
 
-export default function List(props) {
-  const [listItem, loading, error] = useCollection(db.collection(props.token), {
-    snapshotListenOptions: { includeMetadataChanges: true },
-  });
-
+export default function List({ listItems, error, loading, token }) {
   const markItemPurchased = (e, id) => {
     const elapsedMilliseconds = Date.now();
 
     if (e.target.checked === true) {
-      db.collection(props.token).doc(id).update({
+      db.collection(token).doc(id).update({
         last_purchased: elapsedMilliseconds,
       });
     }
@@ -24,14 +19,14 @@ export default function List(props) {
 
   return (
     <>
-      <h1>Your token: {props.token}</h1>
+      <h1>Your token: {token}</h1>
       {error && <strong>Error: {JSON.stringify(error)}</strong>}
       {loading && <span>Collection: Loading...</span>}
-      {listItem && (
+      {listItems && (
         <>
           <span>Your Shopping List:</span>
           <ul>
-            {listItem.docs.map((doc) => (
+            {listItems.docs.map((doc) => (
               <li key={doc.id} className="checkbox-wrapper">
                 <label>
                   <input
