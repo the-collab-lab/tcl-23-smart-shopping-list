@@ -32,16 +32,18 @@ export default function List(props) {
           <span>Your Shopping List:</span>
           <ul>
             {listItem.docs.map((doc) => (
-              <div className="checkbox-wrapper">
-                <input
-                  type="checkbox"
-                  defaultChecked={
-                    compareTimeStamps(doc.data().last_purchased) ? true : false
-                  }
-                  onClick={(e) => markItemPurchased(e, doc.id)}
-                />
-                <li key={doc.id}>{doc.data().item_name}</li>
-              </div>
+              <li key={doc.id} className="checkbox-wrapper">
+                <label>
+                  <input
+                    type="checkbox"
+                    defaultChecked={compareTimeStamps(
+                      doc.data().last_purchased,
+                    )}
+                    onClick={(e) => markItemPurchased(e, doc.id)}
+                  />
+                  {doc.data().item_name}
+                </label>
+              </li>
             ))}
           </ul>
         </>
