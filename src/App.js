@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { db } from './lib/firebase';
-import { useCollection } from 'react-firebase-hooks/firestore';
 import { checkLocalStorageForKey } from './lib/localStorage';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import './stylesheets/App.css';
@@ -16,18 +14,6 @@ const App = () => {
     const retrievedToken = checkLocalStorageForKey('token', '');
     setToken(retrievedToken);
   }, []);
-
-  // Comment out lines 21-26 and Un-comment lines 28-33. It won't accept the `token`
-  // const [listItems, loading, error] = useCollection(
-  //   db.collection('sire agnew dutch'),
-  //   {
-  //     snapshotListenOptions: { includeMetadataChanges: true },
-  //   },
-  // );
-
-  // const [listItems, loading, error] = useCollection(db.collection(token), {
-  //   snapshotListenOptions: { includeMetadataChanges: true },
-  // });
 
   return (
     <Router>

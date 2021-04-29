@@ -9,7 +9,7 @@ export default function AddItem({ token }) {
   const [purchaseFrequency, setPurchaseFrequency] = useState(7);
   const [lastPurchased] = useState(null);
 
-  const [listItems, loading, error] = useCollection(db.collection(token), {
+  const [listItems] = useCollection(db.collection(token), {
     snapshotListenOptions: { includeMetadataChanges: true },
   });
 
