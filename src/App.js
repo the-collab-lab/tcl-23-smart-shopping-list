@@ -17,12 +17,20 @@ const App = () => {
     setToken(retrievedToken);
   }, []);
 
+  // Comment out lines 21-26 and Un-comment lines 28-33. It won't accept the `token`
   const [listItems, loading, error] = useCollection(
-    db.collection('sire agnew dutch'),
+    db.collection(`'sire agnew dutch'`),
     {
       snapshotListenOptions: { includeMetadataChanges: true },
     },
   );
+
+  // const [listItems, loading, error] = useCollection(
+  //   db.collection(token),
+  //   {
+  //     snapshotListenOptions: { includeMetadataChanges: true },
+  //   },
+  // );
 
   return (
     <Router>
