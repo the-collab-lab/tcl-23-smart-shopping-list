@@ -1,6 +1,11 @@
 import { db } from '../lib/firebase';
+import { useCollection } from 'react-firebase-hooks/firestore';
 
-export default function List({ listItems, error, loading, token }) {
+export default function List({ token }) {
+  const [listItems, loading, error] = useCollection(db.collection(token), {
+    snapshotListenOptions: { includeMetadataChanges: true },
+  });
+
   const markItemPurchased = (e, id) => {
     const elapsedMilliseconds = Date.now();
 

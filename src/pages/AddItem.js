@@ -1,12 +1,17 @@
 import { useState } from 'react';
 import { db } from '../lib/firebase';
+import { useCollection } from 'react-firebase-hooks/firestore';
 import swal from 'sweetalert';
 import { useHistory } from 'react-router-dom';
 
-export default function AddItem({ listItems, token }) {
+export default function AddItem({ token }) {
   const [itemName, setItemName] = useState('');
   const [purchaseFrequency, setPurchaseFrequency] = useState(7);
   const [lastPurchased] = useState(null);
+
+  const [listItems, loading, error] = useCollection(db.collection(token), {
+    snapshotListenOptions: { includeMetadataChanges: true },
+  });
 
   const history = useHistory();
 
@@ -23,7 +28,6 @@ export default function AddItem({ listItems, token }) {
   };
 
   const doesItemExistInDatabase = () => {
-    console.log(itemName);
     const normalizedUserInput = normalizeString(itemName);
 
     const matchingItemName = listItems.docs.filter((doc) => {

@@ -9,17 +9,17 @@
  * @return {Number} Estimated number of days until the next purchase
  */
 const calculateEstimate = (lastEstimate, latestInterval, numberOfPurchases) => {
-    if (numberOfPurchases >= 2) {
-        if (isNaN(lastEstimate)) {
-            lastEstimate = 14;
-        }
-        let previousFactor = lastEstimate * numberOfPurchases;
-        let latestFactor = latestInterval * (numberOfPurchases - 1);
-        let totalDivisor = numberOfPurchases * 2 - 1;
-        return Math.round((previousFactor + latestFactor) / totalDivisor);
-    } else {
-        return latestInterval;
+  if (numberOfPurchases >= 2) {
+    if (isNaN(lastEstimate)) {
+      lastEstimate = 14;
     }
+    let previousFactor = lastEstimate * numberOfPurchases;
+    let latestFactor = latestInterval * (numberOfPurchases - 1);
+    let totalDivisor = numberOfPurchases * 2 - 1;
+    return Math.round((previousFactor + latestFactor) / totalDivisor);
+  } else {
+    return latestInterval;
+  }
 };
 
 export default calculateEstimate;

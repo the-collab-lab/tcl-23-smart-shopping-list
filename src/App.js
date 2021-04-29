@@ -18,19 +18,16 @@ const App = () => {
   }, []);
 
   // Comment out lines 21-26 and Un-comment lines 28-33. It won't accept the `token`
-  const [listItems, loading, error] = useCollection(
-    db.collection('sire agnew dutch'),
-    {
-      snapshotListenOptions: { includeMetadataChanges: true },
-    },
-  );
-
   // const [listItems, loading, error] = useCollection(
-  //   db.collection(token),
+  //   db.collection('sire agnew dutch'),
   //   {
   //     snapshotListenOptions: { includeMetadataChanges: true },
   //   },
   // );
+
+  // const [listItems, loading, error] = useCollection(db.collection(token), {
+  //   snapshotListenOptions: { includeMetadataChanges: true },
+  // });
 
   return (
     <Router>
@@ -43,15 +40,10 @@ const App = () => {
                 <List token={token} />
               </Route>
               <Route exact path="/list">
-                <List
-                  token={token}
-                  listItems={listItems}
-                  loading={loading}
-                  error={error}
-                />
+                <List token={token} />
               </Route>
               <Route exact path="/add-item">
-                <AddItem listItems={listItems} token={token} />
+                <AddItem token={token} />
               </Route>
             </Switch>
           </>
