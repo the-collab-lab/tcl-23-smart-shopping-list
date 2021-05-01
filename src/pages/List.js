@@ -7,13 +7,13 @@ export default function List(props) {
   });
   return (
     <>
-      <h1>THIS IS THE LIST</h1>
-      <h2>Your token: {props.token}</h2>
+      <h1>This Is Your Grocery List</h1>
+      <h2>It uses the token: {props.token}</h2>
       {error && <strong>Error: {JSON.stringify(error)}</strong>}
-      {loading && <span>Collection: Loading...</span>}
+      {loading && <span>Grocery List: Loading...</span>}
       {listItem && (
         <>
-          <span>Collection:</span>
+          <span>Grocery List:</span>
           <ul>
             {listItem.docs.map((doc) => (
               <li key={doc.id}>{JSON.stringify(doc.data())}</li>
