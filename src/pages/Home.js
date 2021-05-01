@@ -22,11 +22,8 @@ export default function Home(props) {
     // })
     //
     props.setToken(token);
-    swal(
-      'List successfully created',
-      `Your new token is ${token}. Add your first item!`,
-    );
-    history.push('/add-item');
+    swal('List successfully created', `Your new token is ${token}.`);
+    history.push('/list');
     // db.collection(token)
     //   .doc()
     //   .delete()
