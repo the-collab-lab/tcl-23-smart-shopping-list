@@ -12,11 +12,11 @@ export default function Home(props) {
   function handleClick() {
     const token = getToken();
     addKeyValuePairToLocalStorage('token', token);
-    db.collection(token).add({
-      item_name: 'Your Item',
-      last_purchased: 'Soon, Later, Whenever',
-      purchase_frequency: null,
-    });
+    // db.collection(token).add({
+    //   item_name: 'Your Item',
+    //   last_purchased: 'Soon, Later, Whenever',
+    //   purchase_frequency: null,
+    // });
     // .then((docRef) => {
     //   console.log("New collection added with doc id: ", docRef.id);
     // })
