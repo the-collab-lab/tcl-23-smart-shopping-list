@@ -13,7 +13,16 @@ export default function Home(props) {
     const token = getToken();
     addKeyValuePairToLocalStorage('token', token);
     props.setToken(token);
-    swal('List successfully created', `Your new token is ${token}.`, 'success');
+    swal(
+      'List successfully created!',
+      `Your new token is "${token}". 
+
+      Click "OK", 
+
+      then select "Add item" to add your first item.`,
+
+      'success',
+    );
     history.push('/list');
   }
 
