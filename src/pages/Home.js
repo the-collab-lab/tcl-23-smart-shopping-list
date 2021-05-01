@@ -12,27 +12,9 @@ export default function Home(props) {
   function handleClick() {
     const token = getToken();
     addKeyValuePairToLocalStorage('token', token);
-    // db.collection(token).add({
-    //   item_name: 'Your Item',
-    //   last_purchased: 'Soon, Later, Whenever',
-    //   purchase_frequency: null,
-    // });
-    // .then((docRef) => {
-    //   console.log("New collection added with doc id: ", docRef.id);
-    // })
-    //
     props.setToken(token);
     swal('List successfully created', `Your new token is ${token}.`);
     history.push('/list');
-    // db.collection(token)
-    //   .doc()
-    //   .delete()
-    //   .then(() => {
-    //     console.log('It works! Yay!');
-    //   })
-    //   .catch((error) => {
-    //     console.error('error ');
-    //   });
   }
 
   function handleInputValue(e) {
