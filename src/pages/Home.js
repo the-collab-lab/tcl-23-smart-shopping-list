@@ -13,7 +13,7 @@ export default function Home(props) {
     const token = getToken();
     addKeyValuePairToLocalStorage('token', token);
     props.setToken(token);
-    swal('List successfully created', `Your new token is ${token}.`);
+    swal('List successfully created', `Your new token is ${token}.`, 'success');
     history.push('/list');
   }
 
