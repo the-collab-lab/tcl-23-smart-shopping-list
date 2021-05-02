@@ -1,7 +1,9 @@
 import { db } from '../lib/firebase';
 import { useCollection } from 'react-firebase-hooks/firestore';
+import { useHistory } from 'react-router-dom';
 
 export default function List(props) {
+  const history = useHistory();
   const [listItem, loading, error] = useCollection(db.collection(props.token), {
     snapshotListenOptions: { includeMetadataChanges: true },
   });
@@ -24,29 +26,39 @@ export default function List(props) {
 
   return (
     <>
-      <h1>Your token: {props.token}</h1>
+      <h1>This Is Your Grocery List</h1>
+      <h2>It uses the token: {props.token}</h2>
       {error && <strong>Error: {JSON.stringify(error)}</strong>}
-      {loading && <span>Collection: Loading...</span>}
+      {loading && <span>Grocery List: Loading...</span>}
       {listItem && (
         <>
-          <span>Your Shopping List:</span>
-          <ul>
-            {listItem.docs.map((doc) => (
-              <li key={doc.id} className="checkbox-wrapper">
-                <label>
-                  <input
-                    type="checkbox"
-                    defaultChecked={compareTimeStamps(
-                      doc.data().last_purchased,
-                    )}
-                    disabled={compareTimeStamps(doc.data().last_purchased)}
-                    onClick={(e) => markItemPurchased(e, doc.id)}
-                  />
-                  {doc.data().item_name}
-                </label>
-              </li>
-            ))}
-          </ul>
+          <span>Grocery List:</span>
+          {listItem.docs.length === 0 ? (
+            <section>
+              <p>Your grocery list is currently empty.</p>
+              <button onClick={() => history.push('/add-item')}>
+                Click to add first item!
+              </button>
+            </section>
+          ) : (
+            <ul>
+              {listItem.docs.map((doc) => (
+                <li key={doc.id} className="checkbox-wrapper">
+                  <label>
+                    <input
+                      type="checkbox"
+                      defaultChecked={compareTimeStamps(
+                        doc.data().last_purchased,
+                      )}
+                      disabled={compareTimeStamps(doc.data().last_purchased)}
+                      onClick={(e) => markItemPurchased(e, doc.id)}
+                    />
+                    {doc.data().item_name}
+                  </label>
+                </li>
+              ))}
+            </ul>
+          )}
         </>
       )}
     </>

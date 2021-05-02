@@ -13,6 +13,11 @@ export default function Home(props) {
     const token = getToken();
     addKeyValuePairToLocalStorage('token', token);
     props.setToken(token);
+    swal(
+      'List successfully created!',
+      `Your new token is "${token}".`,
+      'success',
+    );
     history.push('/list');
   }
 
@@ -44,13 +49,20 @@ export default function Home(props) {
 
   return (
     <main>
-      <h1>Welcome screen</h1>
-      <h2>Add a new list:</h2>
-      <button onClick={handleClick}>Add List</button>
-      <h2>Join an existing list</h2>
+      <h1>Welcome To CLEVER NAME TO BE DETERMINED List!</h1>
+      <p>
+        CNTBD is here to add a little more organization to your grocery list. Or
+        lists!
+      </p>
+      <p>To start, either:</p>
+      <h2>Create a brand new list</h2>
+      <button onClick={handleClick}>Create New List</button>
+      <p>Or</p>
+
+      <h2>Enter a 3 word token to access an already existing list.</h2>
       <form onSubmit={checkExistingToken}>
         <label htmlFor="token">
-          Please Insert Token:
+          Please Enter Token:
           <input
             type="text"
             name="token"
