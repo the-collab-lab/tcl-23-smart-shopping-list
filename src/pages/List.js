@@ -2,9 +2,9 @@ import { db } from '../lib/firebase';
 import { useCollection } from 'react-firebase-hooks/firestore';
 import { useHistory } from 'react-router-dom';
 
-export default function List(props) {
+export default function List({ token }) {
   const history = useHistory();
-  const [listItem, loading, error] = useCollection(db.collection(props.token), {
+  const [listItem, loading, error] = useCollection(db.collection(token), {
     snapshotListenOptions: { includeMetadataChanges: true },
   });
 
@@ -12,7 +12,7 @@ export default function List(props) {
     const elapsedMilliseconds = Date.now();
 
     if (e.target.checked === true) {
-      db.collection(props.token).doc(id).update({
+      db.collection(token).doc(id).update({
         last_purchased: elapsedMilliseconds,
       });
     }
@@ -27,7 +27,7 @@ export default function List(props) {
   return (
     <>
       <h1>This Is Your Grocery List</h1>
-      <h2>It uses the token: {props.token}</h2>
+      <h2>It uses the token: {token}</h2>
       {error && <strong>Error: {JSON.stringify(error)}</strong>}
       {loading && <span>Grocery List: Loading...</span>}
       {listItem && (

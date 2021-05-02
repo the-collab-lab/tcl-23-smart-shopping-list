@@ -1,12 +1,17 @@
 import { useState } from 'react';
 import { db } from '../lib/firebase';
+import { useCollection } from 'react-firebase-hooks/firestore';
 import swal from 'sweetalert';
 import { useHistory } from 'react-router-dom';
 
-export default function AddItem(props) {
+export default function AddItem({ token }) {
   const [itemName, setItemName] = useState('');
   const [purchaseFrequency, setPurchaseFrequency] = useState(7);
   const [lastPurchased] = useState(null);
+
+  const [listItems] = useCollection(db.collection(token), {
+    snapshotListenOptions: { includeMetadataChanges: true },
+  });
 
   const history = useHistory();
 
@@ -25,8 +30,8 @@ export default function AddItem(props) {
   const doesItemExistInDatabase = () => {
     const normalizedUserInput = normalizeString(itemName);
 
-    const matchingItemName = props.listItems.filter((item) => {
-      const normalizedDatabaseItem = normalizeString(item.item_name);
+    const matchingItemName = listItems.docs.filter((doc) => {
+      const normalizedDatabaseItem = normalizeString(doc.data().item_name);
 
       return normalizedDatabaseItem === normalizedUserInput;
     });
@@ -54,8 +59,7 @@ export default function AddItem(props) {
     } else if (!itemName) {
       swal('UH OH!', "Item name can't be blank", 'warning');
     } else {
-      db.collection(props.token).add(newItemObject);
-      props.setListItems((prev) => [...prev, newItemObject]);
+      db.collection(token).add(newItemObject);
       history.push('/list');
     }
   }
