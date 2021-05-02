@@ -3,11 +3,26 @@ import { useCollection } from 'react-firebase-hooks/firestore';
 import { useHistory } from 'react-router-dom';
 
 export default function List(props) {
+  const history = useHistory();
   const [listItem, loading, error] = useCollection(db.collection(props.token), {
     snapshotListenOptions: { includeMetadataChanges: true },
   });
 
-  const history = useHistory();
+  const markItemPurchased = (e, id) => {
+    const elapsedMilliseconds = Date.now();
+
+    if (e.target.checked === true) {
+      db.collection(props.token).doc(id).update({
+        last_purchased: elapsedMilliseconds,
+      });
+    }
+  };
+
+  function compareTimeStamps(lastPurchased) {
+    const currentElapsedMilliseconds = Date.now();
+    const millisecondsInOneDay = 86400000;
+    return currentElapsedMilliseconds - lastPurchased < millisecondsInOneDay;
+  }
 
   return (
     <>
@@ -28,7 +43,19 @@ export default function List(props) {
           ) : (
             <ul>
               {listItem.docs.map((doc) => (
-                <li key={doc.id}>{JSON.stringify(doc.data())}</li>
+                <li key={doc.id} className="checkbox-wrapper">
+                  <label>
+                    <input
+                      type="checkbox"
+                      defaultChecked={compareTimeStamps(
+                        doc.data().last_purchased,
+                      )}
+                      disabled={compareTimeStamps(doc.data().last_purchased)}
+                      onClick={(e) => markItemPurchased(e, doc.id)}
+                    />
+                    {doc.data().item_name}
+                  </label>
+                </li>
               ))}
             </ul>
           )}
