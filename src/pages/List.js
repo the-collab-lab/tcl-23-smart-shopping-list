@@ -39,6 +39,7 @@ export default function List(props) {
                     defaultChecked={compareTimeStamps(
                       doc.data().last_purchased,
                     )}
+                    disabled={compareTimeStamps(doc.data().last_purchased)}
                     onClick={(e) => markItemPurchased(e, doc.id)}
                   />
                   {doc.data().item_name}
