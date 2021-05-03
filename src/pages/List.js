@@ -8,6 +8,11 @@ export default function List({ token }) {
     snapshotListenOptions: { includeMetadataChanges: true },
   });
 
+  function handleReset() {
+    // we will reset state
+    console.log(handleReset, 'button clicks');
+  }
+
   const markItemPurchased = (e, id) => {
     const elapsedMilliseconds = Date.now();
 
@@ -28,11 +33,15 @@ export default function List({ token }) {
     <>
       <h1>This Is Your Grocery List</h1>
       <h2>It uses the token: {token}</h2>
+      <label>
+        <input type="text"></input>
+        <button onClick={handleReset}>Reset Text Field</button>
+      </label>
       {error && <strong>Error: {JSON.stringify(error)}</strong>}
       {loading && <span>Grocery List: Loading...</span>}
       {listItem && (
         <>
-          <span>Grocery List:</span>
+          <h2>Grocery List:</h2>
           {listItem.docs.length === 0 ? (
             <section>
               <p>Your grocery list is currently empty.</p>
