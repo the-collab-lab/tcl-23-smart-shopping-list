@@ -11,8 +11,7 @@ export default function List({ token }) {
   const [filter, setFilter] = useState('');
 
   function handleReset() {
-    // we will reset state
-    console.log(handleReset, 'button clicks');
+    setFilter('');
   }
   const markItemPurchased = (e, id) => {
     const elapsedMilliseconds = Date.now();
@@ -56,21 +55,26 @@ export default function List({ token }) {
             </section>
           ) : (
             <ul>
-              {listItem.docs.map((doc) => (
-                <li key={doc.id} className="checkbox-wrapper">
-                  <label>
-                    <input
-                      type="checkbox"
-                      defaultChecked={compareTimeStamps(
-                        doc.data().last_purchased,
-                      )}
-                      disabled={compareTimeStamps(doc.data().last_purchased)}
-                      onClick={(e) => markItemPurchased(e, doc.id)}
-                    />
-                    {doc.data().item_name}
-                  </label>
-                </li>
-              ))}
+              {listItem.docs
+                .filter(
+                  (doc) =>
+                    doc.data().item_name.includes(filter) || filter === '',
+                )
+                .map((doc) => (
+                  <li key={doc.id} className="checkbox-wrapper">
+                    <label>
+                      <input
+                        type="checkbox"
+                        defaultChecked={compareTimeStamps(
+                          doc.data().last_purchased,
+                        )}
+                        disabled={compareTimeStamps(doc.data().last_purchased)}
+                        onClick={(e) => markItemPurchased(e, doc.id)}
+                      />
+                      {doc.data().item_name}
+                    </label>
+                  </li>
+                ))}
             </ul>
           )}
         </>
