@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { db } from '../lib/firebase';
 import { useCollection } from 'react-firebase-hooks/firestore';
 import { useHistory } from 'react-router-dom';
@@ -7,12 +8,12 @@ export default function List({ token }) {
   const [listItem, loading, error] = useCollection(db.collection(token), {
     snapshotListenOptions: { includeMetadataChanges: true },
   });
+  const [filter, setFilter] = useState('');
 
   function handleReset() {
     // we will reset state
     console.log(handleReset, 'button clicks');
   }
-
   const markItemPurchased = (e, id) => {
     const elapsedMilliseconds = Date.now();
 
@@ -34,7 +35,11 @@ export default function List({ token }) {
       <h1>This Is Your Grocery List</h1>
       <h2>It uses the token: {token}</h2>
       <label>
-        <input type="text"></input>
+        <input
+          type="text"
+          value={filter}
+          onChange={(e) => setFilter(e.target.value)}
+        />
         <button onClick={handleReset}>Reset Text Field</button>
       </label>
       {error && <strong>Error: {JSON.stringify(error)}</strong>}
