@@ -9,15 +9,23 @@ export default function List({ token }) {
     snapshotListenOptions: { includeMetadataChanges: true },
   });
 
-  const markItemPurchased = (e, id, timesPurchased) => {
+  const markItemPurchased = (e, id, itemData) => {
     const elapsedMilliseconds = Date.now();
+    const latestInterval = elapsedMilliseconds - itemData.last_purchased;
 
     if (e.target.checked === true) {
+      const lastEstimate = calculateEstimate(
+        itemData.last_estimate,
+        latestInterval,
+        itemData.times_purchased,
+      );
+      console.log(lastEstimate);
       db.collection(token)
         .doc(id)
         .update({
           last_purchased: elapsedMilliseconds,
-          times_purchased: timesPurchased + 1,
+          times_purchased: itemData.times_purchased + 1,
+          last_estimate: lastEstimate,
         });
     }
   };
@@ -51,13 +59,11 @@ export default function List({ token }) {
                   <label>
                     <input
                       type="checkbox"
-                      // defaultChecked={compareTimeStamps(
-                      //   doc.data().last_purchased,
-                      // )}
-                      // disabled={compareTimeStamps(doc.data().last_purchased)}
-                      onClick={(e) =>
-                        markItemPurchased(e, doc.id, doc.data().times_purchased)
-                      }
+                      defaultChecked={compareTimeStamps(
+                        doc.data().last_purchased,
+                      )}
+                      disabled={compareTimeStamps(doc.data().last_purchased)}
+                      onClick={(e) => markItemPurchased(e, doc.id, doc.data())}
                     />
                     {doc.data().item_name}
                   </label>
