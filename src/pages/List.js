@@ -33,9 +33,11 @@ export default function List({ token }) {
     <>
       <h1>This Is Your Grocery List</h1>
       <h2>It uses the token: {token}</h2>
-      <label>
+      <label for="thesearch">
+        Search Grocery List Items
         <input
           type="text"
+          placeholder="enter grocery item"
           value={filter}
           onChange={(e) => setFilter(e.target.value)}
         />
@@ -60,9 +62,9 @@ export default function List({ token }) {
                   (doc) =>
                     doc.data().item_name.includes(filter) || filter === '',
                 )
-                .map((doc) => (
+                .map((doc, index) => (
                   <li key={doc.id} className="checkbox-wrapper">
-                    <label>
+                    <label for={`grocery-item${++index}`}>
                       <input
                         type="checkbox"
                         defaultChecked={compareTimeStamps(
