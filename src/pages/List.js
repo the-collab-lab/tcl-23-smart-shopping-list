@@ -1,6 +1,7 @@
 import { db } from '../lib/firebase';
 import { useCollection } from 'react-firebase-hooks/firestore';
 import { useHistory } from 'react-router-dom';
+import calculateEstimate from '../lib/estimates';
 
 export default function List({ token }) {
   const history = useHistory();
@@ -8,13 +9,16 @@ export default function List({ token }) {
     snapshotListenOptions: { includeMetadataChanges: true },
   });
 
-  const markItemPurchased = (e, id) => {
+  const markItemPurchased = (e, id, timesPurchased) => {
     const elapsedMilliseconds = Date.now();
 
     if (e.target.checked === true) {
-      db.collection(token).doc(id).update({
-        last_purchased: elapsedMilliseconds,
-      });
+      db.collection(token)
+        .doc(id)
+        .update({
+          last_purchased: elapsedMilliseconds,
+          times_purchased: timesPurchased + 1,
+        });
     }
   };
 
@@ -47,11 +51,13 @@ export default function List({ token }) {
                   <label>
                     <input
                       type="checkbox"
-                      defaultChecked={compareTimeStamps(
-                        doc.data().last_purchased,
-                      )}
-                      disabled={compareTimeStamps(doc.data().last_purchased)}
-                      onClick={(e) => markItemPurchased(e, doc.id)}
+                      // defaultChecked={compareTimeStamps(
+                      //   doc.data().last_purchased,
+                      // )}
+                      // disabled={compareTimeStamps(doc.data().last_purchased)}
+                      onClick={(e) =>
+                        markItemPurchased(e, doc.id, doc.data().times_purchased)
+                      }
                     />
                     {doc.data().item_name}
                   </label>

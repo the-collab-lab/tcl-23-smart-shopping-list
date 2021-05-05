@@ -7,7 +7,7 @@ import { useHistory } from 'react-router-dom';
 export default function AddItem({ token }) {
   const [itemName, setItemName] = useState('');
   const [purchaseFrequency, setPurchaseFrequency] = useState(7);
-  const [lastPurchased] = useState(null);
+  //const [lastPurchased] = useState(null);
 
   const [listItems] = useCollection(db.collection(token), {
     snapshotListenOptions: { includeMetadataChanges: true },
@@ -45,7 +45,9 @@ export default function AddItem({ token }) {
     const newItemObject = {
       item_name: itemName,
       purchase_frequency: parseInt(purchaseFrequency),
-      last_purchased: lastPurchased,
+      last_purchased: null,
+      last_estimate: null,
+      times_purchased: 0,
     };
 
     const itemExists = doesItemExistInDatabase(itemName);
