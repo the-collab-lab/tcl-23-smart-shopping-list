@@ -7,7 +7,6 @@ import { useHistory } from 'react-router-dom';
 export default function AddItem({ token }) {
   const [itemName, setItemName] = useState('');
   const [purchaseFrequency, setPurchaseFrequency] = useState(7);
-  //const [lastPurchased] = useState(null);
 
   const [listItems] = useCollection(db.collection(token), {
     snapshotListenOptions: { includeMetadataChanges: true },

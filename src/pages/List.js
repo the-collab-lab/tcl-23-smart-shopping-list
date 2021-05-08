@@ -10,23 +10,38 @@ export default function List({ token }) {
   });
 
   const markItemPurchased = (e, id, itemData) => {
-    const elapsedMilliseconds = Date.now();
-    const latestInterval = elapsedMilliseconds - itemData.last_purchased;
+    const currentTimestamp = Date.now();
+    const initialInterval = itemData.purchase_frequency * 86400000;
+    const latestInterval = currentTimestamp - itemData.last_purchased;
 
     if (e.target.checked === true) {
-      const lastEstimate = calculateEstimate(
-        itemData.last_estimate,
-        latestInterval,
-        itemData.times_purchased,
-      );
-      console.log(lastEstimate);
-      db.collection(token)
-        .doc(id)
-        .update({
-          last_purchased: elapsedMilliseconds,
-          times_purchased: itemData.times_purchased + 1,
-          last_estimate: lastEstimate,
-        });
+      if (itemData.times_purchased === 0) {
+        const initialEstimate = calculateEstimate(
+          itemData.last_estimate,
+          initialInterval,
+          itemData.times_purchased,
+        );
+        db.collection(token)
+          .doc(id)
+          .update({
+            last_purchased: currentTimestamp,
+            times_purchased: itemData.times_purchased + 1,
+            last_estimate: initialEstimate,
+          });
+      } else {
+        const latestEstimate = calculateEstimate(
+          itemData.last_estimate,
+          latestInterval,
+          itemData.times_purchased,
+        );
+        db.collection(token)
+          .doc(id)
+          .update({
+            last_purchased: currentTimestamp,
+            times_purchased: itemData.times_purchased + 1,
+            last_estimate: latestEstimate,
+          });
+      }
     }
   };
 
