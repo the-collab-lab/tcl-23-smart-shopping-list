@@ -60,7 +60,10 @@ export default function List({ token }) {
               {listItem.docs
                 .filter(
                   (doc) =>
-                    doc.data().item_name.includes(filter) || filter === '',
+                    doc
+                      .data()
+                      .item_name.includes(filter.toLowerCase().trim()) ||
+                    filter === '',
                 )
                 .map((doc, index) => (
                   <li key={doc.id} className="checkbox-wrapper">
