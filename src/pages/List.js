@@ -8,10 +8,10 @@ export default function List({ token }) {
   const [listItem, loading, error] = useCollection(db.collection(token), {
     snapshotListenOptions: { includeMetadataChanges: true },
   });
-  const [filter, setFilter] = useState('');
+  const [query, setQuery] = useState('');
 
   function handleReset() {
-    setFilter('');
+    setQuery('');
   }
   const markItemPurchased = (e, id) => {
     const elapsedMilliseconds = Date.now();
@@ -33,13 +33,14 @@ export default function List({ token }) {
     <>
       <h1>This Is Your Grocery List</h1>
       <h2>It uses the token: {token}</h2>
-      <label for="thesearch">
+      <label htmlFor="thesearch">
         Search Grocery List Items
         <input
           type="text"
           placeholder="enter grocery item"
-          value={filter}
-          onChange={(e) => setFilter(e.target.value)}
+          value={query}
+          id="thesearch"
+          onChange={(e) => setQuery(e.target.value)}
         />
         <button onClick={handleReset}>Reset Text Field</button>
       </label>
@@ -60,16 +61,15 @@ export default function List({ token }) {
               {listItem.docs
                 .filter(
                   (doc) =>
-                    doc
-                      .data()
-                      .item_name.includes(filter.toLowerCase().trim()) ||
-                    filter === '',
+                    doc.data().item_name.includes(query.toLowerCase().trim()) ||
+                    query === '',
                 )
                 .map((doc, index) => (
                   <li key={doc.id} className="checkbox-wrapper">
-                    <label for={`grocery-item${++index}`}>
+                    <label htmlFor={`grocery-item${++index}`}>
                       <input
                         type="checkbox"
+                        id={`grocery-item${++index}`}
                         defaultChecked={compareTimeStamps(
                           doc.data().last_purchased,
                         )}
