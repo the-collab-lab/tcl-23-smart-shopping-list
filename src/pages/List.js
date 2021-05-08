@@ -1,6 +1,7 @@
 import { db } from '../lib/firebase';
 import { useCollection } from 'react-firebase-hooks/firestore';
 import { useHistory } from 'react-router-dom';
+import calculateEstimate from '../lib/estimates';
 
 export default function List({ token }) {
   const history = useHistory();
@@ -8,13 +9,39 @@ export default function List({ token }) {
     snapshotListenOptions: { includeMetadataChanges: true },
   });
 
-  const markItemPurchased = (e, id) => {
-    const elapsedMilliseconds = Date.now();
+  const markItemPurchased = (e, id, itemData) => {
+    const currentTimestamp = Date.now();
+    const initialInterval = itemData.purchase_frequency * 86400000;
+    const latestInterval = currentTimestamp - itemData.last_purchased;
 
     if (e.target.checked === true) {
-      db.collection(token).doc(id).update({
-        last_purchased: elapsedMilliseconds,
-      });
+      if (itemData.times_purchased === 0) {
+        const initialEstimate = calculateEstimate(
+          itemData.last_estimate,
+          initialInterval,
+          itemData.times_purchased,
+        );
+        db.collection(token)
+          .doc(id)
+          .update({
+            last_purchased: currentTimestamp,
+            times_purchased: itemData.times_purchased + 1,
+            last_estimate: initialEstimate,
+          });
+      } else {
+        const latestEstimate = calculateEstimate(
+          itemData.last_estimate,
+          latestInterval,
+          itemData.times_purchased,
+        );
+        db.collection(token)
+          .doc(id)
+          .update({
+            last_purchased: currentTimestamp,
+            times_purchased: itemData.times_purchased + 1,
+            last_estimate: latestEstimate,
+          });
+      }
     }
   };
 
@@ -51,7 +78,7 @@ export default function List({ token }) {
                         doc.data().last_purchased,
                       )}
                       disabled={compareTimeStamps(doc.data().last_purchased)}
-                      onClick={(e) => markItemPurchased(e, doc.id)}
+                      onClick={(e) => markItemPurchased(e, doc.id, doc.data())}
                     />
                     {doc.data().item_name}
                   </label>
