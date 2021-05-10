@@ -60,8 +60,17 @@ export default function List({ token }) {
     return currentElapsedMilliseconds - lastPurchased < millisecondsInOneDay;
   }
 
-  function deleteItem(e) {
-    console.log('item deleted', e.target);
+  function deleteItem(id) {
+    if (window.confirm("Are you sure you'd like to delete this item?")) {
+      db.collection(token)
+        .doc(id)
+        .delete()
+        .then(() => {
+          console.log('it was deleted');
+        });
+    } else {
+      console.log('item not deleted');
+    }
   }
   return (
     <>
@@ -114,7 +123,7 @@ export default function List({ token }) {
                         }
                       />
                       {doc.data().item_name}
-                      <button key={doc.id} onClick={(e) => deleteItem(e)}>
+                      <button key={doc.id} onClick={() => deleteItem(doc.id)}>
                         Delete
                       </button>
                     </label>
