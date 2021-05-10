@@ -16,18 +16,14 @@ export default function List({ token }) {
   }
 
   const markItemPurchased = (e, id, itemData) => {
-    const currentTimestamp = Date.now();
-    const initialInterval = itemData.purchase_frequency * 86400000;
+    const currentTimestamp = Math.round(Date.now() / 86400000);
     const latestInterval = currentTimestamp - itemData.last_purchased;
-
-    // const markItemPurchased = (e, id) => {
-    //   const elapsedMilliseconds = Date.now();
 
     if (e.target.checked === true) {
       if (itemData.times_purchased === 0) {
         const initialEstimate = calculateEstimate(
           itemData.last_estimate,
-          initialInterval,
+          itemData.purchase_frequency,
           itemData.times_purchased,
         );
         db.collection(token)
@@ -55,9 +51,8 @@ export default function List({ token }) {
   };
 
   function compareTimeStamps(lastPurchased) {
-    const currentElapsedMilliseconds = Date.now();
-    const millisecondsInOneDay = 86400000;
-    return currentElapsedMilliseconds - lastPurchased < millisecondsInOneDay;
+    const currentTimestamp = Math.round(Date.now() / 86400000);
+    return currentTimestamp - lastPurchased < lastPurchased;
   }
 
   return (
