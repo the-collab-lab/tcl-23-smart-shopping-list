@@ -6,7 +6,7 @@ import calculateEstimate from '../lib/estimates';
 
 export default function List({ token }) {
   const history = useHistory();
-  const [listItem, loading, error] = useCollection(db.collection(token), {
+  const [listItems, loading, error] = useCollection(db.collection(token), {
     snapshotListenOptions: { includeMetadataChanges: true },
   });
   const [query, setQuery] = useState('');
@@ -72,10 +72,10 @@ export default function List({ token }) {
       </label>
       {error && <strong>Error: {JSON.stringify(error)}</strong>}
       {loading && <span>Grocery List: Loading...</span>}
-      {listItem && (
+      {listItems && (
         <>
           <h2>Grocery List:</h2>
-          {listItem.docs.length === 0 ? (
+          {listItems.docs.length === 0 ? (
             <section>
               <p>Your grocery list is currently empty.</p>
               <button onClick={() => history.push('/add-item')}>
@@ -84,7 +84,7 @@ export default function List({ token }) {
             </section>
           ) : (
             <ul>
-              {listItem.docs
+              {listItems.docs
                 .filter(
                   (doc) =>
                     doc.data().item_name.includes(query.toLowerCase().trim()) ||
