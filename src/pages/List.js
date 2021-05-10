@@ -68,6 +68,10 @@ export default function List({ token }) {
     return sortedList;
   };
 
+  const checkForInactiveItem = (item) =>
+    Math.floor(Date.now() / 86400000) - item.data().last_purchased <
+    item.data().last_estimate;
+
   return (
     <>
       <h1>This Is Your Grocery List</h1>
@@ -109,7 +113,10 @@ export default function List({ token }) {
                   if (item.data().times_purchased === 0) {
                     return item.data().purchase_frequency === 7;
                   } else {
-                    return item.data().last_estimate <= 7;
+                    return (
+                      item.data().last_estimate <= 7 &&
+                      checkForInactiveItem(item)
+                    );
                   }
                 })
 
@@ -150,7 +157,8 @@ export default function List({ token }) {
                   } else {
                     return (
                       item.data().last_estimate > 7 &&
-                      item.data().last_estimate <= 14
+                      item.data().last_estimate <= 14 &&
+                      checkForInactiveItem(item)
                     );
                   }
                 })
@@ -192,7 +200,7 @@ export default function List({ token }) {
                   } else {
                     return (
                       item.data().last_estimate > 14 &&
-                      item.data().last_estimate <= 30
+                      checkForInactiveItem(item)
                     );
                   }
                 })
