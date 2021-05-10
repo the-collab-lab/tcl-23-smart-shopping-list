@@ -60,6 +60,9 @@ export default function List({ token }) {
     return currentElapsedMilliseconds - lastPurchased < millisecondsInOneDay;
   }
 
+  function deleteItem(e) {
+    console.log('item deleted', e.target);
+  }
   return (
     <>
       <h1>This Is Your Grocery List</h1>
@@ -111,6 +114,9 @@ export default function List({ token }) {
                         }
                       />
                       {doc.data().item_name}
+                      <button key={doc.id} onClick={(e) => deleteItem(e)}>
+                        Delete
+                      </button>
                     </label>
                   </li>
                 ))}
