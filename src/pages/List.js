@@ -10,28 +10,23 @@ export default function List({ token }) {
     snapshotListenOptions: { includeMetadataChanges: true },
   });
   const [query, setQuery] = useState('');
-  const [alphabetizedListItems, setAlphabetizedListItems] = useState([]);
 
   function handleReset() {
     setQuery('');
   }
 
-  useEffect(() => {
-    if (listItems) {
-      const abcListItems = listItems.docs.sort((a, b) => {
-        if (a.data().item_name < b.data().item_name) {
-          return -1;
-        }
-        if (a.data().item_name > b.data().item_name) {
-          return 1;
-        }
-        return 0;
-      });
-      setAlphabetizedListItems(abcListItems);
-    }
-  }, [setAlphabetizedListItems, listItems]);
-
-  // console.log(listItems.docs.map((doc) => doc.data().item_name));
+  const alphabetizeListItems = (list) => {
+    const sortedList = list.sort((a, b) => {
+      if (a.data().item_name < b.data().item_name) {
+        return -1;
+      }
+      if (a.data().item_name > b.data().item_name) {
+        return 1;
+      }
+      return 0;
+    });
+    return sortedList;
+  };
 
   const markItemPurchased = (e, id, itemData) => {
     const currentTimestamp = Math.round(Date.now() / 86400000);
@@ -102,7 +97,7 @@ export default function List({ token }) {
             </section>
           ) : (
             <ul>
-              {listItems.docs
+              {alphabetizeListItems(listItems.docs)
                 .filter(
                   (doc) =>
                     doc.data().item_name.includes(query.toLowerCase().trim()) ||
