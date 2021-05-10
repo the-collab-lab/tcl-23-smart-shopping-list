@@ -103,7 +103,13 @@ export default function List({ token }) {
                     doc.data().item_name.includes(query.toLowerCase().trim()) ||
                     query === '',
                 )
-                .filter((item) => item.data().last_estimate <= 7)
+                .filter((item) => {
+                  if (item.data().times_purchased === 0) {
+                    return item.data().purchase_frequency === 7;
+                  } else {
+                    return item.data().last_estimate <= 7;
+                  }
+                })
 
                 .map((doc, index) => (
                   <li
@@ -134,11 +140,16 @@ export default function List({ token }) {
                     doc.data().item_name.includes(query.toLowerCase().trim()) ||
                     query === '',
                 )
-                .filter(
-                  (item) =>
-                    item.data().last_estimate > 7 &&
-                    item.data().last_estimate <= 30,
-                )
+                .filter((item) => {
+                  if (item.data().times_purchased === 0) {
+                    return item.data().purchase_frequency === 14;
+                  } else {
+                    return (
+                      item.data().last_estimate > 7 &&
+                      item.data().last_estimate <= 14
+                    );
+                  }
+                })
 
                 .map((doc, index) => (
                   <li
@@ -169,11 +180,16 @@ export default function List({ token }) {
                     doc.data().item_name.includes(query.toLowerCase().trim()) ||
                     query === '',
                 )
-                .filter(
-                  (item) =>
-                    item.data().last_estimate > 30 &&
-                    item.data().last_estimate < item.data().last_estimate * 2,
-                )
+                .filter((item) => {
+                  if (item.data().times_purchased === 0) {
+                    return item.data().purchase_frequency === 30;
+                  } else {
+                    return (
+                      item.data().last_estimate > 14 &&
+                      item.data().last_estimate <= 30
+                    );
+                  }
+                })
 
                 .map((doc, index) => (
                   <li
@@ -206,7 +222,11 @@ export default function List({ token }) {
                 )
                 .filter(
                   (item) =>
-                    item.data().last_estimate >= item.data().last_estimate * 2,
+                    (Math.floor(Date.now() / 86400000) -
+                      item.data().last_purchased) *
+                      2 >
+                      item.data().last_estimate &&
+                    item.data().last_estimate !== null,
                 )
 
                 .map((doc, index) => (
