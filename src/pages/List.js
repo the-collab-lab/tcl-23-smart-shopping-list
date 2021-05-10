@@ -65,7 +65,7 @@ export default function List({ token }) {
 
   function compareTimeStamps(lastPurchased) {
     const currentTimestamp = Math.round(Date.now() / 86400000);
-    return currentTimestamp - lastPurchased < lastPurchased;
+    return currentTimestamp - lastPurchased < 1;
   }
 
   return (
