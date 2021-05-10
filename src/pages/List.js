@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { db } from '../lib/firebase';
 import { useCollection } from 'react-firebase-hooks/firestore';
 import { useHistory } from 'react-router-dom';
@@ -10,10 +10,28 @@ export default function List({ token }) {
     snapshotListenOptions: { includeMetadataChanges: true },
   });
   const [query, setQuery] = useState('');
+  const [alphabetizedListItems, setAlphabetizedListItems] = useState([]);
 
   function handleReset() {
     setQuery('');
   }
+
+  useEffect(() => {
+    if (listItems) {
+      const abcListItems = listItems.docs.sort((a, b) => {
+        if (a.data().item_name < b.data().item_name) {
+          return -1;
+        }
+        if (a.data().item_name > b.data().item_name) {
+          return 1;
+        }
+        return 0;
+      });
+      setAlphabetizedListItems(abcListItems);
+    }
+  }, [setAlphabetizedListItems, listItems]);
+
+  // console.log(listItems.docs.map((doc) => doc.data().item_name));
 
   const markItemPurchased = (e, id, itemData) => {
     const currentTimestamp = Math.round(Date.now() / 86400000);
