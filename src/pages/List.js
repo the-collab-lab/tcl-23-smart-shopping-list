@@ -16,7 +16,7 @@ export default function List({ token }) {
   }
 
   const markItemPurchased = (e, id, itemData) => {
-    const currentTimestamp = Math.round(Date.now() / 86400000);
+    const currentTimestamp = Math.floor(Date.now() / 86400000);
     const latestInterval = currentTimestamp - itemData.last_purchased;
 
     if (e.target.checked === true) {
@@ -51,7 +51,7 @@ export default function List({ token }) {
   };
 
   function compareTimeStamps(lastPurchased) {
-    const currentTimestamp = Math.round(Date.now() / 86400000);
+    const currentTimestamp = Math.floor(Date.now() / 86400000);
     return currentTimestamp - lastPurchased < 1;
   }
 
@@ -103,9 +103,118 @@ export default function List({ token }) {
                     doc.data().item_name.includes(query.toLowerCase().trim()) ||
                     query === '',
                 )
+                .filter((item) => item.data().last_estimate <= 7)
 
                 .map((doc, index) => (
-                  <li key={doc.id} className="checkbox-wrapper">
+                  <li
+                    key={doc.id}
+                    className="checkbox-wrapper"
+                    style={{ color: 'green', fontSize: '1.25rem' }}
+                  >
+                    <label htmlFor={`grocery-item${++index}`}>
+                      <input
+                        type="checkbox"
+                        id={`grocery-item${++index}`}
+                        defaultChecked={compareTimeStamps(
+                          doc.data().last_purchased,
+                        )}
+                        disabled={compareTimeStamps(doc.data().last_purchased)}
+                        onClick={(e) =>
+                          markItemPurchased(e, doc.id, doc.data())
+                        }
+                      />
+                      {doc.data().item_name}
+                    </label>
+                  </li>
+                ))}
+
+              {alphabetizeListItems(listItems.docs)
+                .filter(
+                  (doc) =>
+                    doc.data().item_name.includes(query.toLowerCase().trim()) ||
+                    query === '',
+                )
+                .filter(
+                  (item) =>
+                    item.data().last_estimate > 7 &&
+                    item.data().last_estimate <= 30,
+                )
+
+                .map((doc, index) => (
+                  <li
+                    key={doc.id}
+                    className="checkbox-wrapper"
+                    style={{ color: 'purple', fontSize: '1.25rem' }}
+                  >
+                    <label htmlFor={`grocery-item${++index}`}>
+                      <input
+                        type="checkbox"
+                        id={`grocery-item${++index}`}
+                        defaultChecked={compareTimeStamps(
+                          doc.data().last_purchased,
+                        )}
+                        disabled={compareTimeStamps(doc.data().last_purchased)}
+                        onClick={(e) =>
+                          markItemPurchased(e, doc.id, doc.data())
+                        }
+                      />
+                      {doc.data().item_name}
+                    </label>
+                  </li>
+                ))}
+
+              {alphabetizeListItems(listItems.docs)
+                .filter(
+                  (doc) =>
+                    doc.data().item_name.includes(query.toLowerCase().trim()) ||
+                    query === '',
+                )
+                .filter(
+                  (item) =>
+                    item.data().last_estimate > 30 &&
+                    item.data().last_estimate < item.data().last_estimate * 2,
+                )
+
+                .map((doc, index) => (
+                  <li
+                    key={doc.id}
+                    className="checkbox-wrapper"
+                    style={{ color: 'red', fontSize: '1.25rem' }}
+                  >
+                    <label htmlFor={`grocery-item${++index}`}>
+                      <input
+                        type="checkbox"
+                        id={`grocery-item${++index}`}
+                        defaultChecked={compareTimeStamps(
+                          doc.data().last_purchased,
+                        )}
+                        disabled={compareTimeStamps(doc.data().last_purchased)}
+                        onClick={(e) =>
+                          markItemPurchased(e, doc.id, doc.data())
+                        }
+                      />
+                      {doc.data().item_name}
+                    </label>
+                  </li>
+                ))}
+
+              {alphabetizeListItems(listItems.docs)
+                .filter(
+                  (doc) =>
+                    doc.data().item_name.includes(query.toLowerCase().trim()) ||
+                    query === '',
+                )
+                .filter(
+                  (item) =>
+                    item.data().last_estimate >= item.data().last_estimate * 2,
+                )
+
+                .map((doc, index) => (
+                  <li
+                    key={doc.id}
+                    className="checkbox-wrapper"
+                    style={{ color: 'gray', fontSize: '1.25rem' }}
+                  >
                     <label htmlFor={`grocery-item${++index}`}>
                       <input
                         type="checkbox"
