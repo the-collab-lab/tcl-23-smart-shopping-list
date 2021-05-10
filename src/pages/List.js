@@ -100,8 +100,10 @@ export default function List({ token }) {
               {alphabetizeListItems(listItems.docs)
                 .filter(
                   (doc) =>
-                    doc.data().item_name.includes(query.toLowerCase().trim()) ||
-                    query === '',
+                    doc
+                      .data()
+                      .item_name.toLowerCase()
+                      .includes(query.toLowerCase().trim()) || query === '',
                 )
                 .filter((item) => {
                   if (item.data().times_purchased === 0) {
@@ -137,8 +139,10 @@ export default function List({ token }) {
               {alphabetizeListItems(listItems.docs)
                 .filter(
                   (doc) =>
-                    doc.data().item_name.includes(query.toLowerCase().trim()) ||
-                    query === '',
+                    doc
+                      .data()
+                      .item_name.toLowerCase()
+                      .includes(query.toLowerCase().trim()) || query === '',
                 )
                 .filter((item) => {
                   if (item.data().times_purchased === 0) {
@@ -177,8 +181,10 @@ export default function List({ token }) {
               {alphabetizeListItems(listItems.docs)
                 .filter(
                   (doc) =>
-                    doc.data().item_name.includes(query.toLowerCase().trim()) ||
-                    query === '',
+                    doc
+                      .data()
+                      .item_name.toLowerCase()
+                      .includes(query.toLowerCase().trim()) || query === '',
                 )
                 .filter((item) => {
                   if (item.data().times_purchased === 0) {
@@ -217,8 +223,10 @@ export default function List({ token }) {
               {alphabetizeListItems(listItems.docs)
                 .filter(
                   (doc) =>
-                    doc.data().item_name.includes(query.toLowerCase().trim()) ||
-                    query === '',
+                    doc
+                      .data()
+                      .item_name.toLowerCase()
+                      .includes(query.toLowerCase().trim()) || query === '',
                 )
                 .filter(
                   (item) =>
