@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { db } from '../lib/firebase';
 import { useCollection } from 'react-firebase-hooks/firestore';
 import { useHistory } from 'react-router-dom';
@@ -14,19 +14,6 @@ export default function List({ token }) {
   function handleReset() {
     setQuery('');
   }
-
-  const alphabetizeListItems = (list) => {
-    const sortedList = list.sort((a, b) => {
-      if (a.data().item_name < b.data().item_name) {
-        return -1;
-      }
-      if (a.data().item_name > b.data().item_name) {
-        return 1;
-      }
-      return 0;
-    });
-    return sortedList;
-  };
 
   const markItemPurchased = (e, id, itemData) => {
     const currentTimestamp = Math.round(Date.now() / 86400000);
@@ -67,6 +54,19 @@ export default function List({ token }) {
     const currentTimestamp = Math.round(Date.now() / 86400000);
     return currentTimestamp - lastPurchased < 1;
   }
+
+  const alphabetizeListItems = (list) => {
+    const sortedList = list.sort((a, b) => {
+      if (a.data().item_name < b.data().item_name) {
+        return -1;
+      }
+      if (a.data().item_name > b.data().item_name) {
+        return 1;
+      }
+      return 0;
+    });
+    return sortedList;
+  };
 
   return (
     <>
