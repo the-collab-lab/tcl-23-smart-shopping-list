@@ -126,20 +126,18 @@ export default function List({ token }) {
                     className="checkbox-wrapper"
                     style={{ color: 'green', fontSize: '1.25rem' }}
                   >
-                    <label htmlFor={`grocery-item${++index}`}>
-                      <input
-                        type="checkbox"
-                        id={`grocery-item${++index}`}
-                        defaultChecked={compareTimeStamps(
-                          doc.data().last_purchased,
-                        )}
-                        disabled={compareTimeStamps(doc.data().last_purchased)}
-                        onClick={(e) =>
-                          markItemPurchased(e, doc.id, doc.data())
-                        }
-                      />
-                      {doc.data().item_name}
-                    </label>
+                    <input
+                      type="checkbox"
+                      aria-label={`grocery-item${++index}`}
+                      aria-required="true"
+                      id={`grocery-item${++index}`}
+                      defaultChecked={compareTimeStamps(
+                        doc.data().last_purchased,
+                      )}
+                      disabled={compareTimeStamps(doc.data().last_purchased)}
+                      onClick={(e) => markItemPurchased(e, doc.id, doc.data())}
+                    />
+                    {doc.data().item_name}
                   </li>
                 ))}
 
@@ -169,20 +167,18 @@ export default function List({ token }) {
                     className="checkbox-wrapper"
                     style={{ color: 'purple', fontSize: '1.25rem' }}
                   >
-                    <label htmlFor={`grocery-item${++index}`}>
-                      <input
-                        type="checkbox"
-                        id={`grocery-item${++index}`}
-                        defaultChecked={compareTimeStamps(
-                          doc.data().last_purchased,
-                        )}
-                        disabled={compareTimeStamps(doc.data().last_purchased)}
-                        onClick={(e) =>
-                          markItemPurchased(e, doc.id, doc.data())
-                        }
-                      />
-                      {doc.data().item_name}
-                    </label>
+                    <input
+                      type="checkbox"
+                      aria-label={`grocery-item${++index}`}
+                      aria-required="true"
+                      id={`grocery-item${++index}`}
+                      defaultChecked={compareTimeStamps(
+                        doc.data().last_purchased,
+                      )}
+                      disabled={compareTimeStamps(doc.data().last_purchased)}
+                      onClick={(e) => markItemPurchased(e, doc.id, doc.data())}
+                    />
+                    {doc.data().item_name}
                   </li>
                 ))}
 
@@ -211,20 +207,18 @@ export default function List({ token }) {
                     className="checkbox-wrapper"
                     style={{ color: 'red', fontSize: '1.25rem' }}
                   >
-                    <label htmlFor={`grocery-item${++index}`}>
-                      <input
-                        type="checkbox"
-                        id={`grocery-item${++index}`}
-                        defaultChecked={compareTimeStamps(
-                          doc.data().last_purchased,
-                        )}
-                        disabled={compareTimeStamps(doc.data().last_purchased)}
-                        onClick={(e) =>
-                          markItemPurchased(e, doc.id, doc.data())
-                        }
-                      />
-                      {doc.data().item_name}
-                    </label>
+                    <input
+                      type="checkbox"
+                      aria-label={`grocery-item${++index}`}
+                      aria-required="true"
+                      id={`grocery-item${++index}`}
+                      defaultChecked={compareTimeStamps(
+                        doc.data().last_purchased,
+                      )}
+                      disabled={compareTimeStamps(doc.data().last_purchased)}
+                      onClick={(e) => markItemPurchased(e, doc.id, doc.data())}
+                    />
+                    {doc.data().item_name}
                   </li>
                 ))}
 
