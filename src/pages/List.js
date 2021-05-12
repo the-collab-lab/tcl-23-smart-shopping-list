@@ -92,7 +92,7 @@ export default function List({ token }) {
       {listItem && (
         <>
           <h2>Grocery List:</h2>
-          {listItem.docs.length === 0 ? (
+          {listItem.docs.length < 2 ? (
             <section>
               <p>Your grocery list is currently empty.</p>
               <button onClick={() => history.push('/add-item')}>
@@ -102,11 +102,17 @@ export default function List({ token }) {
           ) : (
             <ul>
               {listItem.docs
-                .filter(
-                  (doc) =>
-                    doc.data().item_name.includes(query.toLowerCase().trim()) ||
-                    query === '',
-                )
+                .filter((doc) => {
+                  if (doc.data().item_name) {
+                    return (
+                      doc
+                        .data()
+                        .item_name.includes(query.toLowerCase().trim()) ||
+                      query === ''
+                    );
+                  }
+                  return false;
+                })
 
                 .map((doc, index) => (
                   <li key={doc.id} className="checkbox-wrapper">

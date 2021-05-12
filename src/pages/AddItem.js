@@ -30,9 +30,12 @@ export default function AddItem({ token }) {
     const normalizedUserInput = normalizeString(itemName);
 
     const matchingItemName = listItems.docs.filter((doc) => {
-      const normalizedDatabaseItem = normalizeString(doc.data().item_name);
+      if (doc.data().item_name) {
+        const normalizedDatabaseItem = normalizeString(doc.data().item_name);
 
-      return normalizedDatabaseItem === normalizedUserInput;
+        return normalizedDatabaseItem === normalizedUserInput;
+      }
+      return false;
     });
 
     return matchingItemName.length !== 0;
