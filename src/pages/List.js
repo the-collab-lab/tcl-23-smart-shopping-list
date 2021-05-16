@@ -182,18 +182,22 @@ export default function List({ token }) {
                     className="checkbox-wrapper"
                     style={{ color: 'green', fontSize: '1.25rem' }}
                   >
-                    <input
-                      type="checkbox"
-                      aria-label={doc.data().item_name}
-                      aria-required="true"
-                      id={`grocery-item${++index}`}
-                      defaultChecked={compareTimeStamps(
-                        doc.data().last_purchased,
-                      )}
-                      disabled={compareTimeStamps(doc.data().last_purchased)}
-                      onClick={(e) => markItemPurchased(e, doc.id, doc.data())}
-                    />
-                    {doc.data().item_name}
+                    <label>
+                      <input
+                        type="checkbox"
+                        // aria-label={doc.data().item_name}
+                        // aria-required="true"
+                        id={`grocery-item${++index}`}
+                        defaultChecked={compareTimeStamps(
+                          doc.data().last_purchased,
+                        )}
+                        disabled={compareTimeStamps(doc.data().last_purchased)}
+                        onClick={(e) =>
+                          markItemPurchased(e, doc.id, doc.data())
+                        }
+                      />
+                      {doc.data().item_name}
+                    </label>
                   </li>
                 ))}
 
@@ -223,18 +227,22 @@ export default function List({ token }) {
                     className="checkbox-wrapper"
                     style={{ color: 'purple', fontSize: '1.25rem' }}
                   >
-                    <input
-                      type="checkbox"
-                      aria-label={doc.data().item_name}
-                      aria-required="true"
-                      id={`grocery-item${++index}`}
-                      defaultChecked={compareTimeStamps(
-                        doc.data().last_purchased,
-                      )}
-                      disabled={compareTimeStamps(doc.data().last_purchased)}
-                      onClick={(e) => markItemPurchased(e, doc.id, doc.data())}
-                    />
-                    {doc.data().item_name}
+                    <label>
+                      <input
+                        type="checkbox"
+                        // aria-label={doc.data().item_name}
+                        // aria-required="true"
+                        id={`grocery-item${++index}`}
+                        defaultChecked={compareTimeStamps(
+                          doc.data().last_purchased,
+                        )}
+                        disabled={compareTimeStamps(doc.data().last_purchased)}
+                        onClick={(e) =>
+                          markItemPurchased(e, doc.id, doc.data())
+                        }
+                      />
+                      {doc.data().item_name}
+                    </label>
                   </li>
                 ))}
 
@@ -263,18 +271,22 @@ export default function List({ token }) {
                     className="checkbox-wrapper"
                     style={{ color: 'red', fontSize: '1.25rem' }}
                   >
-                    <input
-                      type="checkbox"
-                      aria-label={doc.data().item_name}
-                      aria-required="true"
-                      id={`grocery-item${++index}`}
-                      defaultChecked={compareTimeStamps(
-                        doc.data().last_purchased,
-                      )}
-                      disabled={compareTimeStamps(doc.data().last_purchased)}
-                      onClick={(e) => markItemPurchased(e, doc.id, doc.data())}
-                    />
-                    {doc.data().item_name}
+                    <label>
+                      <input
+                        type="checkbox"
+                        // aria-label={doc.data().item_name}
+                        // aria-required="true"
+                        id={`grocery-item${++index}`}
+                        defaultChecked={compareTimeStamps(
+                          doc.data().last_purchased,
+                        )}
+                        disabled={compareTimeStamps(doc.data().last_purchased)}
+                        onClick={(e) =>
+                          markItemPurchased(e, doc.id, doc.data())
+                        }
+                      />
+                      {doc.data().item_name}
+                    </label>
                   </li>
                 ))}
 
@@ -294,10 +306,10 @@ export default function List({ token }) {
                     className="checkbox-wrapper"
                     style={{ color: 'gray', fontSize: '1.25rem' }}
                   >
-                    <label htmlFor={`grocery-item${++index}`}>
+                    <label>
                       <input
                         type="checkbox"
-                        aria-label={doc.data().item_name}
+                        // aria-label={doc.data().item_name}
                         id={`grocery-item${++index}`}
                         defaultChecked={compareTimeStamps(
                           doc.data().last_purchased,
