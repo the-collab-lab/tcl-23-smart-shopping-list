@@ -168,8 +168,8 @@ export default function List({ token }) {
                     return item.data().purchase_frequency === 7;
                   } else {
                     return (
-                      item.data().last_estimate <= 7 &&
-                      checkForInactiveItem(item)
+                      item.data().last_estimate < 7 &&
+                      !checkForInactiveItem(item.data())
                     );
                   }
                 })
@@ -208,9 +208,9 @@ export default function List({ token }) {
                     return item.data().purchase_frequency === 14;
                   } else {
                     return (
-                      item.data().last_estimate > 7 &&
-                      item.data().last_estimate <= 14 &&
-                      checkForInactiveItem(item)
+                      (item.data().last_estimate >= 7 ||
+                        item.data().last_estimate <= 30) &&
+                      !checkForInactiveItem(item.data())
                     );
                   }
                 })
@@ -249,8 +249,8 @@ export default function List({ token }) {
                     return item.data().purchase_frequency === 30;
                   } else {
                     return (
-                      item.data().last_estimate > 14 &&
-                      checkForInactiveItem(item)
+                      item.data().last_estimate > 30 &&
+                      !checkForInactiveItem(item.data())
                     );
                   }
                 })
