@@ -100,6 +100,7 @@ export default function List({ token }) {
   };
 
   const checkForInactiveItem = (item) => {
+    // pass in the item and create a variable for item.data() here
     if (item.times_purchased === 1) {
       return true;
     }
