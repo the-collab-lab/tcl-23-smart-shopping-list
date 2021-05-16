@@ -100,11 +100,29 @@ export default function List({ token }) {
   };
 
   const checkForInactiveItem = (item) => {
-    console.log(item);
     if (item.times_purchased === 1) {
       return true;
     }
 
+    // use DateTime package to get current time
+    const now = DateTime.now();
+
+    // initialize how many milliseconds there are in a day for calculation
+    const millisecondsInADay = 86400000;
+
+    // convert now to days
+    const nowInDays = Math.floor(now.ts / millisecondsInADay);
+
+    // do the same conversion for last_purchased as lastPurchased
+    const lastPurchasedToDays = Math.floor(
+      DateTime.fromISO(item.last_purchased).ts / millisecondsInADay,
+    );
+    const doubleLastEstimate = item.last_estimate * 2;
+    const timeEllapsed = nowInDays - lastPurchasedToDays;
+
+    if (timeEllapsed > doubleLastEstimate) {
+      return true;
+    }
     return false;
   };
 
