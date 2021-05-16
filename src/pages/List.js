@@ -3,6 +3,7 @@ import { db } from '../lib/firebase';
 import { useCollection } from 'react-firebase-hooks/firestore';
 import { useHistory } from 'react-router-dom';
 import calculateEstimate from '../lib/estimates';
+import { DateTime } from 'luxon';
 
 export default function List({ token }) {
   const history = useHistory();
@@ -16,24 +17,35 @@ export default function List({ token }) {
   }
 
   const markItemPurchased = (e, id, itemData) => {
-    // currentTimeInMilliseconds is used to update the last_purchased property for greater accurary
-    const currentTimeInMilliseconds = Date.now();
-    const latestInterval = currentTimeInMilliseconds - itemData.last_purchased;
+    // use DateTime package to get current time
+    const now = DateTime.now();
+    // convert now to readable format for the database
+    const formattedNow = now.toLocaleString(DateTime.DATETIME_MED);
+    // initialize how many milliseconds there are in a day for calculation
+    const millisecondsInADay = 86400000;
+
+    // because last_estimate is an integer representing days, convert now to days
+    const nowInDays = Math.floor(
+      DateTime.fromISO(formattedNow).ts / millisecondsInADay,
+    );
+
+    // do the same conversion for last_purchased
+    const lastPurchasedToDays = Math.floor(
+      DateTime.fromISO(itemData.last_purchased).ts / millisecondsInADay,
+    );
+
+    // determine the amount of days between last marked purchased
+    const latestInterval = nowInDays - lastPurchasedToDays;
 
     if (e.target.checked === true) {
       // if an item does has not yet been purchased, there isn't a last_estimate value, so we initialize with the user's selected purchase_frequency
       if (itemData.times_purchased === 0) {
-        const initialEstimate = calculateEstimate(
-          itemData.last_estimate,
-          itemData.purchase_frequency,
-          itemData.times_purchased,
-        );
         db.collection(token)
           .doc(id)
           .update({
-            last_purchased: currentTimeInMilliseconds,
+            last_purchased: formattedNow,
             times_purchased: itemData.times_purchased + 1,
-            last_estimate: initialEstimate,
+            last_estimate: itemData.purchase_frequency,
           });
         // if an item has at least 1 times_purchased, we use the last_estimate property to update the database last_estimate property
       } else {
@@ -45,7 +57,7 @@ export default function List({ token }) {
         db.collection(token)
           .doc(id)
           .update({
-            last_purchased: currentTimeInMilliseconds,
+            last_purchased: formattedNow,
             times_purchased: itemData.times_purchased + 1,
             last_estimate: latestEstimate,
           });
@@ -114,16 +126,16 @@ export default function List({ token }) {
                       .item_name.toLowerCase()
                       .includes(query.toLowerCase().trim()) || query === '',
                 )
-                .filter((item) => {
-                  if (item.data().times_purchased === 0) {
-                    return item.data().purchase_frequency === 7;
-                  } else {
-                    return (
-                      item.data().last_estimate <= 7 &&
-                      checkForInactiveItem(item)
-                    );
-                  }
-                })
+                // .filter((item) => {
+                //   if (item.data().times_purchased === 0) {
+                //     return item.data().purchase_frequency === 7;
+                //   } else {
+                //     return (
+                //       item.data().last_estimate <= 7 &&
+                //       checkForInactiveItem(item)
+                //     );
+                //   }
+                // })
 
                 .map((doc, index) => (
                   <li
@@ -136,10 +148,10 @@ export default function List({ token }) {
                       aria-label={`grocery-item${++index}`}
                       aria-required="true"
                       id={`grocery-item${++index}`}
-                      defaultChecked={compareTimeStamps(
-                        doc.data().last_purchased,
-                      )}
-                      disabled={compareTimeStamps(doc.data().last_purchased)}
+                      // defaultChecked={compareTimeStamps(
+                      //   doc.data().last_purchased,
+                      // )}
+                      // disabled={compareTimeStamps(doc.data().last_purchased)}
                       onClick={(e) => markItemPurchased(e, doc.id, doc.data())}
                     />
                     {doc.data().item_name}
