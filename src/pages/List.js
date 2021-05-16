@@ -16,11 +16,12 @@ export default function List({ token }) {
   }
 
   const markItemPurchased = (e, id, itemData) => {
-    // currentTimeInDays takes the number of milliseconds since January 1, 1970 and converts to days
-    const currentTimeInDays = Math.floor(Date.now() / 86400000);
-    const latestInterval = currentTimeInDays - itemData.last_purchased;
+    // currentTimeInMilliseconds is used to update the last_purchased property for greater accurary
+    const currentTimeInMilliseconds = Date.now();
+    const latestInterval = currentTimeInMilliseconds - itemData.last_purchased;
 
     if (e.target.checked === true) {
+      // if an item does has not yet been purchased, there isn't a last_estimate value, so we initialize with the user's selected purchase_frequency
       if (itemData.times_purchased === 0) {
         const initialEstimate = calculateEstimate(
           itemData.last_estimate,
@@ -30,10 +31,11 @@ export default function List({ token }) {
         db.collection(token)
           .doc(id)
           .update({
-            last_purchased: currentTimeInDays,
+            last_purchased: currentTimeInMilliseconds,
             times_purchased: itemData.times_purchased + 1,
             last_estimate: initialEstimate,
           });
+        // if an item has at least 1 times_purchased, we use the last_estimate property to update the database last_estimate property
       } else {
         const latestEstimate = calculateEstimate(
           itemData.last_estimate,
@@ -43,7 +45,7 @@ export default function List({ token }) {
         db.collection(token)
           .doc(id)
           .update({
-            last_purchased: currentTimeInDays,
+            last_purchased: currentTimeInMilliseconds,
             times_purchased: itemData.times_purchased + 1,
             last_estimate: latestEstimate,
           });
@@ -52,8 +54,10 @@ export default function List({ token }) {
   };
 
   function compareTimeStamps(lastPurchased) {
-    const currentTimeInDays = Math.floor(Date.now() / 86400000);
-    return currentTimeInDays - lastPurchased < 1;
+    // currentTimeInMilliseconds is used to compare the last_purchased property and make sure that it is less a day in milliseconds
+    const currentTimeInMilliseconds = Date.now();
+    const oneDayInMilliseconds = 86400000;
+    return currentTimeInMilliseconds - lastPurchased < oneDayInMilliseconds;
   }
 
   const alphabetizeListItems = (list) => {
