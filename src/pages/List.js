@@ -184,7 +184,7 @@ export default function List({ token }) {
                   >
                     <input
                       type="checkbox"
-                      aria-label={`grocery-item${++index}`}
+                      aria-label={doc.data().item_name}
                       aria-required="true"
                       id={`grocery-item${++index}`}
                       defaultChecked={compareTimeStamps(
@@ -225,7 +225,7 @@ export default function List({ token }) {
                   >
                     <input
                       type="checkbox"
-                      aria-label={`grocery-item${++index}`}
+                      aria-label={doc.data().item_name}
                       aria-required="true"
                       id={`grocery-item${++index}`}
                       defaultChecked={compareTimeStamps(
@@ -265,7 +265,7 @@ export default function List({ token }) {
                   >
                     <input
                       type="checkbox"
-                      aria-label={`grocery-item${++index}`}
+                      aria-label={doc.data().item_name}
                       aria-required="true"
                       id={`grocery-item${++index}`}
                       defaultChecked={compareTimeStamps(
@@ -297,6 +297,7 @@ export default function List({ token }) {
                     <label htmlFor={`grocery-item${++index}`}>
                       <input
                         type="checkbox"
+                        aria-label={doc.data().item_name}
                         id={`grocery-item${++index}`}
                         defaultChecked={compareTimeStamps(
                           doc.data().last_purchased,
