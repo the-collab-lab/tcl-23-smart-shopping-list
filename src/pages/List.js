@@ -19,15 +19,14 @@ export default function List({ token }) {
   const markItemPurchased = (e, id, itemData) => {
     // use DateTime package to get current time
     const now = DateTime.now();
-    // convert now to readable format for the database
-    const formattedNow = now.toLocaleString(DateTime.DATETIME_MED);
+    // convert now to readable ISO string
+    const nowToString = now.toString();
+
     // initialize how many milliseconds there are in a day for calculation
     const millisecondsInADay = 86400000;
 
     // because last_estimate is an integer representing days, convert now to days
-    const nowInDays = Math.floor(
-      DateTime.fromISO(formattedNow).ts / millisecondsInADay,
-    );
+    const nowInDays = Math.floor(now.ts / millisecondsInADay);
 
     // do the same conversion for last_purchased
     const lastPurchasedToDays = Math.floor(
@@ -43,7 +42,7 @@ export default function List({ token }) {
         db.collection(token)
           .doc(id)
           .update({
-            last_purchased: formattedNow,
+            last_purchased: nowToString,
             times_purchased: itemData.times_purchased + 1,
             last_estimate: itemData.purchase_frequency,
           });
@@ -57,7 +56,7 @@ export default function List({ token }) {
         db.collection(token)
           .doc(id)
           .update({
-            last_purchased: formattedNow,
+            last_purchased: nowToString,
             times_purchased: itemData.times_purchased + 1,
             last_estimate: latestEstimate,
           });
@@ -69,23 +68,26 @@ export default function List({ token }) {
     // first check to see if lastPurchased === null in database
     if (lastPurchased === null) {
       return false;
-    } else {
-      // use DateTime package to get current time
-      const now = DateTime.now();
-
-      // initialize how many milliseconds there are in a day for calculation
-      const millisecondsInADay = 86400000;
-
-      // convert now to days
-      const nowInDays = Math.floor(now.ts / millisecondsInADay);
-
-      // do the same conversion for last_purchased as lastPurchased
-      const lastPurchasedToDays = Math.floor(
-        DateTime.fromISO(lastPurchased).ts / millisecondsInADay,
-      );
-
-      return nowInDays - lastPurchasedToDays === 0;
     }
+    // use DateTime package to get current time
+    const now = DateTime.now();
+
+    // initialize how many milliseconds there are in a day for calculation
+    const millisecondsInADay = 86400000;
+
+    // convert now to days
+    const nowInDays = Math.floor(now.ts / millisecondsInADay);
+
+    // do the same conversion for last_purchased as lastPurchased
+    // this parse isn't accepting the format from database. Need to parse differently
+    // it appears to be parsing the time now as it happens, but I just want the conversion back to milliseconds
+    const lastPurchasedToDays = Math.floor(
+      DateTime.fromISO(lastPurchased).ts / millisecondsInADay,
+    );
+
+    console.log(nowInDays, lastPurchasedToDays);
+
+    return nowInDays - lastPurchasedToDays === 0;
   }
 
   const alphabetizeListItems = (list) => {
@@ -142,16 +144,16 @@ export default function List({ token }) {
                       .item_name.toLowerCase()
                       .includes(query.toLowerCase().trim()) || query === '',
                 )
-                // .filter((item) => {
-                //   if (item.data().times_purchased === 0) {
-                //     return item.data().purchase_frequency === 7;
-                //   } else {
-                //     return (
-                //       item.data().last_estimate <= 7 &&
-                //       checkForInactiveItem(item)
-                //     );
-                //   }
-                // })
+                .filter((item) => {
+                  if (item.data().times_purchased === 0) {
+                    return item.data().purchase_frequency === 7;
+                  } else {
+                    return (
+                      item.data().last_estimate <= 7 &&
+                      checkForInactiveItem(item)
+                    );
+                  }
+                })
 
                 .map((doc, index) => (
                   <li
