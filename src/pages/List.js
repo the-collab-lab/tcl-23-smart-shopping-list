@@ -19,6 +19,7 @@ export default function List({ token }) {
   const markItemPurchased = (e, id, itemData) => {
     // use DateTime package to get current time
     const now = DateTime.now();
+
     // convert now to readable ISO string
     const nowToString = now.toString();
 
