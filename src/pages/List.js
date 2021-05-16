@@ -79,13 +79,9 @@ export default function List({ token }) {
     const nowInDays = Math.floor(now.ts / millisecondsInADay);
 
     // do the same conversion for last_purchased as lastPurchased
-    // this parse isn't accepting the format from database. Need to parse differently
-    // it appears to be parsing the time now as it happens, but I just want the conversion back to milliseconds
     const lastPurchasedToDays = Math.floor(
       DateTime.fromISO(lastPurchased).ts / millisecondsInADay,
     );
-
-    console.log(nowInDays, lastPurchasedToDays);
 
     return nowInDays - lastPurchasedToDays === 0;
   }
@@ -103,9 +99,14 @@ export default function List({ token }) {
     return sortedList;
   };
 
-  const checkForInactiveItem = (item) =>
-    Math.floor(Date.now() / 86400000) - item.data().last_purchased <
-    item.data().last_estimate;
+  const checkForInactiveItem = (item) => {
+    console.log(item);
+    if (item.times_purchased === 1) {
+      return true;
+    }
+
+    return false;
+  };
 
   return (
     <>
@@ -265,14 +266,7 @@ export default function List({ token }) {
                       .item_name.toLowerCase()
                       .includes(query.toLowerCase().trim()) || query === '',
                 )
-                .filter(
-                  (item) =>
-                    (Math.floor(Date.now() / 86400000) -
-                      item.data().last_purchased) *
-                      2 >
-                      item.data().last_estimate &&
-                    item.data().last_estimate !== null,
-                )
+                .filter((item) => checkForInactiveItem(item.data()))
 
                 .map((doc, index) => (
                   <li
