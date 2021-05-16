@@ -3,7 +3,7 @@ import getToken from '../lib/tokens';
 import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { db } from '../lib/firebase';
-import swal from 'sweetalert';
+import Swal from 'sweetalert2';
 
 export default function Home(props) {
   const history = useHistory();
@@ -13,11 +13,11 @@ export default function Home(props) {
     const token = getToken();
     addKeyValuePairToLocalStorage('token', token);
     props.setToken(token);
-    swal(
-      'List successfully created!',
-      `Your new token is "${token}".`,
-      'success',
-    );
+    Swal.fire({
+      icon: 'success',
+      title: 'List successfully created!',
+      text: `Your new token is "${token}"`,
+    });
     history.push('/list');
   }
 
@@ -28,17 +28,21 @@ export default function Home(props) {
   function checkExistingToken(e) {
     e.preventDefault();
     if (!inputValue) {
-      return swal('Please enter your token!', 'Input is empty', 'error');
+      return Swal.fire({
+        icon: 'error',
+        title: 'Please enter your token.',
+        text: 'Input is empty',
+      });
     }
     db.collection(inputValue.trim())
       .get()
       .then((snap) => {
         if (snap.empty) {
-          swal(
-            'Token not found!',
-            'Please try again or start a new list!',
-            'error',
-          );
+          Swal.fire({
+            icon: 'error',
+            title: 'Token not found',
+            text: 'Please try again or start a new list!',
+          });
         } else {
           addKeyValuePairToLocalStorage('token', inputValue);
           props.setToken(inputValue);

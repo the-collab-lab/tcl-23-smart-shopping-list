@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { db } from '../lib/firebase';
 import { useCollection } from 'react-firebase-hooks/firestore';
 import { useHistory } from 'react-router-dom';
+import Swal from 'sweetalert2';
 import calculateEstimate from '../lib/estimates';
 
 export default function List({ token }) {
@@ -60,6 +61,22 @@ export default function List({ token }) {
     return currentElapsedMilliseconds - lastPurchased < millisecondsInOneDay;
   }
 
+  function deleteItem(id) {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire('Deleted!', 'Your item has been deleted.', 'success');
+        db.collection(token).doc(id).delete();
+      }
+    });
+  }
   return (
     <>
       <h1>This Is Your Grocery List</h1>
@@ -111,6 +128,9 @@ export default function List({ token }) {
                         }
                       />
                       {doc.data().item_name}
+                      <button key={doc.id} onClick={() => deleteItem(doc.id)}>
+                        Delete
+                      </button>
                     </label>
                   </li>
                 ))}
