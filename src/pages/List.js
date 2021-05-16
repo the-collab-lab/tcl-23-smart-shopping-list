@@ -34,7 +34,7 @@ export default function List({ token }) {
       DateTime.fromISO(itemData.last_purchased).ts / millisecondsInADay,
     );
 
-    // determine the amount of days between last marked purchased
+    // determine the amount of days between now and when item was last marked purchased
     const latestInterval = nowInDays - lastPurchasedToDays;
 
     if (e.target.checked === true) {
@@ -66,10 +66,26 @@ export default function List({ token }) {
   };
 
   function compareTimeStamps(lastPurchased) {
-    // currentTimeInMilliseconds is used to compare the last_purchased property and make sure that it is less a day in milliseconds
-    const currentTimeInMilliseconds = Date.now();
-    const oneDayInMilliseconds = 86400000;
-    return currentTimeInMilliseconds - lastPurchased < oneDayInMilliseconds;
+    // first check to see if lastPurchased === null in database
+    if (lastPurchased === null) {
+      return false;
+    } else {
+      // use DateTime package to get current time
+      const now = DateTime.now();
+
+      // initialize how many milliseconds there are in a day for calculation
+      const millisecondsInADay = 86400000;
+
+      // convert now to days
+      const nowInDays = Math.floor(now.ts / millisecondsInADay);
+
+      // do the same conversion for last_purchased as lastPurchased
+      const lastPurchasedToDays = Math.floor(
+        DateTime.fromISO(lastPurchased).ts / millisecondsInADay,
+      );
+
+      return nowInDays - lastPurchasedToDays === 0;
+    }
   }
 
   const alphabetizeListItems = (list) => {
@@ -148,10 +164,10 @@ export default function List({ token }) {
                       aria-label={`grocery-item${++index}`}
                       aria-required="true"
                       id={`grocery-item${++index}`}
-                      // defaultChecked={compareTimeStamps(
-                      //   doc.data().last_purchased,
-                      // )}
-                      // disabled={compareTimeStamps(doc.data().last_purchased)}
+                      defaultChecked={compareTimeStamps(
+                        doc.data().last_purchased,
+                      )}
+                      disabled={compareTimeStamps(doc.data().last_purchased)}
                       onClick={(e) => markItemPurchased(e, doc.id, doc.data())}
                     />
                     {doc.data().item_name}
