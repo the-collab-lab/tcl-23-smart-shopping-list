@@ -16,8 +16,9 @@ export default function List({ token }) {
   }
 
   const markItemPurchased = (e, id, itemData) => {
-    const currentTimestamp = Math.floor(Date.now() / 86400000);
-    const latestInterval = currentTimestamp - itemData.last_purchased;
+    // currentTimeInDays takes the number of milliseconds since January 1, 1970 and converts to days
+    const currentTimeInDays = Math.floor(Date.now() / 86400000);
+    const latestInterval = currentTimeInDays - itemData.last_purchased;
 
     if (e.target.checked === true) {
       if (itemData.times_purchased === 0) {
@@ -29,7 +30,7 @@ export default function List({ token }) {
         db.collection(token)
           .doc(id)
           .update({
-            last_purchased: currentTimestamp,
+            last_purchased: currentTimeInDays,
             times_purchased: itemData.times_purchased + 1,
             last_estimate: initialEstimate,
           });
@@ -42,7 +43,7 @@ export default function List({ token }) {
         db.collection(token)
           .doc(id)
           .update({
-            last_purchased: currentTimestamp,
+            last_purchased: currentTimeInDays,
             times_purchased: itemData.times_purchased + 1,
             last_estimate: latestEstimate,
           });
@@ -51,8 +52,8 @@ export default function List({ token }) {
   };
 
   function compareTimeStamps(lastPurchased) {
-    const currentTimestamp = Math.floor(Date.now() / 86400000);
-    return currentTimestamp - lastPurchased < 1;
+    const currentTimeInDays = Math.floor(Date.now() / 86400000);
+    return currentTimeInDays - lastPurchased < 1;
   }
 
   const alphabetizeListItems = (list) => {
