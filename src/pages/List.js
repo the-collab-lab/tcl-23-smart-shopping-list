@@ -38,7 +38,7 @@ export default function List({ token }) {
     const latestInterval = nowInDays - lastPurchasedToDays;
 
     if (e.target.checked === true) {
-      // if an item does has not yet been purchased, there isn't a last_estimate value, so we initialize with the user's selected purchase_frequency
+      // if an item has not yet been purchased, last_estimate has no value, so we initialize with the user's selected purchase_frequency
       if (itemData.times_purchased === 0) {
         db.collection(token)
           .doc(id)
