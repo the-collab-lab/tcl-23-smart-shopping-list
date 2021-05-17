@@ -167,6 +167,7 @@ export default function List({ token }) {
                       .item_name.toLowerCase()
                       .includes(query.toLowerCase().trim()) || query === '',
                 )
+                // filter items that have a last_estimate of less than 7 days
                 .filter((item) => {
                   if (item.data().times_purchased === 0) {
                     return item.data().purchase_frequency === 7;
@@ -204,6 +205,7 @@ export default function List({ token }) {
                       .item_name.toLowerCase()
                       .includes(query.toLowerCase().trim()) || query === '',
                 )
+                // filter items that have have a last_estimate between 7 or more and 30 or less days
                 .filter((item) => {
                   if (item.data().times_purchased === 0) {
                     return item.data().purchase_frequency === 14;
@@ -243,6 +245,7 @@ export default function List({ token }) {
                       .item_name.toLowerCase()
                       .includes(query.toLowerCase().trim()) || query === '',
                 )
+                // filter items that have a last_estimate of more than 30 days
                 .filter((item) => {
                   if (item.data().times_purchased === 0) {
                     return item.data().purchase_frequency === 30;
@@ -281,6 +284,7 @@ export default function List({ token }) {
                       .item_name.toLowerCase()
                       .includes(query.toLowerCase().trim()) || query === '',
                 )
+                // filter items that return true from checkForInactiveItem()
                 .filter((item) => checkForInactiveItem(item))
 
                 .map((doc) => (
