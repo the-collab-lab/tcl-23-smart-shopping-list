@@ -102,7 +102,9 @@ export default function List({ token }) {
 
   const checkForInactiveItem = (item) => {
     // pass in the item and create a variable for item.data() here
-    if (item.times_purchased === 1) {
+    const itemData = item.data();
+
+    if (itemData.times_purchased === 1) {
       return true;
     }
 
@@ -117,9 +119,9 @@ export default function List({ token }) {
 
     // do the same conversion for last_purchased as lastPurchased
     const lastPurchasedToDays = Math.floor(
-      DateTime.fromISO(item.last_purchased).ts / millisecondsInADay,
+      DateTime.fromISO(itemData.last_purchased).ts / millisecondsInADay,
     );
-    const doubleLastEstimate = item.last_estimate * 2;
+    const doubleLastEstimate = itemData.last_estimate * 2;
     const timeEllapsed = nowInDays - lastPurchasedToDays;
 
     if (timeEllapsed > doubleLastEstimate) {
@@ -171,7 +173,7 @@ export default function List({ token }) {
                   } else {
                     return (
                       item.data().last_estimate < 7 &&
-                      !checkForInactiveItem(item.data())
+                      !checkForInactiveItem(item)
                     );
                   }
                 })
@@ -216,7 +218,7 @@ export default function List({ token }) {
                     return (
                       item.data().last_estimate >= 7 &&
                       item.data().last_estimate <= 30 &&
-                      !checkForInactiveItem(item.data())
+                      !checkForInactiveItem(item)
                     );
                   }
                 })
@@ -260,7 +262,7 @@ export default function List({ token }) {
                   } else {
                     return (
                       item.data().last_estimate > 30 &&
-                      !checkForInactiveItem(item.data())
+                      !checkForInactiveItem(item)
                     );
                   }
                 })
@@ -298,7 +300,7 @@ export default function List({ token }) {
                       .item_name.toLowerCase()
                       .includes(query.toLowerCase().trim()) || query === '',
                 )
-                .filter((item) => checkForInactiveItem(item.data()))
+                .filter((item) => checkForInactiveItem(item))
 
                 .map((doc, index) => (
                   <li
