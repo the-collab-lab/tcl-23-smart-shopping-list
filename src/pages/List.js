@@ -136,17 +136,16 @@ export default function List({ token }) {
     <>
       <h1>This Is Your Grocery List</h1>
       <h2>It uses the token: {token}</h2>
-      <label htmlFor="thesearch">
-        Search Grocery List Items
-        <input
-          type="text"
-          placeholder="enter grocery item"
-          value={query}
-          id="thesearch"
-          onChange={(e) => setQuery(e.target.value)}
-        />
-        <button onClick={handleReset}>Reset Text Field</button>
-      </label>
+      <label htmlFor="thesearch">Search Grocery List Items </label>
+      <input
+        type="text"
+        placeholder="enter grocery item"
+        value={query}
+        id="thesearch"
+        onChange={(e) => setQuery(e.target.value)}
+      />
+      <button onClick={handleReset}>Reset Text Field</button>
+
       {error && <strong>Error: {JSON.stringify(error)}</strong>}
       {loading && <span>Grocery List: Loading...</span>}
       {listItems && (
