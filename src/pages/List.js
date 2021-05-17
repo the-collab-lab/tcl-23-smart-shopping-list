@@ -100,11 +100,11 @@ export default function List({ token }) {
     return sortedList;
   };
 
-  const checkForInactiveItem = (item) => {
+  const checkForInactiveItem = (itemData) => {
     // pass in the item and create a variable for item.data() here
-    const itemData = item.data();
+    const item = itemData.data();
 
-    if (itemData.times_purchased === 1) {
+    if (item.times_purchased === 1) {
       return true;
     }
 
@@ -119,9 +119,9 @@ export default function List({ token }) {
 
     // do the same conversion for last_purchased as lastPurchased
     const lastPurchasedToDays = Math.floor(
-      DateTime.fromISO(itemData.last_purchased).ts / millisecondsInADay,
+      DateTime.fromISO(item.last_purchased).ts / millisecondsInADay,
     );
-    const doubleLastEstimate = itemData.last_estimate * 2;
+    const doubleLastEstimate = item.last_estimate * 2;
     const timeEllapsed = nowInDays - lastPurchasedToDays;
 
     if (timeEllapsed > doubleLastEstimate) {
