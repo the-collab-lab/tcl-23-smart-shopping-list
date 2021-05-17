@@ -88,6 +88,7 @@ export default function List({ token }) {
   }
 
   const alphabetizeListItems = (list) => {
+    // logic in here isn't checking for capitalization
     const sortedList = list.sort((a, b) => {
       if (a.data().item_name < b.data().item_name) {
         return -1;
