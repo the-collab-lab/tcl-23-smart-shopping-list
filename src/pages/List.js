@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { db } from '../lib/firebase';
 import { useCollection } from 'react-firebase-hooks/firestore';
 import { useHistory } from 'react-router-dom';
+import Swal from 'sweetalert2';
 import calculateEstimate from '../lib/estimates';
 import { DateTime } from 'luxon';
 
@@ -132,6 +133,23 @@ export default function List({ token }) {
     return false;
   };
 
+  function deleteItem(id) {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire('Deleted!', 'Your item has been deleted.', 'success');
+        db.collection(token).doc(id).delete();
+      }
+    });
+  }
+
   return (
     <>
       <h1>This Is Your Grocery List</h1>
@@ -196,6 +214,9 @@ export default function List({ token }) {
                       onClick={(e) => markItemPurchased(e, doc.id, doc.data())}
                     />
                     <label htmlFor={doc.id}>{doc.data().item_name}</label>
+                    <button key={doc.id} onClick={() => deleteItem(doc.id)}>
+                      Delete
+                    </button>
                   </li>
                 ))}
               {alphabetizeListItems(listItems.docs)
@@ -235,6 +256,9 @@ export default function List({ token }) {
                       onClick={(e) => markItemPurchased(e, doc.id, doc.data())}
                     />
                     <label htmlFor={doc.id}>{doc.data().item_name}</label>
+                    <button key={doc.id} onClick={() => deleteItem(doc.id)}>
+                      Delete
+                    </button>
                   </li>
                 ))}
 
@@ -274,6 +298,9 @@ export default function List({ token }) {
                       onClick={(e) => markItemPurchased(e, doc.id, doc.data())}
                     />
                     <label htmlFor={doc.id}>{doc.data().item_name}</label>
+                    <button key={doc.id} onClick={() => deleteItem(doc.id)}>
+                      Delete
+                    </button>
                   </li>
                 ))}
 
@@ -304,6 +331,9 @@ export default function List({ token }) {
                       onClick={(e) => markItemPurchased(e, doc.id, doc.data())}
                     />
                     <label htmlFor={doc.id}>{doc.data().item_name}</label>
+                    <button key={doc.id} onClick={() => deleteItem(doc.id)}>
+                      Delete
+                    </button>
                   </li>
                 ))}
             </ul>

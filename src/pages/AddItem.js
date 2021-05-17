@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { db } from '../lib/firebase';
 import { useCollection } from 'react-firebase-hooks/firestore';
-import swal from 'sweetalert';
+import Swal from 'sweetalert2';
 import { useHistory } from 'react-router-dom';
 
 export default function AddItem({ token }) {
@@ -52,13 +52,19 @@ export default function AddItem({ token }) {
     const itemExists = doesItemExistInDatabase(itemName);
 
     if (itemExists) {
-      swal(
-        'OH GOSH!',
-        `${normalizeString(itemName).toUpperCase()} is already in your list`,
-        'error',
-      );
+      Swal.fire({
+        title: 'OH GOSH!',
+        text: `${normalizeString(
+          itemName,
+        ).toUpperCase()} is already in your list`,
+        icon: 'error',
+      });
     } else if (!itemName) {
-      swal('UH OH!', "Item name can't be blank", 'warning');
+      Swal.fire({
+        title: 'UH OH!',
+        text: "Item name can't be blank",
+        icon: 'warning',
+      });
     } else {
       db.collection(token).add(newItemObject);
       history.push('/list');
