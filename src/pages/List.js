@@ -122,6 +122,8 @@ export default function List({ token }) {
     const lastPurchasedToDays = Math.floor(
       DateTime.fromISO(item.last_purchased).ts / millisecondsInADay,
     );
+
+    // calculate if item last_purchase is over double since last_estimate
     const doubleLastEstimate = item.last_estimate * 2;
     const timeEllapsed = nowInDays - lastPurchasedToDays;
 
