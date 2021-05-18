@@ -24,9 +24,9 @@
     "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.1.2"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "CI= react-scripts build",
-    "test": "react-scripts test",
+    "start": "craco start",
+     "build": "craco build",
+     "test": "craco test",
     "eject": "react-scripts eject",
     "format": "prettier --write 'src/**/*.{js,jsx,ts,tsx,json,css,scss,md}'"
   },
