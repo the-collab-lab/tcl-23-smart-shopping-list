@@ -175,6 +175,24 @@ export default function List({ token }) {
     });
   };
 
+  const filterByMoreThanSevenDaysAndLessThanThirtyDays = (listItems) => {
+    // filter the items by user input
+    const alphabetizedItems = filterByUserInput(listItems);
+
+    // filter items that have have a last_estimate between 7 or more and 30 or less days
+    return alphabetizedItems.filter((item) => {
+      if (item.data().times_purchased === 0) {
+        return item.data().purchase_frequency === 14;
+      } else {
+        return (
+          item.data().last_estimate >= 7 &&
+          item.data().last_estimate <= 30 &&
+          !checkForInactiveItem(item)
+        );
+      }
+    });
+  };
+
   return (
     <>
       <h1>This Is Your Grocery List</h1>
@@ -225,28 +243,8 @@ export default function List({ token }) {
                 </li>
               ))}
 
-              {alphabetizeListItems(listItems.docs)
-                .filter(
-                  (doc) =>
-                    doc
-                      .data()
-                      .item_name.toLowerCase()
-                      .includes(query.toLowerCase().trim()) || query === '',
-                )
-                // filter items that have have a last_estimate between 7 or more and 30 or less days
-                .filter((item) => {
-                  if (item.data().times_purchased === 0) {
-                    return item.data().purchase_frequency === 14;
-                  } else {
-                    return (
-                      item.data().last_estimate >= 7 &&
-                      item.data().last_estimate <= 30 &&
-                      !checkForInactiveItem(item)
-                    );
-                  }
-                })
-
-                .map((doc) => (
+              {filterByMoreThanSevenDaysAndLessThanThirtyDays(listItems).map(
+                (doc) => (
                   <li
                     key={doc.id}
                     className="checkbox-wrapper"
@@ -266,7 +264,8 @@ export default function List({ token }) {
                       Delete
                     </button>
                   </li>
-                ))}
+                ),
+              )}
 
               {alphabetizeListItems(listItems.docs)
                 .filter(
