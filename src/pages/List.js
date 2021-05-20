@@ -162,11 +162,11 @@ export default function List({ token }) {
   };
 
   const filterByLessThanSevenDays = (listItems) => {
-    // filter the items by user input
-    const alphabetizedItems = filterByUserInput(listItems);
+    // filter the items by user input or render all items if no input
+    const alphabetizedUserInputOrAllItems = filterByUserInput(listItems);
 
     // filter into the green category of less than 7 days
-    return alphabetizedItems.filter((item) => {
+    return alphabetizedUserInputOrAllItems.filter((item) => {
       if (item.data().times_purchased === 0) {
         return item.data().purchase_frequency === 7;
       } else {
@@ -176,11 +176,11 @@ export default function List({ token }) {
   };
 
   const filterByMoreThanSevenDaysAndLessThanThirtyDays = (listItems) => {
-    // filter the items by user input
-    const alphabetizedItems = filterByUserInput(listItems);
+    // filter the items by user input or render all items if no input
+    const alphabetizedUserInputOrAllItems = filterByUserInput(listItems);
 
     // filter items into the purple category of more than 7 days and less than 30 days
-    return alphabetizedItems.filter((item) => {
+    return alphabetizedUserInputOrAllItems.filter((item) => {
       if (item.data().times_purchased === 0) {
         return item.data().purchase_frequency === 14;
       } else {
@@ -194,11 +194,11 @@ export default function List({ token }) {
   };
 
   const filterByMoreThanThirtyDays = (listItems) => {
-    // filter the items by user input
-    const alphabetizedItems = filterByUserInput(listItems);
+    // filter the items by user input or render all items if no input
+    const alphabetizedUserInputOrAllItems = filterByUserInput(listItems);
 
     // filter items into the red category of more than 30 days
-    return alphabetizedItems.filter((item) => {
+    return alphabetizedUserInputOrAllItems.filter((item) => {
       if (item.data().times_purchased === 0) {
         return item.data().purchase_frequency === 30;
       } else {
@@ -208,11 +208,31 @@ export default function List({ token }) {
   };
 
   const filterByInactiveItems = (listItems) => {
-    // filter the items by user input
-    const alphabetizedItems = filterByUserInput(listItems);
+    // filter the items by user input or render all items if no input
+    const alphabetizedUserInputOrAllItems = filterByUserInput(listItems);
 
     // filter items into the gray category of more than double last_estimate
-    return alphabetizedItems.filter((item) => checkForInactiveItem(item));
+    return alphabetizedUserInputOrAllItems.filter((item) =>
+      checkForInactiveItem(item),
+    );
+  };
+
+  const renderUnorderedList = (doc, color) => {
+    return (
+      <li key={doc.id} className="checkbox-wrapper" style={{ color: color }}>
+        <input
+          type="checkbox"
+          id={doc.id}
+          defaultChecked={compareTimeStamps(doc.data().last_purchased)}
+          disabled={compareTimeStamps(doc.data().last_purchased)}
+          onClick={(e) => markItemPurchased(e, doc.id, doc.data())}
+        />
+        <label htmlFor={doc.id}>{doc.data().item_name}</label>
+        <button key={doc.id} onClick={() => deleteItem(doc.id)}>
+          Delete
+        </button>
+      </li>
+    );
   };
 
   return (
@@ -243,95 +263,21 @@ export default function List({ token }) {
             </section>
           ) : (
             <ul>
-              {filterByLessThanSevenDays(listItems).map((doc) => (
-                <li
-                  key={doc.id}
-                  className="checkbox-wrapper"
-                  style={{ color: 'green' }}
-                >
-                  <input
-                    type="checkbox"
-                    id={doc.id}
-                    defaultChecked={compareTimeStamps(
-                      doc.data().last_purchased,
-                    )}
-                    disabled={compareTimeStamps(doc.data().last_purchased)}
-                    onClick={(e) => markItemPurchased(e, doc.id, doc.data())}
-                  />
-                  <label htmlFor={doc.id}>{doc.data().item_name}</label>
-                  <button key={doc.id} onClick={() => deleteItem(doc.id)}>
-                    Delete
-                  </button>
-                </li>
-              ))}
-
-              {filterByMoreThanSevenDaysAndLessThanThirtyDays(listItems).map(
-                (doc) => (
-                  <li
-                    key={doc.id}
-                    className="checkbox-wrapper"
-                    style={{ color: 'purple' }}
-                  >
-                    <input
-                      type="checkbox"
-                      id={doc.id}
-                      defaultChecked={compareTimeStamps(
-                        doc.data().last_purchased,
-                      )}
-                      disabled={compareTimeStamps(doc.data().last_purchased)}
-                      onClick={(e) => markItemPurchased(e, doc.id, doc.data())}
-                    />
-                    <label htmlFor={doc.id}>{doc.data().item_name}</label>
-                    <button key={doc.id} onClick={() => deleteItem(doc.id)}>
-                      Delete
-                    </button>
-                  </li>
-                ),
+              {filterByLessThanSevenDays(listItems).map((doc) =>
+                renderUnorderedList(doc, 'green'),
               )}
 
-              {filterByMoreThanThirtyDays(listItems).map((doc) => (
-                <li
-                  key={doc.id}
-                  className="checkbox-wrapper"
-                  style={{ color: 'red' }}
-                >
-                  <input
-                    type="checkbox"
-                    id={doc.id}
-                    defaultChecked={compareTimeStamps(
-                      doc.data().last_purchased,
-                    )}
-                    disabled={compareTimeStamps(doc.data().last_purchased)}
-                    onClick={(e) => markItemPurchased(e, doc.id, doc.data())}
-                  />
-                  <label htmlFor={doc.id}>{doc.data().item_name}</label>
-                  <button key={doc.id} onClick={() => deleteItem(doc.id)}>
-                    Delete
-                  </button>
-                </li>
-              ))}
+              {filterByMoreThanSevenDaysAndLessThanThirtyDays(
+                listItems,
+              ).map((doc) => renderUnorderedList(doc, 'purple'))}
 
-              {filterByInactiveItems(listItems).map((doc) => (
-                <li
-                  key={doc.id}
-                  className="checkbox-wrapper"
-                  style={{ color: 'gray' }}
-                >
-                  <input
-                    type="checkbox"
-                    id={doc.id}
-                    defaultChecked={compareTimeStamps(
-                      doc.data().last_purchased,
-                    )}
-                    disabled={compareTimeStamps(doc.data().last_purchased)}
-                    onClick={(e) => markItemPurchased(e, doc.id, doc.data())}
-                  />
-                  <label htmlFor={doc.id}>{doc.data().item_name}</label>
-                  <button key={doc.id} onClick={() => deleteItem(doc.id)}>
-                    Delete
-                  </button>
-                </li>
-              ))}
+              {filterByMoreThanThirtyDays(listItems).map((doc) =>
+                renderUnorderedList(doc, 'red'),
+              )}
+
+              {filterByInactiveItems(listItems).map((doc) =>
+                renderUnorderedList(doc, 'gray'),
+              )}
             </ul>
           )}
         </>
