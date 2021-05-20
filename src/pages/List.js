@@ -207,6 +207,14 @@ export default function List({ token }) {
     });
   };
 
+  const filterByInactiveItems = (listItems) => {
+    // filter the items by user input
+    const alphabetizedItems = filterByUserInput(listItems);
+
+    // filter items into the gray category of more than double last_estimate
+    return alphabetizedItems.filter((item) => checkForInactiveItem(item));
+  };
+
   return (
     <>
       <h1>This Is Your Grocery List</h1>
@@ -303,38 +311,27 @@ export default function List({ token }) {
                 </li>
               ))}
 
-              {alphabetizeListItems(listItems.docs)
-                .filter(
-                  (doc) =>
-                    doc
-                      .data()
-                      .item_name.toLowerCase()
-                      .includes(query.toLowerCase().trim()) || query === '',
-                )
-                // filter items that return true from checkForInactiveItem()
-                .filter((item) => checkForInactiveItem(item))
-
-                .map((doc) => (
-                  <li
-                    key={doc.id}
-                    className="checkbox-wrapper"
-                    style={{ color: 'gray' }}
-                  >
-                    <input
-                      type="checkbox"
-                      id={doc.id}
-                      defaultChecked={compareTimeStamps(
-                        doc.data().last_purchased,
-                      )}
-                      disabled={compareTimeStamps(doc.data().last_purchased)}
-                      onClick={(e) => markItemPurchased(e, doc.id, doc.data())}
-                    />
-                    <label htmlFor={doc.id}>{doc.data().item_name}</label>
-                    <button key={doc.id} onClick={() => deleteItem(doc.id)}>
-                      Delete
-                    </button>
-                  </li>
-                ))}
+              {filterByInactiveItems(listItems).map((doc) => (
+                <li
+                  key={doc.id}
+                  className="checkbox-wrapper"
+                  style={{ color: 'gray' }}
+                >
+                  <input
+                    type="checkbox"
+                    id={doc.id}
+                    defaultChecked={compareTimeStamps(
+                      doc.data().last_purchased,
+                    )}
+                    disabled={compareTimeStamps(doc.data().last_purchased)}
+                    onClick={(e) => markItemPurchased(e, doc.id, doc.data())}
+                  />
+                  <label htmlFor={doc.id}>{doc.data().item_name}</label>
+                  <button key={doc.id} onClick={() => deleteItem(doc.id)}>
+                    Delete
+                  </button>
+                </li>
+              ))}
             </ul>
           )}
         </>
