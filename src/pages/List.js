@@ -88,19 +88,6 @@ export default function List({ token }) {
     return nowInDays - lastPurchasedToDays === 0;
   }
 
-  const alphabetizeListItems = (list) => {
-    const sortedList = list.sort((a, b) => {
-      if (a.data().item_name.toLowerCase() < b.data().item_name.toLowerCase()) {
-        return -1;
-      }
-      if (a.data().item_name.toLowerCase() > b.data().item_name.toLowerCase()) {
-        return 1;
-      }
-      return 0;
-    });
-    return sortedList;
-  };
-
   const checkForInactiveItem = (itemData) => {
     // pass in the item and create a variable for item.data() here
     const item = itemData.data();
@@ -150,6 +137,44 @@ export default function List({ token }) {
     });
   }
 
+  const alphabetizeListItems = (list) => {
+    const sortedList = list.sort((a, b) => {
+      if (a.data().item_name.toLowerCase() < b.data().item_name.toLowerCase()) {
+        return -1;
+      }
+      if (a.data().item_name.toLowerCase() > b.data().item_name.toLowerCase()) {
+        return 1;
+      }
+      return 0;
+    });
+    return sortedList;
+  };
+
+  const filterByUserInput = (item) => {
+    // first alphabetize all the items then filter for the user's searched item(s)
+    return alphabetizeListItems(item.docs).filter(
+      (doc) =>
+        doc
+          .data()
+          .item_name.toLowerCase()
+          .includes(query.toLowerCase().trim()) || query === '',
+    );
+  };
+
+  const filterByLessThanSevenDays = (listItems) => {
+    // filter the items by user input
+    const alphabetizedItems = filterByUserInput(listItems);
+
+    // filter into the green category of less than 7 days
+    return alphabetizedItems.filter((item) => {
+      if (item.data().times_purchased === 0) {
+        return item.data().purchase_frequency === 7;
+      } else {
+        return item.data().last_estimate < 7 && !checkForInactiveItem(item);
+      }
+    });
+  };
+
   return (
     <>
       <h1>This Is Your Grocery List</h1>
@@ -178,47 +203,28 @@ export default function List({ token }) {
             </section>
           ) : (
             <ul>
-              {alphabetizeListItems(listItems.docs)
-                .filter(
-                  (doc) =>
-                    doc
-                      .data()
-                      .item_name.toLowerCase()
-                      .includes(query.toLowerCase().trim()) || query === '',
-                )
-                // filter items that have a last_estimate of less than 7 days
-                .filter((item) => {
-                  if (item.data().times_purchased === 0) {
-                    return item.data().purchase_frequency === 7;
-                  } else {
-                    return (
-                      item.data().last_estimate < 7 &&
-                      !checkForInactiveItem(item)
-                    );
-                  }
-                })
+              {filterByLessThanSevenDays(listItems).map((doc) => (
+                <li
+                  key={doc.id}
+                  className="checkbox-wrapper"
+                  style={{ color: 'green' }}
+                >
+                  <input
+                    type="checkbox"
+                    id={doc.id}
+                    defaultChecked={compareTimeStamps(
+                      doc.data().last_purchased,
+                    )}
+                    disabled={compareTimeStamps(doc.data().last_purchased)}
+                    onClick={(e) => markItemPurchased(e, doc.id, doc.data())}
+                  />
+                  <label htmlFor={doc.id}>{doc.data().item_name}</label>
+                  <button key={doc.id} onClick={() => deleteItem(doc.id)}>
+                    Delete
+                  </button>
+                </li>
+              ))}
 
-                .map((doc) => (
-                  <li
-                    key={doc.id}
-                    className="checkbox-wrapper"
-                    style={{ color: 'green' }}
-                  >
-                    <input
-                      type="checkbox"
-                      id={doc.id}
-                      defaultChecked={compareTimeStamps(
-                        doc.data().last_purchased,
-                      )}
-                      disabled={compareTimeStamps(doc.data().last_purchased)}
-                      onClick={(e) => markItemPurchased(e, doc.id, doc.data())}
-                    />
-                    <label htmlFor={doc.id}>{doc.data().item_name}</label>
-                    <button key={doc.id} onClick={() => deleteItem(doc.id)}>
-                      Delete
-                    </button>
-                  </li>
-                ))}
               {alphabetizeListItems(listItems.docs)
                 .filter(
                   (doc) =>
