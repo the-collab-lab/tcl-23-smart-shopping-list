@@ -10,7 +10,8 @@
     "react-firebase-hooks": "^3.0.3",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.1",
-    "sweetalert2": "^10.16.7"
+    "sweetalert2": "^10.16.7",
+    "typeface-roboto": "^1.1.13"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.11.10",
@@ -25,8 +26,8 @@
   },
   "scripts": {
     "start": "craco start",
-     "build": "craco build",
-     "test": "craco test",
+    "build": "craco build",
+    "test": "craco test",
     "eject": "react-scripts eject",
     "format": "prettier --write 'src/**/*.{js,jsx,ts,tsx,json,css,scss,md}'"
   },
