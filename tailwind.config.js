@@ -4,11 +4,11 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        'paradise-pink': 'EF476F',
-        'orange-yellow': 'FFD166',
-        'caribbean-green': '06D6A0',
-        'blue-ncs': '118AB2',
-        'midnight-green': '073B4C',
+        'paradise-pink': '#EF476F',
+        'orange-yellow': '#FFD166',
+        'caribbean-green': '#06D6A0',
+        'blue-ncs': '#118AB2',
+        'midnight-green': '#073B4C',
       },
       fontFamily: {
         roboto: ['Roboto', 'sans-serif'],
