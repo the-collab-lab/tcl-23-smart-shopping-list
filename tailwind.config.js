@@ -10,6 +10,9 @@ module.exports = {
         'blue-ncs': '118AB2',
         'midnight-green': '073B4C',
       },
+      fontFamily: {
+        roboto: ['Roboto', 'sans-serif'],
+      },
     },
   },
   variants: {
