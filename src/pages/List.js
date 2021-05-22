@@ -17,6 +17,14 @@ export default function List({ token }) {
     setQuery('');
   }
 
+  const calculateLatestInterval = (lastPurchased, currentDateTime) => {
+    return Math.floor(
+      Interval.fromDateTimes(DateTime.fromISO(lastPurchased), currentDateTime)
+        .toDuration('days')
+        .toObject().days,
+    );
+  };
+
   const markItemPurchased = (e, id, itemData) => {
     const currentDateTime = DateTime.now();
 
@@ -33,13 +41,9 @@ export default function List({ token }) {
       } else {
         // if an item has at least 1 times_purchased, calculate the latestInterval with Interval from Luxon
         // and use the previous last_estimate property to update the database's last_estimate property with latestEstimate
-        const latestInterval = Math.floor(
-          Interval.fromDateTimes(
-            DateTime.fromISO(itemData.last_purchased),
-            currentDateTime,
-          )
-            .toDuration('days')
-            .toObject().days,
+        const latestInterval = calculateLatestInterval(
+          itemData.last_purchased,
+          currentDateTime,
         );
 
         const latestEstimate = calculateEstimate(
