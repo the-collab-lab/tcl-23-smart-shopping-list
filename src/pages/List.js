@@ -68,21 +68,15 @@ export default function List({ token }) {
     if (lastPurchased === null) {
       return false;
     }
-    // use DateTime package to get current time
-    const now = DateTime.now();
 
-    // initialize how many milliseconds there are in a day for calculation
-    const millisecondsInADay = 86400000;
-
-    // convert now to days
-    const nowInDays = Math.floor(now.ts / millisecondsInADay);
-
-    // do the same conversion for last_purchased as lastPurchased
-    const lastPurchasedToDays = Math.floor(
-      DateTime.fromISO(lastPurchased).ts / millisecondsInADay,
+    // determine the amount days between now and last_purchase
+    const currentDateTime = DateTime.now();
+    const latestInterval = calculateLatestInterval(
+      lastPurchased,
+      currentDateTime,
     );
 
-    return nowInDays - lastPurchasedToDays === 0;
+    return latestInterval === 0;
   }
 
   const checkForInactiveItem = (itemData) => {
@@ -93,25 +87,15 @@ export default function List({ token }) {
       return true;
     }
 
-    // use DateTime package to get current time
-    const now = DateTime.now();
-
-    // initialize how many milliseconds there are in a day for calculation
-    const millisecondsInADay = 86400000;
-
-    // convert now to days
-    const nowInDays = Math.floor(now.ts / millisecondsInADay);
-
-    // do the same conversion for last_purchased as lastPurchased
-    const lastPurchasedToDays = Math.floor(
-      DateTime.fromISO(item.last_purchased).ts / millisecondsInADay,
+    // calculate if the duration between now and last_purchased is greater than DOUBLE the last_estimate
+    const doubleLastEstimate = item.last_estimate * 2;
+    const currentDateTime = DateTime.now();
+    const latestInterval = calculateLatestInterval(
+      itemData.last_purchased,
+      currentDateTime,
     );
 
-    // calculate if item last_purchase is over double since last_estimate
-    const doubleLastEstimate = item.last_estimate * 2;
-    const timeEllapsed = nowInDays - lastPurchasedToDays;
-
-    if (timeEllapsed > doubleLastEstimate) {
+    if (latestInterval > doubleLastEstimate) {
       return true;
     }
     return false;
