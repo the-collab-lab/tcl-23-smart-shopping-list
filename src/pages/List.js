@@ -4,7 +4,7 @@ import { useCollection } from 'react-firebase-hooks/firestore';
 import { useHistory } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import calculateEstimate from '../lib/estimates';
-import { DateTime } from 'luxon';
+import { DateTime, Interval } from 'luxon';
 
 export default function List({ token }) {
   const history = useHistory();
@@ -18,25 +18,7 @@ export default function List({ token }) {
   }
 
   const markItemPurchased = (e, id, itemData) => {
-    // use DateTime package to get current time
-    const now = DateTime.now();
-
-    // convert now to readable ISO string
-    const nowToString = now.toString();
-
-    // initialize how many milliseconds there are in a day for calculation
-    const millisecondsInADay = 86400000;
-
-    // because last_estimate is an integer representing days, convert now to days
-    const nowInDays = Math.floor(now.ts / millisecondsInADay);
-
-    // do the same conversion for last_purchased
-    const lastPurchasedToDays = Math.floor(
-      DateTime.fromISO(itemData.last_purchased).ts / millisecondsInADay,
-    );
-
-    // determine the amount of days between now and when item was last marked purchased
-    const latestInterval = nowInDays - lastPurchasedToDays;
+    const currentDateTime = DateTime.now();
 
     if (e.target.checked === true) {
       // if an item has not yet been purchased, last_estimate has no value, so we initialize with the user's selected purchase_frequency
@@ -44,21 +26,32 @@ export default function List({ token }) {
         db.collection(token)
           .doc(id)
           .update({
-            last_purchased: nowToString,
+            last_purchased: currentDateTime.toString(),
             times_purchased: itemData.times_purchased + 1,
             last_estimate: itemData.purchase_frequency,
           });
-        // if an item has at least 1 times_purchased, we use the last_estimate property to update the database last_estimate property
       } else {
+        // if an item has at least 1 times_purchased, calculate the latestInterval with Interval from Luxon
+        // and use the previous last_estimate property to update the database's last_estimate property with latestEstimate
+        const latestInterval = Math.floor(
+          Interval.fromDateTimes(
+            DateTime.fromISO(itemData.last_purchased),
+            currentDateTime,
+          )
+            .toDuration('days')
+            .toObject().days,
+        );
+
         const latestEstimate = calculateEstimate(
           itemData.last_estimate,
           latestInterval,
           itemData.times_purchased,
         );
+
         db.collection(token)
           .doc(id)
           .update({
-            last_purchased: nowToString,
+            last_purchased: currentDateTime.toString(),
             times_purchased: itemData.times_purchased + 1,
             last_estimate: latestEstimate,
           });
