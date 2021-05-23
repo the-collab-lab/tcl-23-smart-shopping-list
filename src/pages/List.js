@@ -231,7 +231,7 @@ export default function List({ token }) {
           id="thesearch"
           onChange={(e) => setQuery(e.target.value)}
         />
-        <IconButton onClick={handleReset} text="X" />
+        <IconButton onClick={handleReset} icon="X" label="clear input" />
       </div>
 
       {error && <strong>Error: {JSON.stringify(error)}</strong>}

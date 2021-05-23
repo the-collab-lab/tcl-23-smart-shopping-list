@@ -77,7 +77,7 @@ export default function Home(props) {
             onChange={handleInputValue}
           />
         </label>
-        <IconButton type="submit" text=">" />
+        <IconButton type="submit" icon=">" label="submit token" />
       </form>
     </main>
   );
