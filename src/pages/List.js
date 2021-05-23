@@ -4,10 +4,11 @@ import { useCollection } from 'react-firebase-hooks/firestore';
 import { useHistory } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import calculateEstimate from '../lib/estimates';
+import { DateTime, Interval } from 'luxon';
 
 export default function List({ token }) {
   const history = useHistory();
-  const [listItem, loading, error] = useCollection(db.collection(token), {
+  const [listItems, loading, error] = useCollection(db.collection(token), {
     snapshotListenOptions: { includeMetadataChanges: true },
   });
   const [query, setQuery] = useState('');
@@ -16,38 +17,45 @@ export default function List({ token }) {
     setQuery('');
   }
 
-  const markItemPurchased = (e, id, itemData) => {
-    const currentTimestamp = Date.now();
-    const initialInterval = itemData.purchase_frequency * 86400000;
-    const latestInterval = currentTimestamp - itemData.last_purchased;
+  const calculateLatestInterval = (lastPurchased, currentDateTime) => {
+    return Math.floor(
+      Interval.fromDateTimes(DateTime.fromISO(lastPurchased), currentDateTime)
+        .toDuration('days')
+        .toObject().days,
+    );
+  };
 
-    // const markItemPurchased = (e, id) => {
-    //   const elapsedMilliseconds = Date.now();
+  const markItemPurchased = (e, id, itemData) => {
+    const currentDateTime = DateTime.now();
 
     if (e.target.checked === true) {
+      // if an item has not yet been purchased, last_estimate has no value, so we initialize with the user's selected purchase_frequency
       if (itemData.times_purchased === 0) {
-        const initialEstimate = calculateEstimate(
-          itemData.last_estimate,
-          initialInterval,
-          itemData.times_purchased,
-        );
         db.collection(token)
           .doc(id)
           .update({
-            last_purchased: currentTimestamp,
+            last_purchased: currentDateTime.toString(),
             times_purchased: itemData.times_purchased + 1,
-            last_estimate: initialEstimate,
+            last_estimate: itemData.purchase_frequency,
           });
       } else {
+        // if an item has at least 1 times_purchased, calculate the latestInterval with Interval from Luxon
+        // and use the previous last_estimate property to update the database's last_estimate property with latestEstimate
+        const latestInterval = calculateLatestInterval(
+          itemData.last_purchased,
+          currentDateTime,
+        );
+
         const latestEstimate = calculateEstimate(
           itemData.last_estimate,
           latestInterval,
           itemData.times_purchased,
         );
+
         db.collection(token)
           .doc(id)
           .update({
-            last_purchased: currentTimestamp,
+            last_purchased: currentDateTime.toString(),
             times_purchased: itemData.times_purchased + 1,
             last_estimate: latestEstimate,
           });
@@ -56,10 +64,42 @@ export default function List({ token }) {
   };
 
   function compareTimeStamps(lastPurchased) {
-    const currentElapsedMilliseconds = Date.now();
-    const millisecondsInOneDay = 86400000;
-    return currentElapsedMilliseconds - lastPurchased < millisecondsInOneDay;
+    // first check to see if lastPurchased === null in database
+    if (lastPurchased === null) {
+      return false;
+    }
+
+    // determine the amount days between now and last_purchase
+    const currentDateTime = DateTime.now();
+    const latestInterval = calculateLatestInterval(
+      lastPurchased,
+      currentDateTime,
+    );
+
+    return latestInterval === 0;
   }
+
+  const checkForInactiveItem = (itemData) => {
+    // pass in the item and create a variable for item.data() here
+    const item = itemData.data();
+
+    if (item.times_purchased === 1) {
+      return true;
+    }
+
+    // calculate if the duration between now and last_purchased is greater than DOUBLE the last_estimate
+    const doubleLastEstimate = item.last_estimate * 2;
+    const currentDateTime = DateTime.now();
+    const latestInterval = calculateLatestInterval(
+      itemData.last_purchased,
+      currentDateTime,
+    );
+
+    if (latestInterval > doubleLastEstimate) {
+      return true;
+    }
+    return false;
+  };
 
   function deleteItem(id) {
     Swal.fire({
@@ -77,27 +117,125 @@ export default function List({ token }) {
       }
     });
   }
+
+  const alphabetizeListItems = (list) => {
+    const sortedList = list.sort((a, b) => {
+      if (a.data().item_name.toLowerCase() < b.data().item_name.toLowerCase()) {
+        return -1;
+      }
+      if (a.data().item_name.toLowerCase() > b.data().item_name.toLowerCase()) {
+        return 1;
+      }
+      return 0;
+    });
+    return sortedList;
+  };
+
+  const filterByUserInput = (item) => {
+    // first alphabetize all the items then filter for the user's searched item(s)
+    return alphabetizeListItems(item.docs).filter(
+      (doc) =>
+        doc
+          .data()
+          .item_name.toLowerCase()
+          .includes(query.toLowerCase().trim()) || query === '',
+    );
+  };
+
+  const filterByLessThanSevenDays = (listItems) => {
+    // filter the items by user input or render all items if no input
+    const alphabetizedUserInputOrAllItems = filterByUserInput(listItems);
+
+    // filter into the green category of less than 7 days
+    return alphabetizedUserInputOrAllItems.filter((item) => {
+      if (item.data().times_purchased === 0) {
+        return item.data().purchase_frequency === 7;
+      } else {
+        return item.data().last_estimate < 7 && !checkForInactiveItem(item);
+      }
+    });
+  };
+
+  const filterByMoreThanSevenDaysAndLessThanThirtyDays = (listItems) => {
+    // filter the items by user input or render all items if no input
+    const alphabetizedUserInputOrAllItems = filterByUserInput(listItems);
+
+    // filter items into the purple category of more than 7 days and less than 30 days
+    return alphabetizedUserInputOrAllItems.filter((item) => {
+      if (item.data().times_purchased === 0) {
+        return item.data().purchase_frequency === 14;
+      } else {
+        return (
+          item.data().last_estimate >= 7 &&
+          item.data().last_estimate <= 30 &&
+          !checkForInactiveItem(item)
+        );
+      }
+    });
+  };
+
+  const filterByMoreThanThirtyDays = (listItems) => {
+    // filter the items by user input or render all items if no input
+    const alphabetizedUserInputOrAllItems = filterByUserInput(listItems);
+
+    // filter items into the red category of more than 30 days
+    return alphabetizedUserInputOrAllItems.filter((item) => {
+      if (item.data().times_purchased === 0) {
+        return item.data().purchase_frequency === 30;
+      } else {
+        return item.data().last_estimate > 30 && !checkForInactiveItem(item);
+      }
+    });
+  };
+
+  const filterByInactiveItems = (listItems) => {
+    // filter the items by user input or render all items if no input
+    const alphabetizedUserInputOrAllItems = filterByUserInput(listItems);
+
+    // filter items into the gray category of more than double last_estimate
+    return alphabetizedUserInputOrAllItems.filter((item) =>
+      checkForInactiveItem(item),
+    );
+  };
+
+  const renderUnorderedList = (doc, color) => {
+    return (
+      <li key={doc.id} className="checkbox-wrapper" style={{ color: color }}>
+        <input
+          type="checkbox"
+          id={doc.id}
+          defaultChecked={compareTimeStamps(doc.data().last_purchased)}
+          disabled={compareTimeStamps(doc.data().last_purchased)}
+          onClick={(e) => markItemPurchased(e, doc.id, doc.data())}
+        />
+        <label htmlFor={doc.id}>{doc.data().item_name}</label>
+        <button key={doc.id} onClick={() => deleteItem(doc.id)}>
+          Delete
+        </button>
+      </li>
+    );
+  };
+
   return (
     <>
       <h1>This Is Your Grocery List</h1>
       <h2>It uses the token: {token}</h2>
-      <label htmlFor="thesearch">
-        Search Grocery List Items
-        <input
-          type="text"
-          placeholder="enter grocery item"
-          value={query}
-          id="thesearch"
-          onChange={(e) => setQuery(e.target.value)}
-        />
-        <button onClick={handleReset}>Reset Text Field</button>
-      </label>
+      <label htmlFor="thesearch">Search Grocery List Items </label>
+      <input
+        type="text"
+        placeholder="enter grocery item"
+        value={query}
+        id="thesearch"
+        onChange={(e) => setQuery(e.target.value)}
+      />
+      <button onClick={handleReset}>Reset Text Field</button>
+
       {error && <strong>Error: {JSON.stringify(error)}</strong>}
       {loading && <span>Grocery List: Loading...</span>}
-      {listItem && (
+      {listItems && (
         <>
           <h2>Grocery List:</h2>
-          {listItem.docs.length === 0 ? (
+          {listItems.docs.length === 0 ? (
             <section>
               <p>Your grocery list is currently empty.</p>
               <button onClick={() => history.push('/add-item')}>
@@ -106,34 +244,21 @@ export default function List({ token }) {
             </section>
           ) : (
             <ul>
-              {listItem.docs
-                .filter(
-                  (doc) =>
-                    doc.data().item_name.includes(query.toLowerCase().trim()) ||
-                    query === '',
-                )
+              {filterByLessThanSevenDays(listItems).map((doc) =>
+                renderUnorderedList(doc, 'green'),
+              )}
 
-                .map((doc, index) => (
-                  <li key={doc.id} className="checkbox-wrapper">
-                    <label htmlFor={`grocery-item${++index}`}>
-                      <input
-                        type="checkbox"
-                        id={`grocery-item${++index}`}
-                        defaultChecked={compareTimeStamps(
-                          doc.data().last_purchased,
-                        )}
-                        disabled={compareTimeStamps(doc.data().last_purchased)}
-                        onClick={(e) =>
-                          markItemPurchased(e, doc.id, doc.data())
-                        }
-                      />
-                      {doc.data().item_name}
-                      <button key={doc.id} onClick={() => deleteItem(doc.id)}>
-                        Delete
-                      </button>
-                    </label>
-                  </li>
-                ))}
+              {filterByMoreThanSevenDaysAndLessThanThirtyDays(
+                listItems,
+              ).map((doc) => renderUnorderedList(doc, 'purple'))}
+
+              {filterByMoreThanThirtyDays(listItems).map((doc) =>
+                renderUnorderedList(doc, 'red'),
+              )}
+
+              {filterByInactiveItems(listItems).map((doc) =>
+                renderUnorderedList(doc, 'gray'),
+              )}
             </ul>
           )}
         </>
