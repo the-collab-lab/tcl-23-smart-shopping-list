@@ -5,6 +5,7 @@ import { useHistory } from 'react-router-dom';
 import { db } from '../lib/firebase';
 import Swal from 'sweetalert2';
 import Button from '../components/Button';
+import IconButton from '../components/IconButton';
 
 export default function Home(props) {
   const history = useHistory();
@@ -76,7 +77,7 @@ export default function Home(props) {
             onChange={handleInputValue}
           />
         </label>
-        <input type="submit" value="Submit" />
+        <IconButton type="submit" text=">" />
       </form>
     </main>
   );

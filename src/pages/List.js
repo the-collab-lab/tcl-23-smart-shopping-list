@@ -6,6 +6,7 @@ import Swal from 'sweetalert2';
 import calculateEstimate from '../lib/estimates';
 import { DateTime, Interval } from 'luxon';
 import Button from '../components/Button';
+import IconButton from '../components/IconButton';
 
 export default function List({ token }) {
   const history = useHistory();
@@ -230,12 +231,7 @@ export default function List({ token }) {
           id="thesearch"
           onChange={(e) => setQuery(e.target.value)}
         />
-        <button
-          onClick={handleReset}
-          className="bg-gray-200 text-midnight-green px-2 rounded font-medium py-0 ml-2 hover:bg-caribbean-green"
-        >
-          X
-        </button>
+        <IconButton onClick={handleReset} text="X" />
       </div>
 
       {error && <strong>Error: {JSON.stringify(error)}</strong>}
