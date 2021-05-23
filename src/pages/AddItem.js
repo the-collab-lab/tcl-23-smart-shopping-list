@@ -3,6 +3,7 @@ import { db } from '../lib/firebase';
 import { useCollection } from 'react-firebase-hooks/firestore';
 import Swal from 'sweetalert2';
 import { useHistory } from 'react-router-dom';
+import Button from '../components/Button';
 
 export default function AddItem({ token }) {
   const [itemName, setItemName] = useState('');
@@ -94,7 +95,7 @@ export default function AddItem({ token }) {
             <option value={30}>Not Soon</option>
           </select>
         </label>
-        <input type="submit" value="Submit" />
+        <Button type="submit" text="+ Add a new item" />
       </form>
     </>
   );
