@@ -75,10 +75,13 @@ export default function AddItem({ token }) {
   return (
     <>
       <h1>Add Item</h1>
-      <form onSubmit={createListItem}>
-        <label htmlFor="itemName">
-          Item Name
+      <form
+        onSubmit={createListItem}
+        className="flex flex-col items-center w-full"
+      >
+        <label htmlFor="itemName" className="w-full">
           <input
+            className="w-full pl-5 py-2 rounded bg-midnight-green border border-gray-200"
             type="text"
             name="name"
             placeholder="Item Name"
