@@ -1,7 +1,8 @@
-export default function Button(text, styles) {
+export default function Button({ onClick, tailwind, text }) {
   return (
     <button
-      className={`bg-orange-yellow text-midnight-green rounded p-2 text-lg ${styles}`}
+      onClick={onClick}
+      className={`bg-orange-yellow text-midnight-green rounded p-2 text-lg ${tailwind}`}
     >
       {text}
     </button>

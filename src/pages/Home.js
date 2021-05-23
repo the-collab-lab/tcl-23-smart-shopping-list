@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { db } from '../lib/firebase';
 import Swal from 'sweetalert2';
+import Button from '../components/Button';
 
 export default function Home(props) {
   const history = useHistory();
@@ -60,7 +61,7 @@ export default function Home(props) {
       </p>
       <p>To start, either:</p>
       <h2>Create a brand new list</h2>
-      <button onClick={handleClick}>Create New List</button>
+      <Button onClick={handleClick} text="Start a new list" />
       <p>Or</p>
 
       <h2>Enter a 3 word token to access an already existing list.</h2>
