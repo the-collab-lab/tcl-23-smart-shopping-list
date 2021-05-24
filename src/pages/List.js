@@ -245,7 +245,6 @@ export default function List({ token }) {
               <Button
                 onClick={() => history.push('/add-item')}
                 text="+ Click to add your first item"
-                tailwind="mt-5"
               />
             </section>
           ) : (

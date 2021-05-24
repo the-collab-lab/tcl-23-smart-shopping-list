@@ -90,7 +90,7 @@ export default function AddItem({ token }) {
           />
         </label>
         <br />
-        <label>
+        <label className="mb-5">
           Purchase Frequency
           <select onBlur={handleFrequencyChange}>
             <option value={7}>Soon</option>
