@@ -3,6 +3,7 @@ import { db } from '../lib/firebase';
 import { useCollection } from 'react-firebase-hooks/firestore';
 import Swal from 'sweetalert2';
 import { useHistory } from 'react-router-dom';
+import Button from '../components/Button';
 
 export default function AddItem({ token }) {
   const [itemName, setItemName] = useState('');
@@ -74,10 +75,13 @@ export default function AddItem({ token }) {
   return (
     <>
       <h1>Add Item</h1>
-      <form onSubmit={createListItem}>
-        <label htmlFor="itemName">
-          Item Name
+      <form
+        onSubmit={createListItem}
+        className="flex flex-col items-center w-full"
+      >
+        <label htmlFor="itemName" className="w-full">
           <input
+            className="w-full pl-5 py-2 rounded bg-midnight-green border border-gray-200"
             type="text"
             name="name"
             placeholder="Item Name"
@@ -86,7 +90,7 @@ export default function AddItem({ token }) {
           />
         </label>
         <br />
-        <label>
+        <label className="mb-5">
           Purchase Frequency
           <select onBlur={handleFrequencyChange}>
             <option value={7}>Soon</option>
@@ -94,7 +98,7 @@ export default function AddItem({ token }) {
             <option value={30}>Not Soon</option>
           </select>
         </label>
-        <input type="submit" value="Submit" />
+        <Button type="submit" text="+ Add a new item" />
       </form>
     </>
   );

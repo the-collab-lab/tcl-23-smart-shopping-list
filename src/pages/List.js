@@ -5,6 +5,8 @@ import { useHistory } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import calculateEstimate from '../lib/estimates';
 import { DateTime, Interval } from 'luxon';
+import Button from '../components/Button';
+import IconButton from '../components/IconButton';
 
 export default function List({ token }) {
   const history = useHistory();
@@ -221,14 +223,16 @@ export default function List({ token }) {
       <h1>This Is Your Grocery List</h1>
       <h2>It uses the token: {token}</h2>
       <label htmlFor="thesearch">Search Grocery List Items </label>
-      <input
-        type="text"
-        placeholder="enter grocery item"
-        value={query}
-        id="thesearch"
-        onChange={(e) => setQuery(e.target.value)}
-      />
-      <button onClick={handleReset}>Reset Text Field</button>
+      <div className="flex">
+        <input
+          type="text"
+          placeholder="enter grocery item"
+          value={query}
+          id="thesearch"
+          onChange={(e) => setQuery(e.target.value)}
+        />
+        <IconButton onClick={handleReset} icon="X" label="clear input" />
+      </div>
 
       {error && <strong>Error: {JSON.stringify(error)}</strong>}
       {loading && <span>Grocery List: Loading...</span>}
@@ -236,11 +240,12 @@ export default function List({ token }) {
         <>
           <h2>Grocery List:</h2>
           {listItems.docs.length === 0 ? (
-            <section>
+            <section className="flex flex-col items-center w-full">
               <p>Your grocery list is currently empty.</p>
-              <button onClick={() => history.push('/add-item')}>
-                Click to add first item!
-              </button>
+              <Button
+                onClick={() => history.push('/add-item')}
+                text="+ Click to add your first item"
+              />
             </section>
           ) : (
             <ul>

@@ -17,7 +17,7 @@ const App = () => {
 
   return (
     <Router>
-      <main className="flex flex-col items-center bg-midnight-green min-h-screen text-gray-200 font-roboto mx-auto lg:w-2/3">
+      <main className="flex flex-col items-center bg-midnight-green min-h-screen text-gray-200 font-roboto mx-auto px-5 md:px-36 lg:px-48 xl:px-72 lg:w-2/3">
         {token ? (
           <>
             <NavBar />
