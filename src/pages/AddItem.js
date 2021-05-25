@@ -74,7 +74,9 @@ export default function AddItem({ token }) {
 
   return (
     <>
-      <h1 className="my-5 text-3xl self-start font-light">Add New Item</h1>
+      <h1 className="mt-5 mb-10 text-3xl self-start font-light">
+        Add New Item
+      </h1>
       <form
         onSubmit={createListItem}
         className="flex flex-col items-center w-full"
@@ -111,7 +113,7 @@ export default function AddItem({ token }) {
               name="frequency"
               id="soon"
               value={7}
-              className="mr-5"
+              className="mx-5"
               onChange={handleFrequencyChange}
             />
             <label htmlFor="soon" className="text-midnight-green text-xl">
@@ -138,7 +140,7 @@ export default function AddItem({ token }) {
               name="frequency"
               id="soon"
               value={14}
-              className="mr-5"
+              className="mx-5"
               onChange={handleFrequencyChange}
             />
             <label htmlFor="soon" className="text-midnight-green text-xl">
@@ -147,7 +149,7 @@ export default function AddItem({ token }) {
           </div>
         </div>
 
-        <div className="flex items-center w-full mb-5">
+        <div className="flex items-center w-full mb-10">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-10 w-10 mr-5 fill-current text-paradise-pink"
@@ -165,7 +167,7 @@ export default function AddItem({ token }) {
               name="frequency"
               id="soon"
               value={30}
-              className="mr-5"
+              className="mx-5"
               onChange={handleFrequencyChange}
             />
             <label htmlFor="soon" className="text-midnight-green text-xl">
