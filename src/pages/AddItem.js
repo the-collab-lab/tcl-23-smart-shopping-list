@@ -74,7 +74,7 @@ export default function AddItem({ token }) {
 
   return (
     <>
-      <h1>Add Item</h1>
+      <h1 className="my-5 text-3xl self-start font-light">Add New Item</h1>
       <form
         onSubmit={createListItem}
         className="flex flex-col items-center w-full"
@@ -106,7 +106,14 @@ export default function AddItem({ token }) {
             />
           </svg>
           <div className="flex items-center p-2 bg-gray-200 rounded w-full">
-            <input type="radio" name="frequency" id="soon" className="mr-5" />
+            <input
+              type="radio"
+              name="frequency"
+              id="soon"
+              value={7}
+              className="mr-5"
+              onChange={handleFrequencyChange}
+            />
             <label htmlFor="soon" className="text-midnight-green text-xl">
               Soon
             </label>
@@ -126,7 +133,14 @@ export default function AddItem({ token }) {
             />
           </svg>
           <div className="flex items-center p-2 bg-gray-200 rounded w-full">
-            <input type="radio" name="frequency" id="soon" className="mr-5" />
+            <input
+              type="radio"
+              name="frequency"
+              id="soon"
+              value={14}
+              className="mr-5"
+              onChange={handleFrequencyChange}
+            />
             <label htmlFor="soon" className="text-midnight-green text-xl">
               Soonish
             </label>
@@ -146,18 +160,19 @@ export default function AddItem({ token }) {
             />
           </svg>
           <div className="flex items-center p-2 bg-gray-200 rounded w-full">
-            <input type="radio" name="frequency" id="soon" className="mr-5" />
+            <input
+              type="radio"
+              name="frequency"
+              id="soon"
+              value={30}
+              className="mr-5"
+              onChange={handleFrequencyChange}
+            />
             <label htmlFor="soon" className="text-midnight-green text-xl">
               Not soon
             </label>
           </div>
         </div>
-
-        {/* <select onBlur={handleFrequencyChange}>
-            <option value={7}>Soon</option>
-            <option value={14}>Kind of Soon</option>
-            <option value={30}>Not Soon</option>
-          </select> */}
         <Button type="submit" text="+ Add a new item" />
       </form>
     </>
