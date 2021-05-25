@@ -113,7 +113,7 @@ export default function AddItem({ token }) {
               name="frequency"
               id="soon"
               value={7}
-              className="mx-5"
+              className="h-5 w-5 mx-5"
               onChange={handleFrequencyChange}
             />
             <label htmlFor="soon" className="text-midnight-green text-xl">
@@ -140,7 +140,7 @@ export default function AddItem({ token }) {
               name="frequency"
               id="soon"
               value={14}
-              className="mx-5"
+              className="h-5 w-5 mx-5"
               onChange={handleFrequencyChange}
             />
             <label htmlFor="soon" className="text-midnight-green text-xl">
@@ -167,7 +167,7 @@ export default function AddItem({ token }) {
               name="frequency"
               id="soon"
               value={30}
-              className="mx-5"
+              className="h-5 w-5 mx-5"
               onChange={handleFrequencyChange}
             />
             <label htmlFor="soon" className="text-midnight-green text-xl">
