@@ -91,7 +91,7 @@ export default function AddItem({ token }) {
             onChange={handleNameChange}
           />
         </label>
-        <h2 className="my-5 self-start text-xl font-light">
+        <h2 className="mt-10 mb-5 self-start text-xl font-light">
           When will you purchase it?
         </h2>
 
