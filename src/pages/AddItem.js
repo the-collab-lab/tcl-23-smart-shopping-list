@@ -7,7 +7,7 @@ import Button from '../components/Button';
 
 export default function AddItem({ token }) {
   const [itemName, setItemName] = useState('');
-  const [purchaseFrequency, setPurchaseFrequency] = useState(7);
+  const [purchaseFrequency, setPurchaseFrequency] = useState(null);
 
   const [listItems] = useCollection(db.collection(token), {
     snapshotListenOptions: { includeMetadataChanges: true },
@@ -60,10 +60,10 @@ export default function AddItem({ token }) {
         ).toUpperCase()} is already in your list`,
         icon: 'error',
       });
-    } else if (!itemName) {
+    } else if (!itemName || !purchaseFrequency) {
       Swal.fire({
         title: 'UH OH!',
-        text: "Item name can't be blank",
+        text: 'Must have an item name and purchase frequency',
         icon: 'warning',
       });
     } else {
@@ -113,6 +113,7 @@ export default function AddItem({ token }) {
               name="frequency"
               id="soon"
               value={7}
+              // defaultChecked
               className="h-5 w-5 mx-5"
               onChange={handleFrequencyChange}
             />
@@ -138,12 +139,12 @@ export default function AddItem({ token }) {
             <input
               type="radio"
               name="frequency"
-              id="soon"
+              id="soonish"
               value={14}
               className="h-5 w-5 mx-5"
               onChange={handleFrequencyChange}
             />
-            <label htmlFor="soon" className="text-midnight-green text-xl">
+            <label htmlFor="soonish" className="text-midnight-green text-xl">
               Soonish
             </label>
           </div>
@@ -165,12 +166,12 @@ export default function AddItem({ token }) {
             <input
               type="radio"
               name="frequency"
-              id="soon"
+              id="not soon"
               value={30}
               className="h-5 w-5 mx-5"
               onChange={handleFrequencyChange}
             />
-            <label htmlFor="soon" className="text-midnight-green text-xl">
+            <label htmlFor="not soon" className="text-midnight-green text-xl">
               Not soon
             </label>
           </div>
