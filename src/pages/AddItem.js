@@ -89,15 +89,75 @@ export default function AddItem({ token }) {
             onChange={handleNameChange}
           />
         </label>
-        <br />
-        <label className="mb-5">
-          Purchase Frequency
-          <select onBlur={handleFrequencyChange}>
+        <h2 className="my-5 self-start text-xl font-light">
+          When will you purchase it?
+        </h2>
+
+        <div className="flex items-center w-full mb-5">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-10 w-10 mr-5 fill-current text-caribbean-green"
+            viewBox="0 0 20 20"
+          >
+            <path
+              fillRule="evenodd"
+              d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"
+              clipRule="evenodd"
+            />
+          </svg>
+          <div className="flex items-center p-2 bg-gray-200 rounded w-full">
+            <input type="radio" name="frequency" id="soon" className="mr-5" />
+            <label htmlFor="soon" className="text-midnight-green text-xl">
+              Soon
+            </label>
+          </div>
+        </div>
+
+        <div className="flex items-center w-full mb-5">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-10 w-10 mr-5 fill-current text-orange-yellow"
+            viewBox="0 0 20 20"
+          >
+            <path
+              fillRule="evenodd"
+              d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"
+              clipRule="evenodd"
+            />
+          </svg>
+          <div className="flex items-center p-2 bg-gray-200 rounded w-full">
+            <input type="radio" name="frequency" id="soon" className="mr-5" />
+            <label htmlFor="soon" className="text-midnight-green text-xl">
+              Soonish
+            </label>
+          </div>
+        </div>
+
+        <div className="flex items-center w-full mb-5">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-10 w-10 mr-5 fill-current text-paradise-pink"
+            viewBox="0 0 20 20"
+          >
+            <path
+              fillRule="evenodd"
+              d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"
+              clipRule="evenodd"
+            />
+          </svg>
+          <div className="flex items-center p-2 bg-gray-200 rounded w-full">
+            <input type="radio" name="frequency" id="soon" className="mr-5" />
+            <label htmlFor="soon" className="text-midnight-green text-xl">
+              Not soon
+            </label>
+          </div>
+        </div>
+
+        {/* <select onBlur={handleFrequencyChange}>
             <option value={7}>Soon</option>
             <option value={14}>Kind of Soon</option>
             <option value={30}>Not Soon</option>
-          </select>
-        </label>
+          </select> */}
         <Button type="submit" text="+ Add a new item" />
       </form>
     </>
