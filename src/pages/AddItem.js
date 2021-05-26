@@ -7,7 +7,7 @@ import Button from '../components/Button';
 
 export default function AddItem({ token }) {
   const [itemName, setItemName] = useState('');
-  const [purchaseFrequency, setPurchaseFrequency] = useState(7);
+  const [purchaseFrequency, setPurchaseFrequency] = useState(null);
 
   const [listItems] = useCollection(db.collection(token), {
     snapshotListenOptions: { includeMetadataChanges: true },
@@ -60,10 +60,10 @@ export default function AddItem({ token }) {
         ).toUpperCase()} is already in your list`,
         icon: 'error',
       });
-    } else if (!itemName) {
+    } else if (!itemName || !purchaseFrequency) {
       Swal.fire({
         title: 'UH OH!',
-        text: "Item name can't be blank",
+        text: 'Must have an item name and purchase frequency',
         icon: 'warning',
       });
     } else {
@@ -74,7 +74,9 @@ export default function AddItem({ token }) {
 
   return (
     <>
-      <h1>Add Item</h1>
+      <h1 className="mt-5 mb-10 text-3xl self-start font-light">
+        Add New Item
+      </h1>
       <form
         onSubmit={createListItem}
         className="flex flex-col items-center w-full"
@@ -89,15 +91,91 @@ export default function AddItem({ token }) {
             onChange={handleNameChange}
           />
         </label>
-        <br />
-        <label className="mb-5">
-          Purchase Frequency
-          <select onBlur={handleFrequencyChange}>
-            <option value={7}>Soon</option>
-            <option value={14}>Kind of Soon</option>
-            <option value={30}>Not Soon</option>
-          </select>
-        </label>
+        <h2 className="mt-10 mb-5 self-start text-xl font-light">
+          When will you purchase it?
+        </h2>
+
+        <div className="flex items-center w-full mb-5">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-10 w-10 mr-5 fill-current text-caribbean-green"
+            viewBox="0 0 20 20"
+          >
+            <path
+              fillRule="evenodd"
+              d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"
+              clipRule="evenodd"
+            />
+          </svg>
+          <div className="flex items-center p-2 bg-gray-200 rounded w-full">
+            <input
+              type="radio"
+              name="frequency"
+              id="soon"
+              value={7}
+              // defaultChecked
+              className="h-5 w-5 mx-5"
+              onChange={handleFrequencyChange}
+            />
+            <label htmlFor="soon" className="text-midnight-green text-xl">
+              Soon
+            </label>
+          </div>
+        </div>
+
+        <div className="flex items-center w-full mb-5">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-10 w-10 mr-5 fill-current text-orange-yellow"
+            viewBox="0 0 20 20"
+          >
+            <path
+              fillRule="evenodd"
+              d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"
+              clipRule="evenodd"
+            />
+          </svg>
+          <div className="flex items-center p-2 bg-gray-200 rounded w-full">
+            <input
+              type="radio"
+              name="frequency"
+              id="soonish"
+              value={14}
+              className="h-5 w-5 mx-5"
+              onChange={handleFrequencyChange}
+            />
+            <label htmlFor="soonish" className="text-midnight-green text-xl">
+              Soonish
+            </label>
+          </div>
+        </div>
+
+        <div className="flex items-center w-full mb-10">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-10 w-10 mr-5 fill-current text-paradise-pink"
+            viewBox="0 0 20 20"
+          >
+            <path
+              fillRule="evenodd"
+              d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"
+              clipRule="evenodd"
+            />
+          </svg>
+          <div className="flex items-center p-2 bg-gray-200 rounded w-full">
+            <input
+              type="radio"
+              name="frequency"
+              id="not soon"
+              value={30}
+              className="h-5 w-5 mx-5"
+              onChange={handleFrequencyChange}
+            />
+            <label htmlFor="not soon" className="text-midnight-green text-xl">
+              Not soon
+            </label>
+          </div>
+        </div>
         <Button type="submit" text="+ Add a new item" />
       </form>
     </>
