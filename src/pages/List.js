@@ -212,7 +212,20 @@ export default function List({ token }) {
         />
         <label htmlFor={doc.id}>{doc.data().item_name}</label>
         <button key={doc.id} onClick={() => deleteItem(doc.id)}>
-          Delete
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-7 w-7"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="white"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+            />
+          </svg>
         </button>
       </li>
     );
@@ -231,7 +244,26 @@ export default function List({ token }) {
           id="thesearch"
           onChange={(e) => setQuery(e.target.value)}
         />
-        <IconButton onClick={handleReset} icon="X" label="clear input" />
+        <IconButton
+          onClick={handleReset}
+          icon={
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          }
+          label="clear input"
+        />
       </div>
 
       {error && <strong>Error: {JSON.stringify(error)}</strong>}
