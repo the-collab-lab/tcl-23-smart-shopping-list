@@ -64,7 +64,6 @@ export default function AddItem({ token }) {
         buttonsStyling: true,
         iconColor: '#EF476F',
         width: '28rem',
-        background: '#f0f0f0',
         confirmButtonColor: '#073B4C',
       });
     } else if (!itemName || !purchaseFrequency) {
