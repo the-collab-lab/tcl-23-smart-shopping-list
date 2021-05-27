@@ -221,7 +221,7 @@ export default function List({ token }) {
         >
           <input
             type="checkbox"
-            className="mx-2 h-4 w-4"
+            className="mx-2 h-4 w-4 rounded"
             id={doc.id}
             defaultChecked={compareTimeStamps(doc.data().last_purchased)}
             disabled={compareTimeStamps(doc.data().last_purchased)}
