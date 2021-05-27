@@ -217,7 +217,7 @@ export default function List({ token }) {
         </svg>
         <li
           key={doc.id}
-          className="flex items-center justify-between bg-gray-200 text-midnight-green font-medium my-2 p-2 rounded w-full"
+          className="container flex items-center bg-gray-200 text-midnight-green font-medium my-2 p-2 rounded w-full"
         >
           <input
             type="checkbox"
@@ -231,10 +231,14 @@ export default function List({ token }) {
           <label className="" htmlFor={doc.id}>
             {doc.data().item_name}
           </label>
-          <button key={doc.id} onClick={() => deleteItem(doc)}>
+          <button
+            className="ml-auto"
+            key={doc.id}
+            onClick={() => deleteItem(doc)}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6"
+              className="h-6 w-6 hover:text-red-500"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
