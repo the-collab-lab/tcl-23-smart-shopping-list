@@ -4,6 +4,7 @@ import { useCollection } from 'react-firebase-hooks/firestore';
 import Swal from 'sweetalert2';
 import { useHistory } from 'react-router-dom';
 import Button from '../components/Button';
+import { isPatternLike, genericTypeAnnotation } from '@babel/types';
 
 export default function AddItem({ token }) {
   const [itemName, setItemName] = useState('');
@@ -58,7 +59,13 @@ export default function AddItem({ token }) {
         text: `${normalizeString(
           itemName,
         ).toUpperCase()} is already in your list`,
+
         icon: 'error',
+        buttonsStyling: true,
+        iconColor: '#EF476F',
+        width: '28rem',
+        background: '#f0f0f0',
+        confirmButtonColor: '#073B4C',
       });
     } else if (!itemName || !purchaseFrequency) {
       Swal.fire({
