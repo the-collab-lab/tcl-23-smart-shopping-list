@@ -17,6 +17,8 @@ export default function Home(props) {
     props.setToken(token);
     Swal.fire({
       icon: 'success',
+      iconColor: '#048B67',
+      confirmButtonColor: '#073B4C',
       title: 'List successfully created!',
       text: `Your new token is "${token}"`,
     });

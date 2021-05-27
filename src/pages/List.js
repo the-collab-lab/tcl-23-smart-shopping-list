@@ -105,14 +105,15 @@ export default function List({ token }) {
 
   function deleteItem(id) {
     Swal.fire({
-      title: 'Are you sure you want to delete this item?',
-      text: "Once it's done, it's done!",
+      title: 'Are you sure you want to delete this item from your list?',
+      text: "Once it's gone, it's gone!",
       icon: 'warning',
       iconColor: '#F5AB00',
       showCancelButton: true,
       reverseButtons: true,
       confirmButtonColor: '#073B4C',
       cancelButtonColor: '#EB1E4E',
+      cancelButtonText: 'Do not delete this item',
       confirmButtonText: 'Yes, delete this item!',
     }).then((result) => {
       if (result.isConfirmed) {
