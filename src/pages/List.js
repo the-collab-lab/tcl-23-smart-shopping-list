@@ -202,39 +202,52 @@ export default function List({ token }) {
 
   const renderUnorderedList = (doc, color) => {
     return (
-      <li
-        key={doc.id}
-        className="flex items-center bg-gray-200 text-midnight-green font-medium my-2 p-2 rounded"
-      >
-        <input
-          type="checkbox"
-          className="mx-2"
-          id={doc.id}
-          defaultChecked={compareTimeStamps(doc.data().last_purchased)}
-          disabled={compareTimeStamps(doc.data().last_purchased)}
-          onClick={(e) => markItemPurchased(e, doc.id, doc.data())}
-        />
+      <div className="flex items-center w-full" key={doc.id}>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className={`{h-10 w-10 mr-5 fill-current text-${color}`}
+          viewBox="0 0 20 20"
+        >
+          <path
+            fillRule="evenodd"
+            d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"
+            clipRule="evenodd"
+          />
+        </svg>
+        <li
+          key={doc.id}
+          className="flex items-center bg-gray-200 text-midnight-green font-medium my-2 p-2 rounded w-full"
+        >
+          <input
+            type="checkbox"
+            className="mx-2"
+            id={doc.id}
+            defaultChecked={compareTimeStamps(doc.data().last_purchased)}
+            disabled={compareTimeStamps(doc.data().last_purchased)}
+            onClick={(e) => markItemPurchased(e, doc.id, doc.data())}
+          />
 
-        <label className="" htmlFor={doc.id}>
-          {doc.data().item_name}
-        </label>
-        <button key={doc.id} onClick={() => deleteItem(doc.id)}>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-6 w-6"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-            />
-          </svg>
-        </button>
-      </li>
+          <label className="" htmlFor={doc.id}>
+            {doc.data().item_name}
+          </label>
+          <button key={doc.id} onClick={() => deleteItem(doc.id)}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+              />
+            </svg>
+          </button>
+        </li>
+      </div>
     );
   };
 
@@ -300,7 +313,7 @@ export default function List({ token }) {
 
               <span className="text-2xl font-light mt-5">...not soon</span>
               {filterByMoreThanThirtyDays(listItems).map((doc) =>
-                renderUnorderedList(doc, 'paridise-pink'),
+                renderUnorderedList(doc, 'paradise-pink'),
               )}
 
               <span className="text-2xl font-light mt-5">...to rethink</span>
