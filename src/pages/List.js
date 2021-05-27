@@ -103,19 +103,20 @@ export default function List({ token }) {
     return false;
   };
 
-  function deleteItem(id) {
+  function deleteItem(doc) {
     Swal.fire({
-      title: 'Are you sure?',
-      text: "You won't be able to revert this!",
+      title: `Delete ${doc.data().item_name.toUpperCase()}?`,
+      text: 'This action cannot be reversed.',
       icon: 'warning',
+      iconColor: '#d33',
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
       confirmButtonText: 'Yes, delete it!',
     }).then((result) => {
       if (result.isConfirmed) {
         Swal.fire('Deleted!', 'Your item has been deleted.', 'success');
-        db.collection(token).doc(id).delete();
+        db.collection(token).doc(doc.id).delete();
       }
     });
   }
@@ -202,7 +203,7 @@ export default function List({ token }) {
 
   const renderUnorderedList = (doc, color) => {
     return (
-      <div className="flex items-center w-full" key={doc.id}>
+      <div className="flex items-center" key={doc.id}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           className={`{h-10 w-10 mr-5 fill-current text-${color}`}
@@ -216,7 +217,7 @@ export default function List({ token }) {
         </svg>
         <li
           key={doc.id}
-          className="flex items-center bg-gray-200 text-midnight-green font-medium my-2 p-2 rounded w-full"
+          className="flex items-center justify-between bg-gray-200 text-midnight-green font-medium my-2 p-2 rounded w-full"
         >
           <input
             type="checkbox"
@@ -230,7 +231,7 @@ export default function List({ token }) {
           <label className="" htmlFor={doc.id}>
             {doc.data().item_name}
           </label>
-          <button key={doc.id} onClick={() => deleteItem(doc.id)}>
+          <button key={doc.id} onClick={() => deleteItem(doc)}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-6 w-6"
