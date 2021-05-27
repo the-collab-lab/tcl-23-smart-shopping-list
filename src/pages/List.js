@@ -105,13 +105,15 @@ export default function List({ token }) {
 
   function deleteItem(id) {
     Swal.fire({
-      title: 'Are you sure?',
-      text: "You won't be able to revert this!",
+      title: 'Are you sure you want to delete this item?',
+      text: "Once it's done, it's done!",
       icon: 'warning',
+      iconColor: '#F5AB00',
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes, delete it!',
+      reverseButtons: true,
+      confirmButtonColor: '#073B4C',
+      cancelButtonColor: '#EB1E4E',
+      confirmButtonText: 'Yes, delete this item!',
     }).then((result) => {
       if (result.isConfirmed) {
         Swal.fire('Deleted!', 'Your item has been deleted.', 'success');
