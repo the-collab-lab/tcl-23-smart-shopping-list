@@ -72,6 +72,8 @@ export default function AddItem({ token }) {
         title: 'UH OH!',
         text: 'Must have an item name and purchase frequency',
         icon: 'warning',
+        iconColor: '#F5AB00',
+        confirmButtonColor: '#073B4C',
       });
     } else {
       db.collection(token).add(newItemObject);
