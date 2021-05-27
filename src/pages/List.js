@@ -116,7 +116,14 @@ export default function List({ token }) {
       confirmButtonText: 'Yes, delete this item!',
     }).then((result) => {
       if (result.isConfirmed) {
-        Swal.fire('Deleted!', 'Your item has been deleted.', 'success');
+        Swal.fire({
+          title: 'Deleted!',
+          text: 'Your item has been deleted.',
+          icon: 'success',
+          iconColor: '#049F76',
+          buttonsStyling: true,
+          confirmButtonColor: '#073B4C',
+        });
         db.collection(token).doc(id).delete();
       }
     });
