@@ -228,7 +228,7 @@ export default function List({ token }) {
             onClick={(e) => markItemPurchased(e, doc.id, doc.data())}
           />
 
-          <label className="" htmlFor={doc.id}>
+          <label className="text-xl" htmlFor={doc.id}>
             {doc.data().item_name}
           </label>
           <button
@@ -238,7 +238,7 @@ export default function List({ token }) {
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6 hover:text-red-500"
+              className="h-6 w-6 mx-2 hover:text-red-500"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
