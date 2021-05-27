@@ -306,22 +306,31 @@ export default function List({ token }) {
             </section>
           ) : (
             <ul className="flex flex-col w-full">
-              <span className="text-2xl font-light mt-5">...soon</span>
+              {filterByLessThanSevenDays(listItems).length !== 0 && (
+                <span className="text-2xl font-light mt-5">...soon</span>
+              )}
               {filterByLessThanSevenDays(listItems).map((doc) =>
                 renderUnorderedList(doc, 'caribbean-green'),
               )}
 
-              <span className="text-2xl font-light mt-5">...soonish</span>
+              {filterByMoreThanSevenDaysAndLessThanThirtyDays(listItems)
+                .length !== 0 && (
+                <span className="text-2xl font-light mt-5">...soonish</span>
+              )}
               {filterByMoreThanSevenDaysAndLessThanThirtyDays(
                 listItems,
               ).map((doc) => renderUnorderedList(doc, 'orange-yellow'))}
 
-              <span className="text-2xl font-light mt-5">...not soon</span>
+              {filterByMoreThanThirtyDays(listItems).length !== 0 && (
+                <span className="text-2xl font-light mt-5">...not soon</span>
+              )}
               {filterByMoreThanThirtyDays(listItems).map((doc) =>
                 renderUnorderedList(doc, 'paradise-pink'),
               )}
 
-              <span className="text-2xl font-light mt-5">...to rethink</span>
+              {filterByInactiveItems(listItems).length !== 0 && (
+                <span className="text-2xl font-light mt-5">...to rethink</span>
+              )}
               {filterByInactiveItems(listItems).map((doc) =>
                 renderUnorderedList(doc, 'gray-200'),
               )}
