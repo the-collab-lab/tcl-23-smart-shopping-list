@@ -202,22 +202,29 @@ export default function List({ token }) {
 
   const renderUnorderedList = (doc, color) => {
     return (
-      <li key={doc.id} className="checkbox-wrapper" style={{ color: color }}>
+      <li
+        key={doc.id}
+        className="flex items-center bg-gray-200 text-midnight-green font-medium my-2 p-2 rounded"
+      >
         <input
           type="checkbox"
+          className="mx-2"
           id={doc.id}
           defaultChecked={compareTimeStamps(doc.data().last_purchased)}
           disabled={compareTimeStamps(doc.data().last_purchased)}
           onClick={(e) => markItemPurchased(e, doc.id, doc.data())}
         />
-        <label htmlFor={doc.id}>{doc.data().item_name}</label>
+
+        <label className="" htmlFor={doc.id}>
+          {doc.data().item_name}
+        </label>
         <button key={doc.id} onClick={() => deleteItem(doc.id)}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            className="h-7 w-7"
+            className="h-6 w-6"
             fill="none"
             viewBox="0 0 24 24"
-            stroke="white"
+            stroke="currentColor"
           >
             <path
               strokeLinecap="round"
@@ -280,21 +287,25 @@ export default function List({ token }) {
               />
             </section>
           ) : (
-            <ul>
+            <ul className="flex flex-col w-full">
+              <span className="text-2xl font-light mt-5">...soon</span>
               {filterByLessThanSevenDays(listItems).map((doc) =>
-                renderUnorderedList(doc, 'green'),
+                renderUnorderedList(doc, 'caribbean-green'),
               )}
 
+              <span className="text-2xl font-light mt-5">...soonish</span>
               {filterByMoreThanSevenDaysAndLessThanThirtyDays(
                 listItems,
-              ).map((doc) => renderUnorderedList(doc, 'purple'))}
+              ).map((doc) => renderUnorderedList(doc, 'orange-yellow'))}
 
+              <span className="text-2xl font-light mt-5">...not soon</span>
               {filterByMoreThanThirtyDays(listItems).map((doc) =>
-                renderUnorderedList(doc, 'red'),
+                renderUnorderedList(doc, 'paridise-pink'),
               )}
 
+              <span className="text-2xl font-light mt-5">...to rethink</span>
               {filterByInactiveItems(listItems).map((doc) =>
-                renderUnorderedList(doc, 'gray'),
+                renderUnorderedList(doc, 'gray-200'),
               )}
             </ul>
           )}
