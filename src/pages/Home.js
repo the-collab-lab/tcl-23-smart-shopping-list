@@ -34,8 +34,10 @@ export default function Home(props) {
     if (!inputValue) {
       return Swal.fire({
         icon: 'error',
+        iconColor: '#EF476F',
         title: 'Please enter your token.',
         text: 'Input is empty',
+        confirmButtonColor: '#073B4C',
       });
     }
     db.collection(inputValue.trim())
@@ -44,8 +46,10 @@ export default function Home(props) {
         if (snap.empty) {
           Swal.fire({
             icon: 'error',
+            iconColor: '#EF476F',
             title: 'Token not found',
             text: 'Please try again or start a new list!',
+            confirmButtonColor: '#073B4C',
           });
         } else {
           addKeyValuePairToLocalStorage('token', inputValue);
