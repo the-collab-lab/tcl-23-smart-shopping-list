@@ -4,7 +4,6 @@ import { useCollection } from 'react-firebase-hooks/firestore';
 import Swal from 'sweetalert2';
 import { useHistory } from 'react-router-dom';
 import Button from '../components/Button';
-import { isPatternLike, genericTypeAnnotation } from '@babel/types';
 
 export default function AddItem({ token }) {
   const [itemName, setItemName] = useState('');
