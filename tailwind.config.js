@@ -9,6 +9,7 @@ module.exports = {
         'caribbean-green': '#06D6A0',
         'blue-ncs': '#118AB2',
         'midnight-green': '#073B4C',
+        teal: '#CCFBF1',
       },
       fontFamily: {
         roboto: ['Roboto', 'sans-serif'],
