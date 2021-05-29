@@ -7,6 +7,7 @@ import calculateEstimate from '../lib/estimates';
 import { DateTime, Interval } from 'luxon';
 import Button from '../components/Button';
 import IconButton from '../components/IconButton';
+import writingToken from './../img/writingToken.png';
 
 export default function List({ token }) {
   const history = useHistory();
@@ -299,6 +300,10 @@ export default function List({ token }) {
           {listItems.docs.length === 0 ? (
             <section className="flex flex-col items-center w-full">
               <p>Your grocery list is currently empty.</p>
+              <img
+                src={writingToken}
+                alt="hand holding pen to write on paper"
+              />
               <Button
                 onClick={() => history.push('/add-item')}
                 text="+ Click to add your first item"
