@@ -6,6 +6,7 @@ import { db } from '../lib/firebase';
 import Swal from 'sweetalert2';
 import Button from '../components/Button';
 import IconButton from '../components/IconButton';
+import honeyDoCurve from './../img/honey-do-curved-600px.png';
 
 export default function Home(props) {
   const history = useHistory();
@@ -61,11 +62,13 @@ export default function Home(props) {
 
   return (
     <main>
-      <h1>Welcome To CLEVER NAME TO BE DETERMINED List!</h1>
-      <p>
-        CNTBD is here to add a little more organization to your grocery list. Or
-        lists!
-      </p>
+      <h1>Welcome To Honey Do</h1>
+      <p>Your Smart Shopping List.</p>
+      <img
+        src={honeyDoCurve}
+        alt="colorful circular logo with half of a honeydew melon as a shopping basket with grocery items coming out of it"
+        className="mt-5 mb-5"
+      />
       <p>To start, either:</p>
       <h2>Create a brand new list</h2>
       <Button onClick={handleClick} text="Start a new list" />
