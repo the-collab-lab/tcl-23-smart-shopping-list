@@ -103,9 +103,11 @@ export default function List({ token }) {
     return false;
   };
 
-  function deleteItem(id) {
+  function deleteItem(doc) {
     Swal.fire({
-      title: 'Are you sure you want to delete this item from your list?',
+      title: `Are you sure you want to delete ${doc
+        .data()
+        .item_name.toUpperCase()} from your list?`,
       text: "Once it's gone, it's gone!",
       icon: 'warning',
       iconColor: '#F5AB00',
@@ -114,18 +116,18 @@ export default function List({ token }) {
       confirmButtonColor: '#118AB1',
       cancelButtonColor: '#073B4C',
       cancelButtonText: 'Do not delete this item',
-      confirmButtonText: 'Yes, delete this item!',
+      confirmButtonText: `Yes, delete ${doc.data().item_name.toUpperCase()}!`,
     }).then((result) => {
       if (result.isConfirmed) {
         Swal.fire({
           title: 'Deleted!',
-          text: 'Your item has been deleted.',
+          text: `${doc.data().item_name.toUpperCase()} has been deleted.`,
           icon: 'success',
           iconColor: '#049F76',
           buttonsStyling: true,
           confirmButtonColor: '#073B4C',
         });
-        db.collection(token).doc(id).delete();
+        db.collection(token).doc(doc.id).delete();
       }
     });
   }
@@ -212,19 +214,56 @@ export default function List({ token }) {
 
   const renderUnorderedList = (doc, color) => {
     return (
-      <li key={doc.id} className="checkbox-wrapper" style={{ color: color }}>
-        <input
-          type="checkbox"
-          id={doc.id}
-          defaultChecked={compareTimeStamps(doc.data().last_purchased)}
-          disabled={compareTimeStamps(doc.data().last_purchased)}
-          onClick={(e) => markItemPurchased(e, doc.id, doc.data())}
-        />
-        <label htmlFor={doc.id}>{doc.data().item_name}</label>
-        <button key={doc.id} onClick={() => deleteItem(doc.id)}>
-          Delete
-        </button>
-      </li>
+      <div className="flex items-center" key={doc.id}>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className={`{h-10 w-10 mr-5 fill-current text-${color}`}
+          viewBox="0 0 20 20"
+        >
+          <path
+            fillRule="evenodd"
+            d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"
+            clipRule="evenodd"
+          />
+        </svg>
+        <li
+          key={doc.id}
+          className="container flex items-center bg-gray-200 text-midnight-green font-medium my-2 p-2 rounded w-full"
+        >
+          <input
+            type="checkbox"
+            className="mx-2 h-4 w-4 rounded"
+            id={doc.id}
+            defaultChecked={compareTimeStamps(doc.data().last_purchased)}
+            disabled={compareTimeStamps(doc.data().last_purchased)}
+            onClick={(e) => markItemPurchased(e, doc.id, doc.data())}
+          />
+
+          <label className="text-xl" htmlFor={doc.id}>
+            {doc.data().item_name}
+          </label>
+          <button
+            className="ml-auto"
+            key={doc.id}
+            onClick={() => deleteItem(doc)}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6 mx-2 hover:text-red-500"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+              />
+            </svg>
+          </button>
+        </li>
+      </div>
     );
   };
 
@@ -241,7 +280,26 @@ export default function List({ token }) {
           id="thesearch"
           onChange={(e) => setQuery(e.target.value)}
         />
-        <IconButton onClick={handleReset} icon="X" label="clear input" />
+        <IconButton
+          onClick={handleReset}
+          icon={
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          }
+          label="clear input"
+        />
       </div>
 
       {error && <strong>Error: {JSON.stringify(error)}</strong>}
@@ -258,21 +316,34 @@ export default function List({ token }) {
               />
             </section>
           ) : (
-            <ul>
+            <ul className="flex flex-col w-full">
+              {filterByLessThanSevenDays(listItems).length !== 0 && (
+                <span className="text-2xl font-light mt-5">...soon</span>
+              )}
               {filterByLessThanSevenDays(listItems).map((doc) =>
-                renderUnorderedList(doc, 'green'),
+                renderUnorderedList(doc, 'caribbean-green'),
               )}
 
+              {filterByMoreThanSevenDaysAndLessThanThirtyDays(listItems)
+                .length !== 0 && (
+                <span className="text-2xl font-light mt-5">...soonish</span>
+              )}
               {filterByMoreThanSevenDaysAndLessThanThirtyDays(
                 listItems,
-              ).map((doc) => renderUnorderedList(doc, 'purple'))}
+              ).map((doc) => renderUnorderedList(doc, 'orange-yellow'))}
 
+              {filterByMoreThanThirtyDays(listItems).length !== 0 && (
+                <span className="text-2xl font-light mt-5">...not soon</span>
+              )}
               {filterByMoreThanThirtyDays(listItems).map((doc) =>
-                renderUnorderedList(doc, 'red'),
+                renderUnorderedList(doc, 'paradise-pink'),
               )}
 
+              {filterByInactiveItems(listItems).length !== 0 && (
+                <span className="text-2xl font-light mt-5">...to rethink</span>
+              )}
               {filterByInactiveItems(listItems).map((doc) =>
-                renderUnorderedList(doc, 'gray'),
+                renderUnorderedList(doc, 'gray-200'),
               )}
             </ul>
           )}
