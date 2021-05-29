@@ -299,10 +299,12 @@ export default function List({ token }) {
           <h2>Grocery List:</h2>
           {listItems.docs.length === 0 ? (
             <section className="flex flex-col items-center w-full">
+              <p className="mb-5">You don’t have any listed items.</p>
               <p>Your grocery list is currently empty.</p>
               <img
                 src={writingToken}
                 alt="hand holding pen to write on paper"
+                className="mb-5"
               />
               <Button
                 onClick={() => history.push('/add-item')}
