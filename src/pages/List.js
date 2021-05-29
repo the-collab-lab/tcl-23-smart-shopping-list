@@ -273,7 +273,7 @@ export default function List({ token }) {
         Things I'll need
       </h1>
       <div
-        className="bg-teal border-t-4 rounded-b text-midnight-green border-caribbean-green px-4 py-3 shadow-md w-full"
+        className="bg-teal-blue border-t-4 rounded-b text-midnight-green border-caribbean-green px-4 py-3 shadow-md w-full"
         role="alert"
       >
         <div className="flex">
