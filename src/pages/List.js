@@ -228,6 +228,7 @@ export default function List({ token }) {
         </svg>
         <li
           key={doc.id}
+          v-for="item in items"
           className="container flex items-center bg-gray-200 text-midnight-green font-medium my-2 p-2 rounded w-full"
         >
           <input
@@ -352,9 +353,9 @@ export default function List({ token }) {
                   .length !== 0 && (
                   <span className="text-2xl font-light mt-5">...soonish</span>
                 )}
-                {filterByMoreThanSevenDaysAndLessThanThirtyDays(listItems).map(
-                  (doc) => renderUnorderedList(doc, 'orange-yellow'),
-                )}
+                {filterByMoreThanSevenDaysAndLessThanThirtyDays(
+                  listItems,
+                ).map((doc) => renderUnorderedList(doc, 'orange-yellow'))}
 
                 {filterByMoreThanThirtyDays(listItems).length !== 0 && (
                   <span className="text-2xl font-light mt-5">...not soon</span>
@@ -371,6 +372,7 @@ export default function List({ token }) {
                 {filterByInactiveItems(listItems).map((doc) =>
                   renderUnorderedList(doc, 'gray-200'),
                 )}
+                <div className="mb-36" />
               </ul>
             </div>
           )}
