@@ -269,83 +269,110 @@ export default function List({ token }) {
 
   return (
     <>
-      <h1>This Is Your Grocery List</h1>
-      <h2>It uses the token: {token}</h2>
-      <label htmlFor="thesearch">Search Grocery List Items </label>
-      <div className="flex">
-        <input
-          type="text"
-          placeholder="enter grocery item"
-          value={query}
-          id="thesearch"
-          onChange={(e) => setQuery(e.target.value)}
-        />
-        <IconButton
-          onClick={handleReset}
-          icon={
+      <h1 className="mt-5 mb-10 text-3xl self-start font-light">
+        Things I'll need
+      </h1>
+      <div
+        className="bg-teal-blue border-t-4 rounded-b text-midnight-green border-caribbean-green px-4 py-3 shadow-md w-full"
+        role="alert"
+      >
+        <div className="flex">
+          <div className="py-1 text-caribbean-green">
             <svg
+              className="fill-current h-6 w-6 text-teal-500 mr-4"
               xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
+              viewBox="0 0 20 20"
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M6 18L18 6M6 6l12 12"
-              />
+              <path d="M2.93 17.07A10 10 0 1 1 17.07 2.93 10 10 0 0 1 2.93 17.07zm12.73-1.41A8 8 0 1 0 4.34 4.34a8 8 0 0 0 11.32 11.32zM9 11V9h2v6H9v-4zm0-6h2v2H9V5z" />
             </svg>
-          }
-          label="clear input"
-        />
+          </div>
+          <div className="flex items-center justify-around w-full">
+            <p className="font-bold">Here's your token</p>
+            <p className="text-sm">{token}</p>
+          </div>
+        </div>
       </div>
 
       {error && <strong>Error: {JSON.stringify(error)}</strong>}
       {loading && <span>Grocery List: Loading...</span>}
       {listItems && (
         <>
-          <h2>Grocery List:</h2>
           {listItems.docs.length === 0 ? (
-            <section className="flex flex-col items-center w-full">
-              <p>Your grocery list is currently empty.</p>
+            <div className="flex flex-col items-center w-full">
+              <p>You don't have any listed items</p>
               <Button
                 onClick={() => history.push('/add-item')}
                 text="+ Click to add your first item"
               />
-            </section>
+            </div>
           ) : (
-            <ul className="flex flex-col w-full">
-              {filterByLessThanSevenDays(listItems).length !== 0 && (
-                <span className="text-2xl font-light mt-5">...soon</span>
-              )}
-              {filterByLessThanSevenDays(listItems).map((doc) =>
-                renderUnorderedList(doc, 'caribbean-green'),
-              )}
+            <div className="w-full">
+              <label htmlFor="thesearch" className="opacity-0">
+                Search Grocery List Items{' '}
+              </label>
+              <div className="flex mb-10 mt-10">
+                <input
+                  className="w-full pl-5 py-2 rounded bg-midnight-green border border-gray-200"
+                  type="text"
+                  placeholder="Find item"
+                  value={query}
+                  id="thesearch"
+                  onChange={(e) => setQuery(e.target.value)}
+                />
+                <IconButton
+                  onClick={handleReset}
+                  icon={
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-6 w-6"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M6 18L18 6M6 6l12 12"
+                      />
+                    </svg>
+                  }
+                  label="clear input"
+                />
+              </div>
+              <ul className="flex flex-col w-full">
+                {filterByLessThanSevenDays(listItems).length !== 0 && (
+                  <span className="text-2xl font-light mt-5">...soon</span>
+                )}
+                {filterByLessThanSevenDays(listItems).map((doc) =>
+                  renderUnorderedList(doc, 'caribbean-green'),
+                )}
 
-              {filterByMoreThanSevenDaysAndLessThanThirtyDays(listItems)
-                .length !== 0 && (
-                <span className="text-2xl font-light mt-5">...soonish</span>
-              )}
-              {filterByMoreThanSevenDaysAndLessThanThirtyDays(
-                listItems,
-              ).map((doc) => renderUnorderedList(doc, 'orange-yellow'))}
+                {filterByMoreThanSevenDaysAndLessThanThirtyDays(listItems)
+                  .length !== 0 && (
+                  <span className="text-2xl font-light mt-5">...soonish</span>
+                )}
+                {filterByMoreThanSevenDaysAndLessThanThirtyDays(listItems).map(
+                  (doc) => renderUnorderedList(doc, 'orange-yellow'),
+                )}
 
-              {filterByMoreThanThirtyDays(listItems).length !== 0 && (
-                <span className="text-2xl font-light mt-5">...not soon</span>
-              )}
-              {filterByMoreThanThirtyDays(listItems).map((doc) =>
-                renderUnorderedList(doc, 'paradise-pink'),
-              )}
+                {filterByMoreThanThirtyDays(listItems).length !== 0 && (
+                  <span className="text-2xl font-light mt-5">...not soon</span>
+                )}
+                {filterByMoreThanThirtyDays(listItems).map((doc) =>
+                  renderUnorderedList(doc, 'paradise-pink'),
+                )}
 
-              {filterByInactiveItems(listItems).length !== 0 && (
-                <span className="text-2xl font-light mt-5">...to rethink</span>
-              )}
-              {filterByInactiveItems(listItems).map((doc) =>
-                renderUnorderedList(doc, 'gray-200'),
-              )}
-            </ul>
+                {filterByInactiveItems(listItems).length !== 0 && (
+                  <span className="text-2xl font-light mt-5">
+                    ...to rethink
+                  </span>
+                )}
+                {filterByInactiveItems(listItems).map((doc) =>
+                  renderUnorderedList(doc, 'gray-200'),
+                )}
+              </ul>
+            </div>
           )}
         </>
       )}
