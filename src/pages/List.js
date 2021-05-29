@@ -111,8 +111,8 @@ export default function List({ token }) {
       iconColor: '#F5AB00',
       showCancelButton: true,
       reverseButtons: true,
-      confirmButtonColor: '#073B4C',
-      cancelButtonColor: '#EB1E4E',
+      confirmButtonColor: '#118AB1',
+      cancelButtonColor: '#073B4C',
       cancelButtonText: 'Do not delete this item',
       confirmButtonText: 'Yes, delete this item!',
     }).then((result) => {
