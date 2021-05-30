@@ -229,6 +229,7 @@ export default function List({ token }) {
         </svg>
         <li
           key={doc.id}
+          v-for="item in items"
           className="container flex items-center bg-gray-200 text-midnight-green font-medium my-2 p-2 rounded w-full"
         >
           <input
@@ -377,6 +378,7 @@ export default function List({ token }) {
                 {filterByInactiveItems(listItems).map((doc) =>
                   renderUnorderedList(doc, 'gray-200'),
                 )}
+                <div className="mb-36" />
               </ul>
             </div>
           )}
