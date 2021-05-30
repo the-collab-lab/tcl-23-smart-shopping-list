@@ -62,26 +62,33 @@ export default function Home(props) {
 
   return (
     <main>
-      <h1>Welcome To Honey Do</h1>
-      <p>Your Smart Shopping List.</p>
+      <h1 className="mt-5 text-3xl text-center self-start font-light">
+        Welcome to Honey Do.
+      </h1>
+      <h2 className="text-3xl text-center self-start font-light">
+        Your smart shopping list.
+      </h2>
       <img
         src={honeyDoCurve}
         alt="colorful circular logo with half of a honeydew melon as a shopping basket with grocery items coming out of it"
-        className="mt-5 mb-5"
+        className="md:max-w-md md:m-auto p-8"
       />
-      <p>To start, either:</p>
-      <h2>Create a brand new list</h2>
+      <h2 className="text-2xl font-light mb-5">Get organized now:</h2>
       <Button onClick={handleClick} text="Start a new list" />
-      <p>Or</p>
 
-      <h2>Enter a 3 word token to access an already existing list.</h2>
-      <form onSubmit={checkExistingToken}>
-        <label htmlFor="token">
+      <h2 className="text-2xl font-light mt-12">
+        ...or join an existing list:
+      </h2>
+      <form onSubmit={checkExistingToken} className="mb-10">
+        <label className="opacity-0 text-xs" htmlFor="token">
           Please Enter Token:
+        </label>
+        <div className="flex">
           <input
             type="text"
+            className="pl-5 py-2 w-full rounded bg-midnight-green border border-gray-200"
             name="token"
-            placeholder="Three word token"
+            placeholder="three word token"
             value={inputValue}
             onChange={handleInputValue}
           />
@@ -105,7 +112,7 @@ export default function Home(props) {
             }
             label="submit token"
           />
-        </label>
+        </div>
       </form>
     </main>
   );
