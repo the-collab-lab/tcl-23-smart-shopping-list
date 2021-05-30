@@ -62,26 +62,24 @@ export default function Home(props) {
 
   return (
     <main>
-      <h1 className="mt-5 text-3xl text-center self-start font-light">
-        Welcome to Honey Do.
+      <h1 className="mt-5 text-3xl md:text-4xl text-center self-start font-light">
+        Welcome to Honey Do
       </h1>
-      <h2 className="text-3xl text-center self-start font-light">
-        Your smart shopping list.
+      <h2 className="text-2xl md:text-3xl text-center self-start font-thin md:mt-2">
+        Your smart shopping list
       </h2>
       <img
         src={honeyDoCurve}
         alt="colorful circular logo with half of a honeydew melon as a shopping basket with grocery items coming out of it"
-        className="md:max-w-md md:m-auto p-8"
+        className="md:max-w-md md:m-auto p-4 md:p-8"
       />
-      <h2 className="text-2xl font-light mb-5">Get organized now:</h2>
+      <h2 className="text-2xl font-light mb-5">Get organized now</h2>
       <Button onClick={handleClick} text="Start a new list" />
 
-      <h2 className="text-2xl font-light mt-12">
-        ...or join an existing list:
-      </h2>
+      <h2 className="text-2xl font-light mt-10">...or join an existing list</h2>
       <form onSubmit={checkExistingToken} className="mb-10">
         <label className="opacity-0 text-xs" htmlFor="token">
-          Please Enter Token:
+          Please Enter Token
         </label>
         <div className="flex">
           <input
