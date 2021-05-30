@@ -106,17 +106,28 @@ export default function List({ token }) {
 
   function deleteItem(doc) {
     Swal.fire({
-      title: `Delete ${doc.data().item_name.toUpperCase()}?`,
-      text: 'This action cannot be reversed.',
+      title: `Are you sure you want to delete ${doc
+        .data()
+        .item_name.toUpperCase()} from your list?`,
+      text: "Once it's gone, it's gone!",
       icon: 'warning',
-      iconColor: '#d33',
+      iconColor: '#F5AB00',
       showCancelButton: true,
-      confirmButtonColor: '#d33',
-      cancelButtonColor: '#3085d6',
-      confirmButtonText: 'Yes, delete it!',
+      reverseButtons: true,
+      confirmButtonColor: '#118AB1',
+      cancelButtonColor: '#073B4C',
+      cancelButtonText: 'Do not delete this item',
+      confirmButtonText: `Yes, delete ${doc.data().item_name.toUpperCase()}!`,
     }).then((result) => {
       if (result.isConfirmed) {
-        Swal.fire('Deleted!', 'Your item has been deleted.', 'success');
+        Swal.fire({
+          title: 'Deleted!',
+          text: `${doc.data().item_name.toUpperCase()} has been deleted.`,
+          icon: 'success',
+          iconColor: '#049F76',
+          buttonsStyling: true,
+          confirmButtonColor: '#073B4C',
+        });
         db.collection(token).doc(doc.id).delete();
       }
     });
@@ -289,13 +300,12 @@ export default function List({ token }) {
         <>
           {listItems.docs.length === 0 ? (
             <section className="flex flex-col items-center w-full">
-              <p className="mb-5">You don’t have any listed items.</p>
-              <p>Your grocery list is currently empty.</p>
               <img
                 src={writingToken}
                 alt="hand holding pen to write on paper"
-                className="mb-5"
+                className="my-5"
               />
+              <p className="mb-5">You don’t have any listed items.</p>
               <Button
                 onClick={() => history.push('/add-item')}
                 text="+ Click to add your first item"
