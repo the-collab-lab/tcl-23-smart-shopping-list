@@ -63,12 +63,15 @@ export default function Home(props) {
   return (
     <main>
       <h1 className="mt-5 text-3xl text-center self-start font-light">
-        Welcome to Honey Do. Your smart shopping list.
+        Welcome to Honey Do.
       </h1>
+      <h2 className="text-3xl text-center self-start font-light">
+        Your smart shopping list.
+      </h2>
       <img
         src={honeyDoCurve}
         alt="colorful circular logo with half of a honeydew melon as a shopping basket with grocery items coming out of it"
-        className="p-8"
+        className="md:max-w-md md:m-auto p-8"
       />
       <h2 className="text-2xl font-light mb-5">Get organized now:</h2>
       <Button onClick={handleClick} text="Start a new list" />
