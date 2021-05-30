@@ -289,7 +289,7 @@ export default function List({ token }) {
             </svg>
           </div>
           <div className="flex items-center">
-            <p className="font-bold lg:text-lg">Your token</p>
+            <p className="font-bold">Your token</p>
           </div>
           <p className="text-sm lg:text-lg ml-10">{token}</p>
         </div>
@@ -317,7 +317,7 @@ export default function List({ token }) {
               <label htmlFor="thesearch" className="opacity-0">
                 Search Grocery List Items{' '}
               </label>
-              <div className="flex mb-10 mt-10">
+              <div className="flex mb-5 mt-5">
                 <input
                   className="w-full pl-5 py-2 rounded bg-midnight-green border border-gray-200"
                   type="text"
