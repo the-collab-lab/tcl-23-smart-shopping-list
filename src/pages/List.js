@@ -7,6 +7,7 @@ import calculateEstimate from '../lib/estimates';
 import { DateTime, Interval } from 'luxon';
 import Button from '../components/Button';
 import IconButton from '../components/IconButton';
+import writingToken from './../img/writingToken.png';
 
 export default function List({ token }) {
   const history = useHistory();
@@ -105,28 +106,17 @@ export default function List({ token }) {
 
   function deleteItem(doc) {
     Swal.fire({
-      title: `Are you sure you want to delete ${doc
-        .data()
-        .item_name.toUpperCase()} from your list?`,
-      text: "Once it's gone, it's gone!",
+      title: `Delete ${doc.data().item_name.toUpperCase()}?`,
+      text: 'This action cannot be reversed.',
       icon: 'warning',
-      iconColor: '#F5AB00',
+      iconColor: '#d33',
       showCancelButton: true,
-      reverseButtons: true,
-      confirmButtonColor: '#118AB1',
-      cancelButtonColor: '#073B4C',
-      cancelButtonText: 'Do not delete this item',
-      confirmButtonText: `Yes, delete ${doc.data().item_name.toUpperCase()}!`,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Yes, delete it!',
     }).then((result) => {
       if (result.isConfirmed) {
-        Swal.fire({
-          title: 'Deleted!',
-          text: `${doc.data().item_name.toUpperCase()} has been deleted.`,
-          icon: 'success',
-          iconColor: '#049F76',
-          buttonsStyling: true,
-          confirmButtonColor: '#073B4C',
-        });
+        Swal.fire('Deleted!', 'Your item has been deleted.', 'success');
         db.collection(token).doc(doc.id).delete();
       }
     });
@@ -270,42 +260,58 @@ export default function List({ token }) {
 
   return (
     <>
-      <h1 className="mt-5 mb-10 text-3xl self-start font-light">
-        Things I'll need
-      </h1>
-      <div
-        className="bg-teal-blue border-t-4 rounded-b text-midnight-green border-caribbean-green px-4 py-3 shadow-md w-full"
-        role="alert"
-      >
-        <div className="flex">
-          <div className="py-1 text-caribbean-green">
+      <h1>This Is Your Grocery List</h1>
+      <h2>It uses the token: {token}</h2>
+      <label htmlFor="thesearch">Search Grocery List Items </label>
+      <div className="flex">
+        <input
+          type="text"
+          placeholder="enter grocery item"
+          value={query}
+          id="thesearch"
+          onChange={(e) => setQuery(e.target.value)}
+        />
+        <IconButton
+          onClick={handleReset}
+          icon={
             <svg
-              className="fill-current h-6 w-6 text-teal-500 mr-4"
               xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 20 20"
+              className="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
             >
-              <path d="M2.93 17.07A10 10 0 1 1 17.07 2.93 10 10 0 0 1 2.93 17.07zm12.73-1.41A8 8 0 1 0 4.34 4.34a8 8 0 0 0 11.32 11.32zM9 11V9h2v6H9v-4zm0-6h2v2H9V5z" />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M6 18L18 6M6 6l12 12"
+              />
             </svg>
-          </div>
-          <div className="flex items-center justify-around w-full">
-            <p className="font-bold">Here's your token</p>
-            <p className="text-sm">{token}</p>
-          </div>
-        </div>
+          }
+          label="clear input"
+        />
       </div>
 
       {error && <strong>Error: {JSON.stringify(error)}</strong>}
       {loading && <span>Grocery List: Loading...</span>}
       {listItems && (
         <>
+          <h2>Grocery List:</h2>
           {listItems.docs.length === 0 ? (
-            <div className="flex flex-col items-center w-full">
-              <p>You don't have any listed items</p>
+            <section className="flex flex-col items-center w-full">
+              <p className="mb-5">You don’t have any listed items.</p>
+              <p>Your grocery list is currently empty.</p>
+              <img
+                src={writingToken}
+                alt="hand holding pen to write on paper"
+                className="mb-5"
+              />
               <Button
                 onClick={() => history.push('/add-item')}
                 text="+ Click to add your first item"
               />
-            </div>
+            </section>
           ) : (
             <div className="w-full">
               <label htmlFor="thesearch" className="opacity-0">
