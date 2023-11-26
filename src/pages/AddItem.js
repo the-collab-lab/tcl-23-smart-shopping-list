@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 import { useState } from 'react';
 import { db } from '../lib/firebase';
 import { useCollection } from 'react-firebase-hooks/firestore';
@@ -90,6 +91,7 @@ export default function AddItem({ token }) {
       >
         <label htmlFor="itemName" className="w-full">
           <input
+            id="itemName"
             className="w-full pl-5 py-2 rounded bg-midnight-green border border-gray-200"
             type="text"
             name="name"
@@ -101,7 +103,6 @@ export default function AddItem({ token }) {
         <h2 className="mt-10 mb-5 self-start text-xl font-light">
           When will you purchase it?
         </h2>
-
         <div className="flex items-center w-full mb-5">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -129,7 +130,6 @@ export default function AddItem({ token }) {
             </label>
           </div>
         </div>
-
         <div className="flex items-center w-full mb-5">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -156,7 +156,6 @@ export default function AddItem({ token }) {
             </label>
           </div>
         </div>
-
         <div className="flex items-center w-full mb-10">
           <svg
             xmlns="http://www.w3.org/2000/svg"
