@@ -18,8 +18,6 @@ jobs:
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_TCL_23_SHOPPING_LIST }}'
+          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_TCL_23_SMART_SHOPPING_LIST }}'
           channelId: live
-          projectId: tcl-23-shopping-list
-        env:
-          FIREBASE_CLI_PREVIEWS: hostingchannels
+          projectId: tcl-23-smart-shopping-list
