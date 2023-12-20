@@ -6,6 +6,7 @@ import NavBar from './components/NavBar';
 import Home from './pages/Home';
 import List from './pages/List';
 import AddItem from './pages/AddItem';
+import { ArchivalNoticeModal } from '@the-collab-lab/shopping-list-utils';
 
 const App = () => {
   const [token, setToken] = useState('');
@@ -34,7 +35,10 @@ const App = () => {
             <NavBar />
           </>
         ) : (
-          <Home setToken={setToken} />
+          <>
+            <Home setToken={setToken} />
+            <ArchivalNoticeModal />
+          </>
         )}
       </main>
     </Router>

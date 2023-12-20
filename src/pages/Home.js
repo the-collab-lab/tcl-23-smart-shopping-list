@@ -1,5 +1,4 @@
 import { addKeyValuePairToLocalStorage } from '../lib/localStorage';
-import getToken from '../lib/tokens';
 import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { db } from '../lib/firebase';
@@ -13,17 +12,18 @@ export default function Home(props) {
   const [inputValue, setInputValue] = useState('');
 
   function handleClick() {
-    const token = getToken();
-    addKeyValuePairToLocalStorage('token', token);
-    props.setToken(token);
-    Swal.fire({
-      icon: 'success',
-      iconColor: '#048B67',
-      confirmButtonColor: '#073B4C',
-      title: 'List successfully created!',
-      text: `Your new token is "${token}"`,
-    });
-    history.push('/list');
+    // const token = getToken();
+    // addKeyValuePairToLocalStorage('token', token);
+    // props.setToken(token);
+    // Swal.fire({
+    //   icon: 'success',
+    //   iconColor: '#048B67',
+    //   confirmButtonColor: '#073B4C',
+    //   title: 'List successfully created!',
+    //   text: `Your new token is "${token}"`,
+    // });
+    // history.push('/list');
+    console.log('Creating new lists is no longer supported.');
   }
 
   function handleInputValue(e) {
